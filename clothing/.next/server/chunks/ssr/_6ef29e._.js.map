@@ -1,0 +1,9 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 7, "column": 0}, "map": {"version":3,"sources":["file://C%3A/Users/User/Documents/Projects/sokkai/clothing/src/app/frontend/landingpage/page.jsx"],"sourcesContent":["import LandingPage from \"../../../../components/landingpage\"\r\nimport '../../';\r\nconst page = () => {\r\n  return (\r\n    <div>\r\n        <LandingPage/>\r\n    </div>\r\n  )\r\n}\r\n\r\nexport default page"],"names":[],"mappings":";;;;;;;;;;;;;;;;;AAEA,MAAM,OAAO;IACX,qBACE,8OAAC;kBACG,cAAA,8OAAC;;;;;;;;;;AAGT;uCAEe"}},
+    {"offset": {"line": 38, "column": 0}, "map": {"version":3,"sources":[],"names":[],"mappings":"A"}},
+    {"offset": {"line": 49, "column": 0}, "map": {"version":3,"sources":[],"names":[],"mappings":""}},
+    {"offset": {"line": 49, "column": 0}, "map": {"version":3,"sources":[],"names":[],"mappings":"A"}}]
+}

@@ -1,0 +1,152 @@
+/* [project]/src/app/frontend/profile/profile.module.css [app-client] (css) */
+.profile-module__Wp4sWa__container {
+  font-family: Arial, sans-serif;
+  margin: 0 auto;
+  max-width: 1200px;
+  background-color: #fff;
+  text-align: center;
+  min-height: 100vh;
+}
+
+.profile-module__Wp4sWa__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 2rem;
+  background-color: #fff;
+  border-bottom: 1px solid #ddd;
+}
+
+.profile-module__Wp4sWa__header h1 {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #000;
+}
+
+.profile-module__Wp4sWa__nav {
+  display: flex;
+  align-items: center;
+}
+
+.profile-module__Wp4sWa__search {
+  width: 300px;
+  padding: .5rem;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  font-size: 1rem;
+  margin-right: 1rem;
+}
+
+.profile-module__Wp4sWa__icons i {
+  font-size: 1.4rem;
+  margin: 0 .7rem;
+  color: #000;
+  cursor: pointer;
+}
+
+.profile-module__Wp4sWa__profile {
+  padding: 2rem;
+}
+
+.profile-module__Wp4sWa__profileDetails {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding: 1rem 2rem;
+  border-bottom: 1px solid #ddd;
+}
+
+.profile-module__Wp4sWa__profileImage {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 2px 10px #0003;
+}
+
+.profile-module__Wp4sWa__profileText {
+  flex: 1;
+  text-align: left;
+  margin-left: 1rem;
+}
+
+.profile-module__Wp4sWa__profileText h2 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #000;
+}
+
+.profile-module__Wp4sWa__profileText p {
+  font-size: 1rem;
+  color: #555;
+  margin: .2rem 0;
+}
+
+.profile-module__Wp4sWa__editProfile {
+  text-align: right;
+}
+
+.profile-module__Wp4sWa__editButton {
+  padding: .5rem 1rem;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.profile-module__Wp4sWa__actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.profile-module__Wp4sWa__actions button {
+  padding: .8rem 1.2rem;
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color .3s;
+}
+
+.profile-module__Wp4sWa__actions button:hover {
+  background-color: #ececec;
+}
+
+.profile-module__Wp4sWa__footer {
+  background-color: #000;
+  color: #fff;
+  padding: 2rem 0;
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.profile-module__Wp4sWa__footer p {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+}
+
+.profile-module__Wp4sWa__footer .profile-module__Wp4sWa__socialIcons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.profile-module__Wp4sWa__footer .profile-module__Wp4sWa__socialIcons a {
+  font-size: 1.2rem;
+  color: #fff;
+  text-decoration: none;
+  transition: color .3s;
+}
+
+.profile-module__Wp4sWa__footer .profile-module__Wp4sWa__socialIcons a:hover {
+  color: #ddd;
+}
+
+
+/*# sourceMappingURL=src_app_frontend_profile_profile_module_f7b3b5.css.map*/

@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 1, "column": 0}, "map": {"version":3,"sources":["file://C%3A/Users/User/Documents/Projects/sokkai/clothing/components/Homepage/Homepage.css"],"sourcesContent":[".main{\r\n    padding:0\r\n}\r\n\r\n.letter-s {\r\n    color: #e1e2e3;\r\n  }\r\n  \r\n  .letter-o {\r\n    color: #e1e2e3;\r\n  }\r\n  \r\n  .letter-k {\r\n    color: #074ce2;\r\n  }\r\n  \r\n  .letter-k:nth-child(4) {\r\n    color: #e1e2e3;\r\n  }\r\n  \r\n  .letter-a {\r\n    color: #e3e1e3;\r\n  }\r\n  \r\n  .letter-i {\r\n    color: #e1e2e3;\r\n  }\r\n  .searchbar{\r\n    width:120px;\r\n    background-color: #0e51e1;\r\n  }"],"names":[],"mappings":"AAAA;;;;AAIA;;;;AAIE;;;;AAIA;;;;AAIA;;;;AAIA;;;;AAIA;;;;AAGA"}},
+    {"offset": {"line": 33, "column": 0}, "map": {"version":3,"sources":[],"names":[],"mappings":"A"}}]
+}

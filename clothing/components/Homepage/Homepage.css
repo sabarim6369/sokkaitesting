@@ -1,0 +1,31 @@
+.main{
+    padding:0
+}
+
+.letter-s {
+    color: #e1e2e3;
+  }
+  
+  .letter-o {
+    color: #e1e2e3;
+  }
+  
+  .letter-k {
+    color: #074ce2;
+  }
+  
+  .letter-k:nth-child(4) {
+    color: #e1e2e3;
+  }
+  
+  .letter-a {
+    color: #e3e1e3;
+  }
+  
+  .letter-i {
+    color: #e1e2e3;
+  }
+  .searchbar{
+    width:120px;
+    background-color: #0e51e1;
+  }
