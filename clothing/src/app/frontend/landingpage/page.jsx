@@ -1,5 +1,4 @@
 import LandingPage from "../../../../components/landingpage/landingpage"
-
 const page = () => {
   return (
     <div>
