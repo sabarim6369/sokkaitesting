@@ -64,7 +64,7 @@ const page = ()=>{
                         quality: 100
                     }, void 0, false, {
                         fileName: "[project]/src/app/frontend/login/page.jsx",
-                        lineNumber: 38,
+                        lineNumber: 39,
                         columnNumber: 5
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -74,26 +74,26 @@ const page = ()=>{
                                 children: "Welcome Back!"
                             }, void 0, false, {
                                 fileName: "[project]/src/app/frontend/login/page.jsx",
-                                lineNumber: 47,
+                                lineNumber: 48,
                                 columnNumber: 7
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                 children: "Log in to access your account."
                             }, void 0, false, {
                                 fileName: "[project]/src/app/frontend/login/page.jsx",
-                                lineNumber: 48,
+                                lineNumber: 49,
                                 columnNumber: 7
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/app/frontend/login/page.jsx",
-                        lineNumber: 46,
+                        lineNumber: 47,
                         columnNumber: 5
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/app/frontend/login/page.jsx",
-                lineNumber: 37,
+                lineNumber: 38,
                 columnNumber: 3
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -106,7 +106,7 @@ const page = ()=>{
                             children: "Back to website →"
                         }, void 0, false, {
                             fileName: "[project]/src/app/frontend/login/page.jsx",
-                            lineNumber: 55,
+                            lineNumber: 56,
                             columnNumber: 7
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
@@ -114,7 +114,7 @@ const page = ()=>{
                             children: "Log In"
                         }, void 0, false, {
                             fileName: "[project]/src/app/frontend/login/page.jsx",
-                            lineNumber: 56,
+                            lineNumber: 57,
                             columnNumber: 7
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -134,13 +134,13 @@ const page = ()=>{
                                     children: "Sign up"
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/frontend/login/page.jsx",
-                                    lineNumber: 59,
+                                    lineNumber: 60,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/app/frontend/login/page.jsx",
-                            lineNumber: 57,
+                            lineNumber: 58,
                             columnNumber: 7
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("form", {
@@ -156,12 +156,12 @@ const page = ()=>{
                                         required: true
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/frontend/login/page.jsx",
-                                        lineNumber: 76,
+                                        lineNumber: 77,
                                         columnNumber: 11
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/frontend/login/page.jsx",
-                                    lineNumber: 75,
+                                    lineNumber: 76,
                                     columnNumber: 9
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -175,22 +175,22 @@ const page = ()=>{
                                             required: true
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/frontend/login/page.jsx",
-                                            lineNumber: 80,
+                                            lineNumber: 81,
                                             columnNumber: 11
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                             className: "eye-icon",
                                             onClick: ()=>setShowPassword(!showPassword),
-                                            children: showPassword ? '👁️' : '🙈'
+                                            children: showPassword ? '👁️' : '👕'
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/frontend/login/page.jsx",
-                                            lineNumber: 87,
+                                            lineNumber: 88,
                                             columnNumber: 11
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/app/frontend/login/page.jsx",
-                                    lineNumber: 79,
+                                    lineNumber: 80,
                                     columnNumber: 9
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -199,7 +199,7 @@ const page = ()=>{
                                     children: "Log In"
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/frontend/login/page.jsx",
-                                    lineNumber: 95,
+                                    lineNumber: 96,
                                     columnNumber: 9
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -207,7 +207,7 @@ const page = ()=>{
                                     children: "Or log in with"
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/frontend/login/page.jsx",
-                                    lineNumber: 97,
+                                    lineNumber: 98,
                                     columnNumber: 9
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -218,7 +218,7 @@ const page = ()=>{
                                             children: "Google"
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/frontend/login/page.jsx",
-                                            lineNumber: 100,
+                                            lineNumber: 101,
                                             columnNumber: 11
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -226,13 +226,13 @@ const page = ()=>{
                                             children: "Apple"
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/frontend/login/page.jsx",
-                                            lineNumber: 101,
+                                            lineNumber: 102,
                                             columnNumber: 11
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/app/frontend/login/page.jsx",
-                                    lineNumber: 99,
+                                    lineNumber: 100,
                                     columnNumber: 9
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -242,35 +242,35 @@ const page = ()=>{
                                         children: "Forgot your password?"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/frontend/login/page.jsx",
-                                        lineNumber: 105,
+                                        lineNumber: 106,
                                         columnNumber: 11
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/frontend/login/page.jsx",
-                                    lineNumber: 104,
+                                    lineNumber: 105,
                                     columnNumber: 9
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/app/frontend/login/page.jsx",
-                            lineNumber: 74,
+                            lineNumber: 75,
                             columnNumber: 7
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/app/frontend/login/page.jsx",
-                    lineNumber: 54,
+                    lineNumber: 55,
                     columnNumber: 5
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/app/frontend/login/page.jsx",
-                lineNumber: 53,
+                lineNumber: 54,
                 columnNumber: 3
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/app/frontend/login/page.jsx",
-        lineNumber: 35,
+        lineNumber: 36,
         columnNumber: 5
     }, this);
 };
