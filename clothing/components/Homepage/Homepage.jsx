@@ -6,6 +6,12 @@
     import a3 from "../../public/images/homepage/a2.jpg";
     import a4 from "../../public/images/homepage/a5.jpg";
     import a5 from "../../public/images/homepage/a4.png";
+    import a6 from "../../public/images/cart/a1.jpg";
+    import a7 from "../../public/images/cart/a2.jpg"
+    import a8 from "../../public/images/cart/a3.jpg"
+    import a9 from "../../public/images/cart/a4.jpg"
+    import a10 from "../../public/images/cart/a5.jpg"
+    import a11 from "../../public/images/cart/a6.jpg"
     import Image from 'next/image';
 
     const HomePage = () => {
@@ -114,7 +120,7 @@ const prevImage1 = () => {
 
                   <div className={styles.itemWrapper}>
                     <Image
-                      src={a1}
+                      src={a6}
                       alt="Short 2"
                       className={styles.itemImage}
                     />
@@ -122,7 +128,7 @@ const prevImage1 = () => {
                   </div>
                   <div className={styles.itemWrapper}>
                     <Image
-                      src={a1}
+                      src={a7}
                       alt="Short 2"
                       className={styles.itemImage}
                     />
@@ -130,7 +136,7 @@ const prevImage1 = () => {
                   </div>
                   <div className={styles.itemWrapper}>
                     <Image
-                      src={a1}
+                      src={a8}
                       alt="Short 2"
                       className={styles.itemImage}
                     />
@@ -138,7 +144,7 @@ const prevImage1 = () => {
                   </div>
                   <div className={styles.itemWrapper}>
                     <Image
-                      src={a1}
+                      src={a9}
                       alt="Short 2"
                       className={styles.itemImage}
                     />
@@ -146,7 +152,7 @@ const prevImage1 = () => {
                   </div>
                   <div className={styles.itemWrapper}>
                     <Image
-                      src={a1}
+                      src={a10}
                       alt="Short 2"
                       className={styles.itemImage}
                     />
@@ -154,7 +160,7 @@ const prevImage1 = () => {
                   </div>
                   <div className={styles.itemWrapper}>
                     <Image
-                      src={a1}
+                      src={a7}
                       alt="Short 2"
                       className={styles.itemImage}
                     />
@@ -229,7 +235,7 @@ const prevImage1 = () => {
                 <div className={styles.arrivalsItems}>
                   <div className={styles.itemWrapper}>
                     <Image
-                      src={a1}
+                      src={a6}
                       alt="Short 2"
                       className={styles.itemImage}
                     />
@@ -237,7 +243,7 @@ const prevImage1 = () => {
                   </div>
                   <div className={styles.itemWrapper}>
                     <Image
-                      src={a1}
+                      src={a7}
                       alt="Short 2"
                       className={styles.itemImage}
                     />
@@ -245,7 +251,7 @@ const prevImage1 = () => {
                   </div>
                   <div className={styles.itemWrapper}>
                     <Image
-                      src={a1}
+                      src={a8}
                       alt="Short 2"
                       className={styles.itemImage}
                     />
@@ -253,7 +259,7 @@ const prevImage1 = () => {
                   </div>
                   <div className={styles.itemWrapper}>
                     <Image
-                      src={a1}
+                      src={a9}
                       alt="Short 2"
                       className={styles.itemImage}
                     />
@@ -261,7 +267,7 @@ const prevImage1 = () => {
                   </div>
                   <div className={styles.itemWrapper}>
                     <Image
-                      src={a1}
+                      src={a10}
                       alt="Short 2"
                       className={styles.itemImage}
                     />
@@ -269,7 +275,7 @@ const prevImage1 = () => {
                   </div>
                   <div className={styles.itemWrapper}>
                     <Image
-                      src={a1}
+                      src={a11}
                       alt="Short 2"
                       className={styles.itemImage}
                     />
