@@ -76,7 +76,7 @@ const SideBar = () => {
 
             <li>
               <Link
-                href="/coupunhistoy"
+                href="/frontend/admin/coupunhistory"
                 className="flex items-center gap-4 p-3 text-white rounded-lg hover:bg-purple-700"
               >
                 <FaAddressBook className="text-xl" />
@@ -86,7 +86,7 @@ const SideBar = () => {
 
             <li>
               <Link
-                href="/clienthistory"
+                href="/frontend/admin/customerdata"
                 className="flex items-center gap-4 p-3 text-white rounded-lg hover:bg-purple-700"
               >
                 <FaDiscourse className="text-xl" />

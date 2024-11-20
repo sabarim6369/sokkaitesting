@@ -1,6 +1,6 @@
 "use client";
 
-import { useState ,useEffect} from "react";
+import { useState, useEffect } from "react";
 import { FaUpload, FaCheck, FaTimes } from "react-icons/fa";
 
 const AddProductForm = ({ value, onClose }) => {
@@ -35,13 +35,13 @@ const AddProductForm = ({ value, onClose }) => {
   };
   useEffect(() => {
     if (value) {
-      document.body.style.overflow = "hidden"; 
+      document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "";
     }
 
     return () => {
-      document.body.style.overflow = ""; 
+      document.body.style.overflow = "";
     };
   }, [value]);
   const handleCancel = () => {
@@ -58,7 +58,7 @@ const AddProductForm = ({ value, onClose }) => {
 
   return (
     value && (
-      <div className="flex justify-center items-center min-h-screen overflow-hidden bg-[#0000007b] z-50 absolute w-full p-4">
+      <div className="bg-gray-600 bg-opacity-50 fixed inset-0 flex justify-center items-center z-50">
         <div className="bg-white shadow-lg rounded-lg w-full max-w-3xl p-8 h-96 overflow-y-auto">
           <div className="flex flex-row w-full justify-between mb-6">
             <h2 className="text-2xl font-semibold text-gray-800">

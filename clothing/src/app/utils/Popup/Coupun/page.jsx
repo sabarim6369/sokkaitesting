@@ -91,23 +91,29 @@ const CouponPopup = ({ value, onClose }) => {
 
             <div>
               <label className="block text-black">Coupon Code</label>
-              <div className="flex items-center mt-2">
+              <div className="flex items-center border mt-2">
                 <input
                   type="text"
                   name="couponCode"
+                  placeholder="black"
                   value={couponData.couponCode}
                   onChange={handleInputChange}
-                  className="p-2 border w-full"
+                  className="p-2 text-black w-full"
+                  style={{
+                    color: "black",
+                    "::placeholder": { color: "black" },
+                  }}
                 />
+
                 <button
                   onClick={generateCoupon}
-                  className="ml-2 p-2 bg-blue-500 text-white"
+                  className="ml-2 p-2 text-blue-500"
                 >
                   <FaMagic />
                 </button>
                 <button
                   onClick={copyToClipboard}
-                  className="ml-2 p-2 bg-green-500 text-white"
+                  className="ml-2 p-2  text-black"
                 >
                   <FaClipboard />
                 </button>
@@ -116,9 +122,8 @@ const CouponPopup = ({ value, onClose }) => {
 
             <button
               onClick={handleSubmit}
-              className="mt-4 w-full bg-green-500 text-white p-2"
+              className="mt-4 w-40 rounded-lg xl:ml-16 bg-green-500  text-white p-2"
             >
-              <FaCheckCircle className="mr-2" />
               Create Coupon
             </button>
           </div>
