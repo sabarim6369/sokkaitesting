@@ -1,8 +1,11 @@
 {
   "/page": "app/page.js",
-  "/_not-found/page": "app/_not-found/page.js",
   "/favicon.ico/route": "app/favicon.ico/route.js",
   "/frontend/cart/page": "app/frontend/cart/page.js",
+  "/frontend/profile/page": "app/frontend/profile/page.js",
+  "/_not-found/page": "app/_not-found/page.js",
+  "/frontend/login/page": "app/frontend/login/page.js",
+  "/frontend/signup/page": "app/frontend/signup/page.js",
   "/frontend/Products/page": "app/frontend/Products/page.js",
   "/frontend/productdetails/page": "app/frontend/productdetails/page.js"
 }

@@ -1,87 +1,106 @@
-'use client'
-import React, { useState, useRef, useEffect } from "react";
-import Image from "next/image";
+'use client';
+import React, { useState } from 'react';
+import Image from 'next/image';
 import '@fortawesome/fontawesome-free/css/all.min.css';
-import a1 from "../../../../public/images/cart/a1.jpg";
-import a2 from "../../../../public/images/cart/a2.jpg";
-import a3 from "../../../../public/images/cart/a3.jpg";
-import a4 from "../../../../public/images/cart/a4.jpg";
-import a5 from "../../../../public/images/cart/a5.jpg";
+import a1 from '../../../../public/images/cart/a1.jpg';
+import a2 from '../../../../public/images/cart/a2.jpg';
+import a3 from '../../../../public/images/cart/a3.jpg';
+import a4 from '../../../../public/images/cart/a4.jpg';
+import a5 from '../../../../public/images/cart/a5.jpg';
 
 const ProductsPage = () => {
-  const [showSearch, setShowSearch] = useState(false);
-  const searchRef = useRef(null);
+  const [selectedSize, setSelectedSize] = useState(null);
 
   const similarProducts = [
-    { id: 1, image: a1, name: "Never Mind Brown T-Shirt", price: 778, originalPrice: 899 },
-    { id: 2, image: a2, name: "Mocha Coffee Riding Jacket", price: 778, originalPrice: 899 },
-    { id: 3, image: a3, name: "Drop Shoulder White T-Shirt", price: 778, originalPrice: 899 },
-    { id: 4, image: a4, name: "Minimal White Formal Shirt", price: 778, originalPrice: 899 },
+    { id: 1, image: a1, name: 'Never Mind Brown T-Shirt', price: 778, originalPrice: 879 },
+    { id: 2, image: a2, name: 'Mocha Coffee Riding Jacket', price: 778, originalPrice: 879 },
+    { id: 3, image: a3, name: 'Drop Shoulder White T-Shirt', price: 778, originalPrice: 879 },
+    { id: 4, image: a4, name: 'Minimal White Formal Shirt', price: 778, originalPrice: 879 },
+    { id: 5, image: a4, name: 'Minimal White Formal Shirt', price: 778, originalPrice: 879 },
   ];
 
-  // Close search bar if clicked outside
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (searchRef.current && !searchRef.current.contains(event.target)) {
-        setShowSearch(false); // Close search bar if clicked outside
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+  const handleSizeSelect = (size) => {
+    setSelectedSize(size);
+  };
 
   return (
-    <div>
-      {/* Product Details */}
-      <div className="mt-20 p-6">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Product Images */}
-          <div className="space-y-4">
-            <Image src={a1} alt="Main Product" className="rounded-lg" />
-            <div className="grid grid-cols-3 gap-2">
-              <Image src={a2} alt="Thumbnail" className="rounded-md" />
-              <Image src={a3} alt="Thumbnail" className="rounded-md" />
-              <Image src={a4} alt="Thumbnail" className="rounded-md" />
-            </div>
-          </div>
+    <div className="max-w-7xl mx-auto p-6 mt-20">
+      <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-6 mb-12">
+        <div className="hidden lg:grid grid-cols-2 grid-rows-2 gap-4">
+          {[a2, a3, a4, a5].map((image, idx) => (
+            <Image
+              key={idx}
+              src={image}
+              alt={`Thumbnail ${idx + 1}`}
+              className="rounded-md object-cover"
+              width={180}
+              height={180}
+            />
+          ))}
+        </div>
 
-          {/* Product Info */}
-          <div>
-            <h1 className="text-3xl font-bold text-gray-800">Peach Design Printed Shirt</h1>
-            <div className="text-xl text-blue-500 mt-2">620 RS</div>
-            <div className="text-lg text-gray-400 line-through">879 RS</div>
-            <div className="mt-4">
-              <span className="font-semibold text-gray-700">Sizes:</span>
-              <div className="flex space-x-4 mt-2">
-                <button className="px-4 py-2 border rounded-md hover:bg-gray-200">S</button>
-                <button className="px-4 py-2 border rounded-md hover:bg-gray-200">M</button>
-                <button className="px-4 py-2 border rounded-md hover:bg-gray-200">L</button>
-                <button className="px-4 py-2 border rounded-md hover:bg-gray-200">XL</button>
-              </div>
-            </div>
-            <div className="flex space-x-4 mt-6">
-              <button className="px-6 py-2 bg-yellow-500 text-white rounded-lg shadow-lg">Order</button>
-              <button className="px-6 py-2 border rounded-lg">Wishlist</button>
-              <button className="px-6 py-2 border rounded-lg">Cart</button>
-            </div>
+        {/* Center: Large Image */}
+        <div className="flex justify-center">
+          <Image
+            src={a1}
+            alt="Main Product"
+            className="rounded-lg object-cover w-full max-w-md md:max-w-lg"
+            width={400}
+            height={600}
+          />
+        </div>
+
+        <div className="space-y-4">
+          <h2 className="text-3xl font-bold text-black mb-8 ">Peach Design Printed Shirt</h2>
+          <div className="text-2xl font-semibold text-gray-800">620 RS</div>
+          <div className="text-lg text-blue-700 line-through">879 RS</div>
+          <div className="flex space-x-4 mb-4">
+            {['XS', 'S', 'M', 'L', 'XL'].map((size) => (
+              <button
+                key={size}
+                className={`px-5 py-3 border rounded-lg text-sm font-medium ${
+                  selectedSize === size
+                    ? 'bg-black text-white'
+                    : 'hover:bg-gray-200 text-gray-800'
+                }`}
+                onClick={() => handleSizeSelect(size)}
+              >
+                {size}
+              </button>
+            ))}
           </div>
+          <button className="w-full bg-black text-white py-4 rounded-lg text-lg font-semibold mb-4">
+            ORDER
+          </button>
+          <div className="flex space-x-4">
+  <button className="flex-grow bg-transparent border py-3 rounded-lg flex items-center justify-center text-sm font-medium text-black hover:bg-gray-100">
+  <i className="fas fa-heart mr-2"></i> WISHLIST
+  </button>
+  <button className="flex-grow bg-transparent border py-3 rounded-lg flex items-center justify-center text-sm font-medium text-black hover:bg-gray-100">
+    <i className="fas fa-shopping-cart mr-2"></i> CART
+  </button>
+</div>
+
         </div>
       </div>
 
       {/* Similar Products */}
-      <div className="p-6">
-        <h2 className="text-xl font-bold text-gray-800 mb-4">Similar Products</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {similarProducts.map((product) => (
-            <div key={product.id} className="flex flex-col items-center">
-              <Image src={product.image} alt={product.name} className="rounded-lg" />
-              <h3 className="text-lg font-semibold mt-2">{product.name}</h3>
-              <div className="text-lg text-blue-500">{product.price} RS</div>
-              <div className="text-sm text-gray-400 line-through">{product.originalPrice} RS</div>
-            </div>
-          ))}
-        </div>
+      <h2 className="text-3xl font-bold text-black mb-6 text-center">Similar Products</h2>
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
+        {similarProducts.map((product) => (
+          <div key={product.id} className="text-center bg-gray-100 p-4 rounded-lg shadow-md hover:shadow-lg">
+            <Image
+              src={product.image}
+              alt={product.name}
+              className="rounded-lg mb-4 object-cover w-full"
+              width={200}
+              height={250}
+            />
+            <h3 className="text-lg font-medium text-black">{product.name}</h3>
+            <div className="text-lg font-semibold text-gray-800 font-bold">{product.price} RS</div>
+            <div className="text-sm text-blue-800 line-through">{product.originalPrice} RS</div>
+          </div>
+        ))}
       </div>
     </div>
   );
