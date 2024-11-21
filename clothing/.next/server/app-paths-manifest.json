@@ -1,7 +1,9 @@
 {
+  "/page": "app/page.js",
   "/frontend/admin/Product/page": "app/frontend/admin/Product/page.js",
-  "/favicon.ico/route": "app/favicon.ico/route.js",
-  "/_not-found/page": "app/_not-found/page.js",
   "/frontend/admin/coupunhistory/page": "app/frontend/admin/coupunhistory/page.js",
-  "/frontend/admin/customerdata/page": "app/frontend/admin/customerdata/page.js"
+  "/frontend/admin/customerdata/page": "app/frontend/admin/customerdata/page.js",
+  "/favicon.ico/route": "app/favicon.ico/route.js",
+  "/frontend/cart/page": "app/frontend/cart/page.js",
+  "/_not-found/page": "app/_not-found/page.js"
 }

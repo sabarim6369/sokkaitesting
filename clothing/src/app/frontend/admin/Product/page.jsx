@@ -164,6 +164,8 @@ const ProductsPage = () => {
     <div className="relative">
       <ToastContainer />
       <SideBar />
+      <div id="otpless-login-page"></div>
+
       <div className="w-full font-Mona text-xl">
         <h1 className="text-2xl font-bold mt-9 xl:ml-[16.8%] text-black ml-3 font-Cabin mb-4">
           {greeting}, Vijay

@@ -1,5 +1,5 @@
 "use client";
-import Popup from "@/app/utils/Popup/customer/page";
+import Popup from "@/app/utils/customer/page";
 import React, { useState } from "react";
 const Clients = () => {
   // Sample JSON data
@@ -189,10 +189,8 @@ const Clients = () => {
   const clickPopup = () => {
     console.log("triggered");
     setpopup(true);
-    console.log(Popup);
   };
 
-  // Close the popup
   const closePopup = () => {
     setpopup(false);
   };
