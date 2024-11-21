@@ -75,30 +75,7 @@ export default function Cart() {
   return (
     <div className="min-h-screen bg-white text-black">
       {/* Navbar */}
-      <header className="flex items-center justify-between px-4 sm:px-6 py-4 bg-white text-black fixed top-0 left-0 w-full z-10 shadow-lg">
-        <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold">
-          <span className="text-black">SO</span>
-          <span className="text-blue-500">K</span>
-          <span className="text-black">KA</span>
-          <span className="text-yellow-500">I</span>
-        </h1>
-        <div className="flex items-center space-x-3 sm:space-x-4">
-          <input
-            type="text"
-            placeholder="Search for products, categories..."
-            className="bg-gray-100 text-sm sm:text-base lg:text-lg px-4 py-2 rounded-full w-32 sm:w-40 lg:w-56 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300 ease-in-out"
-          />
-          <button className="text-gray-700 hover:text-blue-500 text-xl sm:text-2xl">
-            <i className="fas fa-heart"></i>
-          </button>
-          <button className="text-gray-700 hover:text-blue-500 text-xl sm:text-2xl">
-            <i className="fas fa-shopping-cart"></i>
-          </button>
-          <button className="text-gray-700 hover:text-blue-500 text-xl sm:text-2xl">
-            <i className="fas fa-user"></i>
-          </button>
-        </div>
-      </header>
+
 
       {/* CART Heading */}
       <div className="flex flex-col md:flex-row justify-between p-4 pt-20">
