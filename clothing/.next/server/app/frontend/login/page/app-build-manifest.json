@@ -3,6 +3,7 @@
     "/frontend/login/page": [
       "static/chunks/_f0b58d._.js",
       "static/chunks/src_app_favicon_ico_mjs_7a4b0e._.js",
+<<<<<<< HEAD
       "static/chunks/src_app_globals_b80590.css",
       "static/chunks/_b55633._.js",
       "static/chunks/src_app_layout_36ac26.js",
@@ -10,6 +11,15 @@
       "static/chunks/src_app_frontend_login_page_jsx_e399e9._.js",
       "static/chunks/src_app_frontend_login_login_8f8d2e.css",
       "static/chunks/src_app_frontend_login_page_jsx_8a5e08._.js",
+=======
+      "static/chunks/_5814b6._.js",
+      "static/chunks/src_app_c25c0a._.css",
+      "static/chunks/src_app_layout_36ac26.js",
+      "static/chunks/node_modules_next_f5074b._.js",
+      "static/chunks/src_app_frontend_login_page_jsx_e399e9._.js",
+      "static/chunks/src_app_frontend_login_login_8f8d2e.css",
+      "static/chunks/src_app_frontend_login_page_jsx_2047cb._.js",
+>>>>>>> 398dae6b91959f778aa2ba129f01afba41d5d274
       "static/chunks/node_modules_next_dist_compiled_react-dom_1f56dc._.js",
       "static/chunks/node_modules_next_dist_compiled_107ce8._.js",
       "static/chunks/node_modules_next_dist_client_9bb038._.js",
