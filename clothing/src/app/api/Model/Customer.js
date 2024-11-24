@@ -1,56 +1,18 @@
 import mongoose from "mongoose";
+const userSchema = new mongoose.Schema({
+  userId: { type: String, required: true, unique: true },
+  history: [{ type: mongoose.Schema.Types.ObjectId, ref: "Product" }], 
+  couponApplied: [{ type: mongoose.Schema.Types.ObjectId, ref: "Product" }], 
+  wishlist: [{ type: mongoose.Schema.Types.ObjectId, ref: "Product" }],
+  cart: [
+    {
+      productId: { type: mongoose.Schema.Types.ObjectId, ref: "Product" },
+      quantity: { type: Number, required: true, min: 1 }, 
+    },
+  ],
+  totalPurchasePrice: { type: Number, default: 0 }, 
+});
 
-const customerSchema = new mongoose.Schema(
-  {
-    customer_id: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "CustomerAuth",
-      required: true,
-    },
-    history: [
-      {
-        product: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "Product",
-        },
-        purchasedAt: {
-          type: Date,
-          default: Date.now,
-        },
-        quantity: {
-          type: Number,
-          default: 1,
-          min: 1,
-        },
-        priceAtPurchase: {
-          type: Number,
-          required: true,
-        },
-      },
-    ],
-    wishlist: [
-      {
-        product: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "Product", 
-        },
-        addedAt: {
-          type: Date,
-          default: Date.now,
-        },
-      },
-    ],
-    createdAt: {
-      type: Date,
-      default: Date.now,
-    },
-    updatedAt: {
-      type: Date,
-      default: Date.now,
-    },
-  },
-  { timestamps: true }
-);
+const User = mongoose.models.User || mongoose.model("User", userSchema);
 
-const Customer = mongoose.model("Customer", customerSchema);
-export default Customer;
+export default User;

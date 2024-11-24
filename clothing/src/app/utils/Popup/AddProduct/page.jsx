@@ -2,6 +2,9 @@
 
 import { useState, useEffect } from "react";
 import { FaUpload, FaCheck, FaTimes } from "react-icons/fa";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import axios from "axios";
 
 const AddProductForm = ({ value, onClose }) => {
   const [formData, setFormData] = useState({
@@ -29,10 +32,50 @@ const AddProductForm = ({ value, onClose }) => {
     setFormData({ ...formData, images: updatedImages });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
+    try {
+      const endpoint = "/api/products";
+      const data = new FormData();
+      data.append("name", formData.name);
+      data.append("description", formData.description);
+      data.append("price", formData.price);
+      data.append("category", formData.category);
+      data.append("stock", formData.stock);
+      data.append("brand", formData.brand);
+      formData.images.forEach((file) => data.append("images", file));
+      for (let [key, value] of data.entries()) {
+        console.log(`${key}:`, value);
+      }
+
+      const config = {
+        headers: { "Content-Type": "multipart/form-data" },
+      };
+
+      const response = await axios.post(endpoint, data, config);
+      console.log("response status : ", response);
+      if (response.status === 201) {
+        toast.success("Product added successfully!");
+        setTimeout(() => {
+          onClose();
+        }, 1200);
+      }
+    } catch (error) {
+      console.error("Error submitting the form: ", error);
+      if (error.response) {
+        if (error.response.status === 404) {
+          toast.error("Endpoint not found. Please check the URL.");
+        } else if (error.response.status === 500) {
+          toast.error("Internal server error. Please try again later.");
+        } else {
+          toast.error("An error occurred. Please try again.");
+        }
+      } else {
+        toast.error("Network error. Please check your connection.");
+      }
+    }
   };
+
   useEffect(() => {
     if (value) {
       document.body.style.overflow = "hidden";
@@ -44,6 +87,7 @@ const AddProductForm = ({ value, onClose }) => {
       document.body.style.overflow = "";
     };
   }, [value]);
+
   const handleCancel = () => {
     setFormData({
       name: "",
@@ -59,6 +103,7 @@ const AddProductForm = ({ value, onClose }) => {
   return (
     value && (
       <div className="bg-gray-600 bg-opacity-50 fixed inset-0 flex justify-center items-center z-50">
+        <ToastContainer />{" "}
         <div className="bg-white shadow-lg rounded-lg w-full max-w-3xl p-8 h-96 overflow-y-auto">
           <div className="flex flex-row w-full justify-between mb-6">
             <h2 className="text-2xl font-semibold text-gray-800">

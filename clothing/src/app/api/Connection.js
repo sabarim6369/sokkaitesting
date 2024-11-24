@@ -1,6 +1,11 @@
 require("dotenv").config();
+// const express = require("express");
 const mongoose = require("mongoose");
-
+// const cors = require("cors");
+// const app = express();
+// app.use(cors({ origin: "http://localhost:3000" }));
+// app.use(express.json());
+// app.use(express.urlencoded({ extended: true }));
 const connectMongoDB = async () => {
   console.log(process.env.MONGODB_URI);
   try {
@@ -14,5 +19,4 @@ const connectMongoDB = async () => {
     throw new Error("Could not connect to MongoDB");
   }
 };
-
 module.exports = connectMongoDB;

@@ -1,26 +1,11 @@
 import mongoose from "mongoose";
 
-const couponSchema = new mongoose.Schema({
-  code: {
-    type: String,
-    unique: true,
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
-  expiresAt: {
-    type: Date,
-  },
-  status: {
-    type: String,
-    enum: ["expired", "pending", "availed"],
-    default: "pending",
-  },
-  amount: {
-    type: Number,
-  },
+const coupunSchema = new mongoose.Schema({
+  coupun: { type: String, required: true },
+  createdAt: { type: Date, default: Date.now },
+  pricing: { type: Number, required: true },
+  updatedAt: { type: Date, default: Date.now },
 });
+const Coupun = mongoose.models.Coupun || mongoose.model("Coupun", coupunSchema);
 
-const coupun = mongoose.model("Coupon", couponSchema);
-export default coupun;
+export default Coupun;

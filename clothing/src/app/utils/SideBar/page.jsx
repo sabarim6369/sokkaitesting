@@ -4,10 +4,12 @@ import { FaAddressBook, FaDiscourse, FaHome, FaTimes } from "react-icons/fa";
 import Link from "next/link";
 import CouponPopup from "@/app/utils/Popup/Coupun/page";
 import AddProductForm from "../Popup/AddProduct/page";
+import Stockavailability from "../Popup/stockavailability/page";
 const SideBar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [coupunpopup, setcoupunpopup] = useState(false);
   const [AddProduct, setAddProduct] = useState(false);
+  const [Stockavailability1, setstockavailability] = useState(false);
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -18,6 +20,10 @@ const SideBar = () => {
   };
   const ToggleAddProduct = () => {
     setAddProduct(!AddProduct);
+  };
+  const Togglestockavailability = () => {
+    console.log("stockavailability popup passed");
+    setstockavailability(!Stockavailability1);
   };
 
   return (
@@ -117,7 +123,10 @@ const SideBar = () => {
             >
               Add New Product
             </div>
-            <div className="bg-[#514f4f79] text-white p-6 mb-2 rounded-lg shadow-lg transform hover:scale-105 transition-all duration-300 ease-in-out flex items-center justify-center w-48 h-10 hover:bg-purple-600 hover:text-white cursor-pointer">
+            <div
+              onClick={Togglestockavailability}
+              className="bg-[#514f4f79] text-white p-6 mb-2 rounded-lg shadow-lg transform hover:scale-105 transition-all duration-300 ease-in-out flex items-center justify-center w-48 h-10 hover:bg-purple-600 hover:text-white cursor-pointer"
+            >
               View Product Stock
             </div>
           </div>
@@ -133,6 +142,10 @@ const SideBar = () => {
 
       <CouponPopup value={coupunpopup} onClose={() => setcoupunpopup(false)} />
       <AddProductForm value={AddProduct} onClose={() => setAddProduct(false)} />
+      <Stockavailability
+        value={Stockavailability1}
+        onClose={() => setstockavailability(false)}
+      />
     </div>
   );
 };

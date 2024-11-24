@@ -3,7 +3,8 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import couponCode from "coupon-code";
 import { FaCheckCircle, FaClipboard, FaTimes, FaMagic } from "react-icons/fa";
-
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const CouponPopup = ({ value, onClose }) => {
   const [couponData, setCouponData] = useState({
     couponName: "",
@@ -37,23 +38,34 @@ const CouponPopup = ({ value, onClose }) => {
 
   const handleSubmit = async () => {
     try {
-      const response = await axios.post(
-        "https://your-api-endpoint.com/coupons",
-        {
-          name: couponData.couponName,
-          price: couponData.discountPrice,
-          code: couponData.couponCode,
-        }
-      );
+      const response = await axios.post(`/api/coupun`, {
+        name: couponData.couponName,
+        pricing: couponData.discountPrice,
+        coupun: couponData.couponCode,
+      });
+
       console.log("Coupon created successfully:", response.data);
+      if (response.status === 201 || response.status === 200) {
+        toast.success("Coupon created successfully!");
+        setTimeout(() => {
+          onClose();
+        }, 2000);
+      }
     } catch (error) {
       console.error("Error creating coupon:", error);
+
+      if (error.response) {
+        toast.error(`Error: ${error.response.data.error}`);
+      } else {
+        toast.error("Network error. Please try again later.");
+      }
     }
   };
 
   return (
     value && (
       <div className="bg-gray-600 bg-opacity-50 fixed inset-0 flex justify-center items-center z-50">
+        <ToastContainer />
         <div
           className="bg-white p-8 rounded-lg shadow-lg w-96"
           onClick={(e) => e.stopPropagation()}

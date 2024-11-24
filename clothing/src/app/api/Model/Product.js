@@ -1,14 +1,5 @@
 import mongoose from "mongoose";
 
-const imageSchema = new mongoose.Schema(
-  {
-    data: Buffer,
-    contentType: String,
-    alt: String,
-  },
-  { _id: false }
-);
-
 const reviewSchema = new mongoose.Schema(
   {
     ratings: {
@@ -53,7 +44,12 @@ const productSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    images: [imageSchema],
+    images: [
+      {
+        url: { type: String, required: true }, 
+        public_id: { type: String, required: true }, 
+      },
+    ],
     reviews: [reviewSchema],
     numReviews: {
       type: Number,
