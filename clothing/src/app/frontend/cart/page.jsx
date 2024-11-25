@@ -10,8 +10,24 @@ import a6 from "../../../../public/images/cart/a5.jpg";
 import a7 from "../../../../public/images/cart/a6.jpg";
 import Image from "next/image";
 import "./cart.css";
-
+import { initOTPless } from "@/app/utils/initOtpless";
 export default function Cart() {
+  const callback = (otplessUser) => {
+    if (otplessUser) {
+      console.log("OTPless User:", otplessUser);
+      alert(JSON.stringify(otplessUser));
+    } else {
+      console.error("OTPless login failed or no user data returned");
+    }
+  };
+
+  useEffect(() => {
+    try {
+      initOTPless(callback);
+    } catch (error) {
+      console.error("Error initializing OTPless:", error);
+    }
+  }, []);
   const [selectedItems, setSelectedItems] = useState([]);
   const [showPurchaseButton, setShowPurchaseButton] = useState(true);
   const [showMobileFooter, setShowMobileFooter] = useState(true); // Track mobile footer visibility
@@ -46,7 +62,6 @@ export default function Cart() {
     return selectedItems.reduce((total, itemId) => total + prices[itemId], 0);
   };
 
-  // Detect scroll position to hide mobile footer when reaching the price section
   useEffect(() => {
     const handleScroll = () => {
       const priceSection = document.getElementById("price-section");
@@ -54,7 +69,6 @@ export default function Cart() {
       if (priceSection && mobileFooter) {
         const priceSectionTop = priceSection.getBoundingClientRect().top;
         const windowHeight = window.innerHeight;
-        // Hide the mobile footer when the price section is in view
         if (priceSectionTop <= windowHeight) {
           setShowMobileFooter(false);
         } else {
@@ -62,11 +76,8 @@ export default function Cart() {
         }
       }
     };
-
-    // Attach scroll event listener
     window.addEventListener("scroll", handleScroll);
 
-    // Cleanup on unmount
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
@@ -74,9 +85,8 @@ export default function Cart() {
 
   return (
     <div className="min-h-screen bg-white text-black">
-      {/* Navbar */}
+      <div className="fixed inset-28" id="otpless-login-page"></div>
 
-      {/* CART Heading */}
       <div className="flex flex-col md:flex-row justify-between p-4 pt-20">
         <div className="flex-1 overflow-y-auto max-h-[calc(100vh-160px)] space-y-6 pr-4">
           {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((item, index) => (
@@ -222,7 +232,6 @@ export default function Cart() {
           PURCHASE
         </button>
       </div>
-      {/* <div id="otpless-login-page"></div> */}
     </div>
   );
 }
