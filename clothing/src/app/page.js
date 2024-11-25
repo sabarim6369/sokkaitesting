@@ -4,6 +4,7 @@
 import { useEffect } from "react";
 import { initOTPless } from "./utils/initOtpless";
 import HomePage from "../../components/Homepage/Homepage";
+import "./globals.css"
 export default function Home() {
   useEffect(() => initOTPless(callback), []);
 

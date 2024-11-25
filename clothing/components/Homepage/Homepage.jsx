@@ -1,4 +1,8 @@
     'use client';
+    import Head from 'next/head';
+    import '@fortawesome/fontawesome-free/css/all.min.css';
+    import Link from 'next/link';
+
     import React, { useState,useEffect } from 'react';
     import styles from './Homepage.module.css';
     import a1 from "../../public/images/login/a3.jpg";
@@ -37,19 +41,26 @@ const prevImage1 = () => {
     setCurrentPair((prev) => (prev - 1 + imagePairs.length) % imagePairs.length);
   };
 
-  // Automatic image change every 2 seconds
   useEffect(() => {
     const interval = setInterval(nextImage, 2000);
     return () => clearInterval(interval); 
   }, []);
   useEffect(() => {
-    const interval1 = setInterval(nextImage1, 2000); // 2000ms = 2 seconds
-    return () => clearInterval(interval1); // Cleanup interval on component unmount
+    const interval1 = setInterval(nextImage1, 2000);
+    return () => clearInterval(interval1);
 }, []);
 
 
         return (
+          
           <div className={styles.container}>
+             <Head>
+        <link
+          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+        />
+      </Head>
+
           <header className={styles.header}>
           <h1 className={styles.heading}>
   <span className={styles['letter-s']}>S</span>
@@ -64,9 +75,15 @@ const prevImage1 = () => {
     <input type="text" placeholder="Search for products, brands, and more" />
   </div>
   <div className={styles.icons}>
+    <i className={styles.searchicon}>🔍</i>
     <i className={styles.icon}>☰</i>
+    <Link href="/frontend/Products/wishlist">
     <i className={styles.icon}>❤</i>
-    <i className={styles.icon}>🛒</i>
+    </Link>
+    <Link href="/frontend/cart">
+  <i className={styles.icon}>🛒</i>
+</Link>
+
   </div>
 </header>
 
@@ -96,7 +113,6 @@ const prevImage1 = () => {
                       ))}
                     </div>
 
-                    {/* Right Arrow */}
                     <button
                       onClick={nextImage}
                       className={styles.arrowButtonRight}
@@ -107,31 +123,35 @@ const prevImage1 = () => {
                 </div>
               </section>
 
-              {/* Other Sections */}
               <section className={styles.trendingSection}>
                 <div className={styles.trendingHeader}>
                   <h3 className={styles.trendingTitle}>
                     Trending Beach Shorts
                   </h3>
-                  <button className={styles.exploreButton}>Explore</button>
-                </div>
+                  <Link href="/frontend/Products/shirts">
+  <button className={styles.exploreButton}>Explore</button>
+</Link>
+       </div>
                 <div className={styles.trendingItemsWrapper}>
-                  {/* Item containers with images and offer tag */}
 
                   <div className={styles.itemWrapper}>
+                    <Link href="/frontend/productdetails">
                     <Image
                       src={a6}
                       alt="Short 2"
                       className={styles.itemImage}
                     />
+                    </Link>
                     <div className={styles.offerBadge}>Up to 30% Off</div>
                   </div>
                   <div className={styles.itemWrapper}>
+                  <Link href="/frontend/productdetails">
                     <Image
                       src={a7}
                       alt="Short 2"
                       className={styles.itemImage}
                     />
+                    </Link>
                     <div className={styles.offerBadge}>Up to 30% Off</div>
                   </div>
                   <div className={styles.itemWrapper}>
@@ -230,7 +250,9 @@ const prevImage1 = () => {
               <section className={styles.newArrivals}>
                 <div className={styles.newArrivalsHeader}>
                   <h3>New Arrivals</h3>
-                  <button className={styles.exploreButton}>Explore</button>
+                  <Link href="/frontend/Products/shirts">
+  <button className={styles.exploreButton}>Explore</button>
+</Link>
                 </div>
                 <div className={styles.arrivalsItems}>
                   <div className={styles.itemWrapper}>
@@ -350,6 +372,7 @@ const prevImage1 = () => {
             </footer>
           </div>
         );
+        
     };
 
     export default HomePage;

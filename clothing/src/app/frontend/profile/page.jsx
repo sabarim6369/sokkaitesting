@@ -1,19 +1,26 @@
+'use client'
+import { useState } from "react";
 import { FaInstagram, FaFacebookF, FaWhatsapp, FaTwitter } from "react-icons/fa";
 
+
 const Profile = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // Function to toggle modal visibility
+  const toggleModal = () => setIsModalOpen(!isModalOpen);
+
   return (
-    
-    <div className="min-h-screen flex flex-col bg-gray-50 pt-16"> 
+    <div className="min-h-screen flex flex-col bg-gray-50 overflow-x-hidden">
       <main className="flex-grow flex flex-col items-center w-full px-4 sm:px-8">
         <h1 className="text-3xl font-bold mt-12 mb-8 tracking-wide text-gray-800 text-center">
           PROFILE
         </h1>
 
-        <section className="w-full max-w-4xl bg-white shadow-md rounded-lg p-6 sm:p-10">
+        <section className="w-full max-w-screen-lg bg-white shadow-md rounded-lg p-6 sm:p-10">
           <div className="flex flex-col md:flex-row justify-between items-center border-b pb-6 md:pb-8 mb-6 md:mb-8">
             <div className="flex flex-col md:flex-row items-center gap-4 md:gap-8">
               <img
-                src="/profile-pic.png" 
+                src="/profile-pic.png"
                 alt="User Avatar"
                 className="w-20 h-20 sm:w-28 sm:h-28 rounded-full border-2 border-gray-300"
               />
@@ -29,7 +36,10 @@ const Profile = () => {
             </div>
 
             <div className="flex flex-col gap-4 mt-4 md:mt-0">
-              <button className="py-2 px-6 text-sm font-semibold text-blue-600 border border-blue-600 rounded-lg hover:bg-blue-100">
+              <button
+                className="py-2 px-6 text-sm font-semibold text-blue-600 border border-blue-600 rounded-lg hover:bg-blue-100"
+                onClick={toggleModal}
+              >
                 EDIT PROFILE
               </button>
               <button className="py-2 px-6 text-sm font-semibold text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-200">
@@ -38,7 +48,6 @@ const Profile = () => {
             </div>
           </div>
 
-          {/* Action Buttons */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <button className="py-3 text-gray-800 font-semibold bg-gray-100 hover:bg-gray-200 rounded-lg text-center shadow">
               Orders
@@ -56,40 +65,91 @@ const Profile = () => {
         </section>
       </main>
 
-      <footer className="bg-black text-white py-8 mt-8">
+      {isModalOpen && (
+  <div className="fixed inset-0 bg-gray-500 bg-opacity-75 flex justify-center items-center z-50"
+  onClick={(e) => {
+    if (e.target === e.currentTarget) toggleModal();
+  }}
+  >
+    <div className="bg-white p-8 rounded-lg shadow-xl max-w-lg w-full">
+      <h2 className="text-2xl font-semibold text-gray-800 mb-6 text-center">
+        Edit Profile
+      </h2>
+      <form>
+        <div className="mb-6">
+          <label htmlFor="name" className="block text-sm font-medium text-gray-600">
+            Name
+          </label>
+          <input
+            type="text"
+            id="name"
+            className="text-black w-full p-4 mt-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+            defaultValue="Eswar Nandha A"
+          />
+        </div>
+
+        <div className="mb-6">
+          <label htmlFor="phone" className="block text-sm font-medium text-gray-600">
+            Phone
+          </label>
+          <input
+            type="text"
+            id="phone"
+            className="text-black w-full p-4 mt-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+            defaultValue="6369489951"
+          />
+        </div>
+
+        <div className="mb-6">
+          <label htmlFor="email" className="block text-sm font-medium text-gray-600">
+            Email
+          </label>
+          <input
+            type="email"
+            id="email"
+            className="text-black w-full p-4 mt-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+            defaultValue="eswaranand1999@gmail.com"
+          />
+        </div>
+
+        <div className="flex justify-between space-x-4">
+          <button
+            type="button"
+            className="py-3 px-6 w-full text-white bg-blue-600 rounded-md hover:bg-blue-700 transition-colors"
+            onClick={toggleModal}
+          >
+            Save Changes
+          </button>
+          <button
+            type="button"
+            className="py-3 px-6 w-full text-gray-600 bg-gray-200 rounded-md hover:bg-gray-300 transition-colors"
+            onClick={toggleModal}
+          >
+            Cancel
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+)}
+
+
+      <footer className="bg-black text-white py-8 mt-8 w-full">
         <div className="flex flex-col items-center">
-          {/* Footer Brand */}
           <h2 className="text-2xl font-semibold mb-2">SOKKAI</h2>
           <p className="text-gray-400 text-sm mb-6 text-center">Men Made Better</p>
 
-          {/* Social Media Icons */}
           <div className="flex gap-6">
-            <a
-              href="#"
-              className="text-gray-400 hover:text-white text-2xl"
-              aria-label="Instagram"
-            >
+            <a href="#" className="text-gray-400 hover:text-white text-2xl" aria-label="Instagram">
               <FaInstagram />
             </a>
-            <a
-              href="#"
-              className="text-gray-400 hover:text-white text-2xl"
-              aria-label="Facebook"
-            >
+            <a href="#" className="text-gray-400 hover:text-white text-2xl" aria-label="Facebook">
               <FaFacebookF />
             </a>
-            <a
-              href="#"
-              className="text-gray-400 hover:text-white text-2xl"
-              aria-label="WhatsApp"
-            >
+            <a href="#" className="text-gray-400 hover:text-white text-2xl" aria-label="WhatsApp">
               <FaWhatsapp />
             </a>
-            <a
-              href="#"
-              className="text-gray-400 hover:text-white text-2xl"
-              aria-label="Twitter"
-            >
+            <a href="#" className="text-gray-400 hover:text-white text-2xl" aria-label="Twitter">
               <FaTwitter />
             </a>
           </div>

@@ -43,7 +43,7 @@ const ProductsPage = () => {
   };
 
   return (
-    <div className="max-w-7xl mx-auto p-6 mt-20">
+    <div className="max-w-7xl mx-auto p-6 mt-10">
       {/* Product Section */}
       <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-6 mb-12">
         <div className="hidden lg:grid grid-cols-2 grid-rows-2 gap-4">
@@ -124,53 +124,80 @@ const ProductsPage = () => {
           </div>
         ))}
       </div>
-
-      {/* Ratings and Reviews */}
-      <div
+<div
   ref={reviewsRef}
-  className="mt-12 bg-gradient-to-b from-white to-gray-50 p-8 rounded-2xl shadow-lg border border-gray-200"
+  className="mt-16 bg-gradient-to-b from-white to-gray-50 p-6 sm:p-8 md:p-10 rounded-3xl shadow-xl border border-gray-300"
 >
-  <h3 className="text-3xl font-bold text-gray-800 mb-8 text-center">
+  <h3 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-900 mb-8 sm:mb-10 md:mb-12 text-center tracking-tight">
     Ratings & Reviews
   </h3>
-  <div className="space-y-6">
-    {reviews.map((review) => (
-      <div
-        key={review.id}
-        className="flex items-start bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow"
-      >
-        <div className="mr-6 text-yellow-400">
-          {Array(review.rating)
-            .fill(0)
-            .map((_, idx) => (
-              <i key={idx} className="fas fa-star text-xl"></i>
-            ))}
-        </div>
-        <div>
-          <h4 className="font-semibold text-gray-800 text-lg mb-1">
-            {review.username}
-          </h4>
-          <p className="text-gray-700 leading-relaxed">{review.comment}</p>
-        </div>
+  <div className="space-y-8 sm:space-y-10 max-h-96 overflow-y-auto scrollbar-thin scrollbar-thumb-indigo-500 scrollbar-track-gray-200 scrollbar-rounded-md">
+    {reviews.length > 3 ? (
+      <div className="overflow-y-auto max-h-96">
+        {reviews.map((review) => (
+          <div
+            key={review.id}
+            className="flex flex-col sm:flex-row items-start bg-white p-6 sm:p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out"
+          >
+            {/* Star Rating */}
+            <div className="mr-4 text-yellow-500 flex items-center">
+              {Array(review.rating)
+                .fill(0)
+                .map((_, idx) => (
+                  <i key={idx} className="fas fa-star text-xl sm:text-2xl"></i>
+                ))}
+            </div>
+
+            {/* Comment Text */}
+            <div className="flex-1">
+              <h4 className="font-semibold text-gray-800 text-lg sm:text-xl md:text-2xl mb-3">{review.username}</h4>
+              <p className="text-gray-700 text-sm sm:text-lg leading-relaxed">{review.comment}</p>
+            </div>
+          </div>
+        ))}
       </div>
-    ))}
+    ) : (
+      reviews.map((review) => (
+        <div
+          key={review.id}
+          className="flex flex-col sm:flex-row items-start bg-white p-6 sm:p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out"
+        >
+          {/* Star Rating */}
+          <div className="mr-4 text-yellow-500 flex items-center">
+            {Array(review.rating)
+              .fill(0)
+              .map((_, idx) => (
+                <i key={idx} className="fas fa-star text-xl sm:text-2xl"></i>
+              ))}
+          </div>
+
+          {/* Comment Text */}
+          <div className="flex-1">
+            <h4 className="font-semibold text-gray-800 text-lg sm:text-xl md:text-2xl mb-3">{review.username}</h4>
+            <p className="text-gray-700 text-sm sm:text-lg leading-relaxed">{review.comment}</p>
+          </div>
+        </div>
+      ))
+    )}
   </div>
-  <div className="mt-10">
-    <h4 className="text-xl font-semibold text-gray-800 mb-4 text-center">
-      Add a Review
+
+  {/* Share Your Thoughts Section */}
+  <div className="mt-12 sm:mt-14 bg-white p-6 sm:p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out">
+    <h4 className="text-2xl sm:text-3xl font-semibold text-gray-900 mb-6 sm:mb-8 text-center">
+      Share Your Thoughts
     </h4>
-    <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+    <div className="grid grid-cols-1 gap-6 sm:gap-8 md:grid-cols-2">
       <input
         type="text"
         placeholder="Your Name"
         value={newReview.username}
         onChange={(e) => setNewReview({ ...newReview, username: e.target.value })}
-        className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-400 focus:outline-none transition-all"
+        className="w-full p-4 sm:p-5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none transition-all duration-200 placeholder:text-gray-400"
       />
       <select
         value={newReview.rating}
         onChange={(e) => setNewReview({ ...newReview, rating: parseInt(e.target.value, 10) })}
-        className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-400 focus:outline-none transition-all"
+        className="w-full p-4 sm:p-5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none transition-all duration-200"
       >
         <option value={0} disabled>
           Select Rating
@@ -186,16 +213,24 @@ const ProductsPage = () => {
       placeholder="Write your review here..."
       value={newReview.comment}
       onChange={(e) => setNewReview({ ...newReview, comment: e.target.value })}
-      className="w-full mt-6 p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-400 focus:outline-none transition-all"
+      className="w-full mt-6 sm:mt-8 p-4 sm:p-6 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none transition-all duration-200 placeholder:text-gray-400"
     ></textarea>
-    <button
-      onClick={handleReviewSubmit}
-      className="w-full mt-6 bg-gradient-to-r from-indigo-500 to-purple-500 text-white py-3 px-6 rounded-lg text-lg font-semibold shadow-md hover:shadow-lg hover:from-indigo-600 hover:to-purple-600 transition-all"
-    >
-      Submit Review
-    </button>
+    <div className="mt-6 sm:mt-8 flex justify-center">
+      <button
+        onClick={handleReviewSubmit}
+        className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-2 px-6 sm:py-3 sm:px-8 rounded-lg text-base sm:text-lg font-semibold shadow-md hover:shadow-lg hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 ease-in-out max-w-xs w-auto"
+      >
+        Submit Review
+      </button>
+    </div>
   </div>
 </div>
+
+
+
+
+
+
 
     </div>
   );

@@ -77,7 +77,7 @@ export default function Cart() {
       {/* Navbar */}
 
       {/* CART Heading */}
-      <div className="flex flex-col md:flex-row justify-between p-4 pt-20">
+      <div className="flex flex-col md:flex-row justify-between p-4 pt-5">
         <div className="flex-1 overflow-y-auto max-h-[calc(100vh-160px)] space-y-6 pr-4">
           {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((item, index) => (
             <div

@@ -3,14 +3,13 @@
     "/page": [
       "static/chunks/_f0b58d._.js",
       "static/chunks/src_app_favicon_ico_mjs_7a4b0e._.js",
-<<<<<<< HEAD
-      "static/chunks/_b82a01._.js",
-      "static/chunks/src_app_globals_b80590.css",
+      "static/chunks/_1bae84._.js",
+      "static/chunks/src_app_c25c0a._.css",
       "static/chunks/src_app_layout_36ac26.js",
-      "static/chunks/components_Homepage_Homepage_module_2e9f13.css",
-      "static/chunks/_8dbcbe._.js",
-      "static/chunks/node_modules_next_f5074b._.js",
-      "static/chunks/src_app_page_56df1d.js",
+      "static/chunks/_a4618c._.js",
+      "static/chunks/node_modules_next_1d0c46._.js",
+      "static/chunks/_937f75._.css",
+      "static/chunks/src_app_page_99baee.js",
       "static/chunks/node_modules_next_dist_compiled_react-dom_1f56dc._.js",
       "static/chunks/node_modules_next_dist_compiled_107ce8._.js",
       "static/chunks/node_modules_next_dist_client_9bb038._.js",
@@ -20,17 +19,15 @@
       "static/chunks/_c4c472._.js",
       "static/chunks/_cb9de2._.js"
     ],
-    "/frontend/admin/coupunhistory/page": [
+    "/frontend/cart/page": [
       "static/chunks/_f0b58d._.js",
       "static/chunks/src_app_favicon_ico_mjs_7a4b0e._.js",
-=======
-      "static/chunks/_5814b6._.js",
->>>>>>> 398dae6b91959f778aa2ba129f01afba41d5d274
+      "static/chunks/_1bae84._.js",
       "static/chunks/src_app_c25c0a._.css",
       "static/chunks/src_app_layout_36ac26.js",
-<<<<<<< HEAD
-      "static/chunks/src_app_frontend_admin_coupunhistory_page_jsx_9374f3._.js",
-      "static/chunks/src_app_frontend_admin_coupunhistory_page_jsx_e8dc1b._.js",
+      "static/chunks/_18f213._.css",
+      "static/chunks/_4e6aa3._.js",
+      "static/chunks/src_app_frontend_cart_page_jsx_99baee._.js",
       "static/chunks/node_modules_next_dist_compiled_react-dom_1f56dc._.js",
       "static/chunks/node_modules_next_dist_compiled_107ce8._.js",
       "static/chunks/node_modules_next_dist_client_9bb038._.js",
@@ -40,27 +37,16 @@
       "static/chunks/_c4c472._.js",
       "static/chunks/_cb9de2._.js"
     ],
-    "/frontend/admin/Product/page": [
+    "/frontend/profile/page": [
       "static/chunks/_f0b58d._.js",
       "static/chunks/src_app_favicon_ico_mjs_7a4b0e._.js",
+      "static/chunks/_1bae84._.js",
       "static/chunks/src_app_c25c0a._.css",
-      "static/chunks/_b55633._.js",
       "static/chunks/src_app_layout_36ac26.js",
-      "static/chunks/src_app_0fd938._.js",
-      "static/chunks/node_modules_next_c0de8b._.js",
-      "static/chunks/node_modules_axios_lib_c4c49c._.js",
       "static/chunks/node_modules_react-icons_fa_index_mjs_d2e2d7._.js",
-      "static/chunks/node_modules_react-icons_ai_index_mjs_b8cfc3._.js",
       "static/chunks/node_modules_react-icons_lib_74ccc9._.js",
-      "static/chunks/node_modules_15f617._.js",
-      "static/chunks/node_modules_react-toastify_dist_ReactToastify_391de2.css",
-      "static/chunks/src_app_frontend_admin_Product_page_jsx_e8dc1b._.js",
-=======
-      "static/chunks/_e02c5a._.js",
-      "static/chunks/node_modules_next_fbcec2._.js",
-      "static/chunks/components_Homepage_Homepage_module_2e9f13.css",
-      "static/chunks/src_app_page_2047cb.js",
->>>>>>> 398dae6b91959f778aa2ba129f01afba41d5d274
+      "static/chunks/src_app_frontend_profile_page_jsx_ca87e5._.js",
+      "static/chunks/src_app_frontend_profile_page_jsx_99baee._.js",
       "static/chunks/node_modules_next_dist_compiled_react-dom_1f56dc._.js",
       "static/chunks/node_modules_next_dist_compiled_107ce8._.js",
       "static/chunks/node_modules_next_dist_client_9bb038._.js",
@@ -73,7 +59,7 @@
     "/_not-found/page": [
       "static/chunks/_f0b58d._.js",
       "static/chunks/src_app_favicon_ico_mjs_7a4b0e._.js",
-      "static/chunks/_5814b6._.js",
+      "static/chunks/_1bae84._.js",
       "static/chunks/src_app_c25c0a._.css",
       "static/chunks/src_app_layout_36ac26.js",
       "static/chunks/node_modules_next_dist_compiled_react-dom_1f56dc._.js",
@@ -85,46 +71,15 @@
       "static/chunks/_c4c472._.js",
       "static/chunks/_cb9de2._.js"
     ],
-    "/utils/Popup/stockavailability/page": [
+    "/frontend/Products/[customer]/page": [
       "static/chunks/_f0b58d._.js",
       "static/chunks/src_app_favicon_ico_mjs_7a4b0e._.js",
-      "static/chunks/_5814b6._.js",
+      "static/chunks/_1bae84._.js",
       "static/chunks/src_app_c25c0a._.css",
       "static/chunks/src_app_layout_36ac26.js",
-<<<<<<< HEAD
-      "static/chunks/src_app_utils_Popup_stockavailability_page_jsx_847c5f._.js",
-      "static/chunks/src_app_utils_Popup_stockavailability_page_jsx_e8dc1b._.js",
-=======
-      "static/chunks/_18f213._.css",
-      "static/chunks/node_modules_next_f5074b._.js",
-      "static/chunks/_441179._.js",
-      "static/chunks/src_app_frontend_cart_page_jsx_2047cb._.js",
->>>>>>> 398dae6b91959f778aa2ba129f01afba41d5d274
-      "static/chunks/node_modules_next_dist_compiled_react-dom_1f56dc._.js",
-      "static/chunks/node_modules_next_dist_compiled_107ce8._.js",
-      "static/chunks/node_modules_next_dist_client_9bb038._.js",
-      "static/chunks/node_modules_next_dist_d09de6._.js",
-      "static/chunks/node_modules_@swc_helpers_cjs_00636a._.js",
-      "static/chunks/[turbopack]_browser_dev_hmr-client_hmr-client_ts_ce799c._.js",
-      "static/chunks/_c4c472._.js",
-      "static/chunks/_cb9de2._.js"
-    ],
-    "/frontend/admin/customerdata/page": [
-      "static/chunks/_f0b58d._.js",
-      "static/chunks/src_app_favicon_ico_mjs_7a4b0e._.js",
-      "static/chunks/_5814b6._.js",
-      "static/chunks/src_app_c25c0a._.css",
-      "static/chunks/src_app_layout_36ac26.js",
-<<<<<<< HEAD
-      "static/chunks/node_modules_react-icons_fa_index_mjs_d2e2d7._.js",
-      "static/chunks/node_modules_react-icons_lib_74ccc9._.js",
-      "static/chunks/src_app_8fabd0._.js",
-      "static/chunks/src_app_frontend_admin_customerdata_page_jsx_e8dc1b._.js",
-=======
-      "static/chunks/node_modules_next_f5074b._.js",
-      "static/chunks/_83bfb1._.js",
+      "static/chunks/_b553ed._.js",
       "static/chunks/node_modules_@fortawesome_fontawesome-free_css_all_min_fc6619.css",
-      "static/chunks/src_app_frontend_Products_page_jsx_2047cb._.js",
+      "static/chunks/src_app_frontend_Products_[customer]_page_jsx_99baee._.js",
       "static/chunks/node_modules_next_dist_compiled_react-dom_1f56dc._.js",
       "static/chunks/node_modules_next_dist_compiled_107ce8._.js",
       "static/chunks/node_modules_next_dist_client_9bb038._.js",
@@ -137,14 +92,12 @@
     "/frontend/productdetails/page": [
       "static/chunks/_f0b58d._.js",
       "static/chunks/src_app_favicon_ico_mjs_7a4b0e._.js",
-      "static/chunks/_5814b6._.js",
+      "static/chunks/_1bae84._.js",
       "static/chunks/src_app_c25c0a._.css",
       "static/chunks/src_app_layout_36ac26.js",
-      "static/chunks/node_modules_next_f5074b._.js",
-      "static/chunks/_2702f2._.js",
+      "static/chunks/_4fe628._.js",
       "static/chunks/node_modules_@fortawesome_fontawesome-free_css_all_min_fc6619.css",
-      "static/chunks/src_app_frontend_productdetails_page_jsx_2047cb._.js",
->>>>>>> 398dae6b91959f778aa2ba129f01afba41d5d274
+      "static/chunks/src_app_frontend_productdetails_page_jsx_99baee._.js",
       "static/chunks/node_modules_next_dist_compiled_react-dom_1f56dc._.js",
       "static/chunks/node_modules_next_dist_compiled_107ce8._.js",
       "static/chunks/node_modules_next_dist_client_9bb038._.js",

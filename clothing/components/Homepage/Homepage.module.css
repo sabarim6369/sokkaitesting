@@ -49,7 +49,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 2rem;
+  padding: 1rem 1rem;
   background-color: #fff;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   position: sticky;
@@ -62,15 +62,6 @@
   background-color: #f8f8f8; 
 }
 
-
-.logo {
-  font-size: 2rem;
-  font-weight: bold;
-  letter-spacing: 1px;
-  color: #333;
-  cursor: pointer;
-  transition: font-size 0.3s ease, color 0.3s ease;
-}
 
 .logo:hover {
   font-size: 2.2rem; 
@@ -109,7 +100,15 @@
   color: #555;
   transition: color 0.3s ease, transform 0.3s ease;
 }
-
+.searchicon{
+  margin: 0 1rem;
+  font-size: 1.8rem;
+  cursor: pointer;
+  display:none;
+  color: #555;
+  transition: color 0.3s ease, transform 0.3s ease;
+  
+}
 .icon:hover {
   color: #007bff;
   transform: scale(1.1); 
@@ -123,6 +122,14 @@
 @media (max-width: 1024px) {
   .header {
     padding: 1rem;
+  }
+  .searchicon{
+    font-size: 1.8rem;
+    cursor: pointer;
+    display:block;
+    color: #555;
+    transition: color 0.3s ease, transform 0.3s ease;
+    
   }
 
   .logo {
@@ -140,36 +147,65 @@
 
 @media (max-width: 768px) {
   .header {
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
     padding: 1rem 0.5rem;
   }
-
-  .logo {
-    font-size: 1.6rem;
-    margin-bottom: 1rem;
+  .searchicon{
+    margin: 0 1rem;
+    font-size: 1.8rem;
+    cursor: pointer;
+    color: #555;
+    transition: color 0.3s ease, transform 0.3s ease;
+    display:block;
+    
   }
 
-  .searchBar input {
-    width: 90%;
+
+  .heading {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.5rem;
+    font-weight: bold;
+    letter-spacing: 0.1rem;
+    color: #fff;
     margin-bottom: 1rem;
+    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    gap: 0.2rem;
+    transition: transform 0.3s ease; 
+  }
+  .searchBar input {
+    display: none;
+    width: 60%; 
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
   }
 
   .icons {
     width: 100%;
-    justify-content: center;
-    margin-top: 1rem;
+    justify-content: right;
+   
   }
 
   .icon {
     margin: 0 0.8rem;
-    font-size: 1.4rem;
+    font-size:1.5rem;
   }
 }
 
 @media (max-width: 480px) {
   .logo {
     font-size: 1.4rem;
+  }
+  .searchicon{
+    margin: 0 1rem;
+    font-size: 1.8rem;
+    cursor: pointer;
+    color: #555;
+    transition: color 0.3s ease, transform 0.3s ease;
+    display:block;
+    
   }
 
   .searchBar input {
@@ -356,27 +392,27 @@
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background-color: rgba(0, 0, 0, 0.6); /* Slightly less opaque for a more subtle look */
+  background-color: rgba(0, 0, 0, 0.6);
   color: white;
   border: none;
-  padding: 5px 8px;  /* Reduced padding for smaller size */
-  font-size: 1.5rem;  /* Smaller font size */
+  padding: 5px 8px; 
+  font-size: 1.5rem; 
   cursor: pointer;
   z-index: 1;
-  border-radius: 50%;  /* Rounded buttons for a modern look */
-  transition: background-color 0.3s ease;  /* Smooth hover transition */
+  border-radius: 50%; 
+  transition: background-color 0.3s ease; 
 }
 
 .arrowButtonLeft1 {
-  left: 10px;  /* Adjusted position */
+  left: 10px; 
 }
 
 .arrowButtonRight1 {
-  right: 10px;  /* Adjusted position */
+  right: 10px; 
 }
 
 .arrowButtonLeft1:hover, .arrowButtonRight1:hover {
-  background-color: rgba(0, 0, 0, 0.8);  /* Darker hover effect */
+  background-color: rgba(0, 0, 0, 0.8); 
 }
 
 
