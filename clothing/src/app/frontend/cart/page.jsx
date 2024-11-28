@@ -9,44 +9,237 @@ import a5 from "../../../../public/images/cart/a4.jpg";
 import a6 from "../../../../public/images/cart/a5.jpg";
 import a7 from "../../../../public/images/cart/a6.jpg";
 import Image from "next/image";
+import ordersummary from "../../../../components/orderssummary/main"
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import "./cart.css";
+import { jwtDecode } from 'jwt-decode';
+import axios from 'axios';
+import { useRouter } from "next/navigation";
 
 export default function Cart() {
+  const token = localStorage.getItem('token');
+const router=useRouter();
+  const decodedToken = jwtDecode(token);
+ const userId = decodedToken?.id; 
   const [selectedItems, setSelectedItems] = useState([]);
   const [showPurchaseButton, setShowPurchaseButton] = useState(true);
-  const [showMobileFooter, setShowMobileFooter] = useState(true); // Track mobile footer visibility
+  const [cartdata, setcartdata] = useState([]);
+  const [showMobileFooter, setShowMobileFooter] = useState(true);
+  const [grandTotal, setGrandTotal] = useState(0);
   const images = [a1, a2, a3, a4, a5, a6, a7];
 
-  const handleCheckboxChange = (itemId, price) => {
+  const handleCheckboxChange = (itemData) => {
     setSelectedItems((prevSelected) => {
-      if (prevSelected.includes(itemId)) {
-        return prevSelected.filter((id) => id !== itemId);
+      const itemExists = prevSelected.some((item) => item.id === itemData.id);
+  
+      if (itemExists) {
+        // If the item already exists, remove it
+        return prevSelected.filter((item) => item.id !== itemData.id);
       } else {
-        return [...prevSelected, itemId];
+        return [...prevSelected, itemData];
       }
     });
   };
+  
+  const isAuthenticated = () => {
+    const token = localStorage.getItem('token');
+    console.log("no token",token,"❤️‍🔥❤️‍🔥❤️‍🔥❤️‍🔥❤️‍🔥")
+    if (token) {
+      console.log("token availabel");
+        try {
+            const decodedToken = jwtDecode(token);
+            const expiry = decodedToken?.exp; 
+            
+            if (expiry) {
+                const currentTime = Math.floor(Date.now() / 1000); 
+                
+                if (currentTime < expiry) {
+               
+             console.log("👏👏👏😤😤😤")
+                    return true; 
+                } else {
+                  console.log("jsjvsv sfv fs ")
+                    localStorage.removeItem('token'); 
+                    return false;
+                }
+            }
+        } catch (error) {
+            console.error("Error decoding token:", error);
+        }
+    }
+  
+};
 
-  const handleNavigateBack = () => {
-    setShowPurchaseButton(false);
+  const handleAction = async (action,productid) => {
+    console.log("Consoling the product id in client side:", productid);
+  
+    if (isAuthenticated()) {
+   
+      if (token) {
+        try {
+       
+          console.log("Consoling the user id:", userId);
+  
+          if (!userId) {
+            throw new Error('User ID is missing in the token');
+          }
+        } catch (error) {
+          console.error("Error decoding token:", error);
+          toast.error("Something went wrong while decoding the token.");
+          return; 
+        }
+      } else {
+        console.error("Token not found.");
+        toast.error("You need to be logged in to perform this action.");
+        return; 
+      }
+  
+      switch (action) {
+        case 'ORDER':
+          console.log("Adding to ...");
+          try{
+            const response=await axios.post("/api/wishlist",{ userId, productId: id, quantity: 2 })
+            if(response.status===200){
+              router.push("/frontend/cart")
+            }
+          }
+          catch(err){
+            console.log("Error adding to wishlist");
+          }
+          break;
+        
+  
+        
+  
+        case 'WISHLIST':
+          console.log("Adding to wishlist...");
+          try{
+            console.log("first check")
+            
+            const response=await axios.post("/api/wishlist",{ userId, productId: productid})
+            if(response.status===200){
+              console.log("no entrey")
+              toast.success("Product added to wishlist");
+            }
+          }
+          catch(err){
+            console.log("Error adding to wishlist");
+          }
+          break;
+  
+        case 'CART':
+                try {
+            const response = await axios.post("/api/cart", { userId, productId: productid});
+  
+            if (response.status === 200) {
+              console.log("Item added to cart:", response.data);
+              toast.success("Item added to cart");
+              // router.push("/frontend/cart") // Uncomment if you want to redirect after adding to cart
+            }
+          } catch (error) {
+            console.error("Error adding item to cart:", error);
+            toast.error("Something went wrong. Please try again.");
+          }
+          break;
+        case 'DELETE':
+          try{
+            const response = await axios.delete("/api/cart", {
+              data: {
+                userId: userId,
+                productId: productid,
+              },
+            });
+            
+            
+            if(response.status===200){
+              toast.success("Item removed from wishlist");
+              const updatedCartData = cartdata.filter(item => item._id !== productid); // Assuming cartData holds the products
+              setcartdata(updatedCartData);        
+            }
+          }catch (error) {
+            console.error("Error removing item from wishlist:", error);
+            toast.error("Something went wrong. Please try again.");
+          }
+          break;
+          case 'PURCHASENOW':
+          
+            console.log("Consoling the products😒😒😒😒", selectedItems);
+          
+            // Calculate total including discount and other charges
+            let totalAmount = 0;
+            let discountAmount = 0;
+            selectedItems.forEach(item => {
+              const itemTotal = item.price * item.quantity;
+              totalAmount += itemTotal;
+              discountAmount += (item.originalprice - item.price) * item.quantity; // Assuming discount is calculated as the difference between original price and discounted price
+            });
+          
+            const deliveryCharge = 30; // Static delivery charge, you can adjust it based on your logic
+          
+            const grandTotal = totalAmount - discountAmount + deliveryCharge; // Adjust for total after discount and adding delivery charge
+          
+            // Store all details in localStorage
+            const orderDetails = {
+              selectedItems: selectedItems,
+              totalAmount,
+              discountAmount,
+              deliveryCharge,
+              grandTotal
+            };
+          
+            localStorage.setItem('orderDetails', JSON.stringify(orderDetails));
+          
+            router.push('/frontend/ordersummary');
+            break;
+          
+      }
+    } else {
+      toast.info("Oops! You need to sign in first.", {
+        position: "top-right", 
+        autoClose: 5000, 
+        hideProgressBar: true, 
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "colored",
+      });
+  
+      setTimeout(() => {
+        router.push('/frontend/signup'); 
+      }, 3000); 
+    }
+  };
+  const handleQuantityChange = (itemId, action) => {
+    setcartdata((prevData) => {
+      return prevData.map((item) => {
+        if (item._id === itemId) {
+          const updatedQuantity = action === "increment" ? item.quantity + 1 : (item.quantity > 1 ? item.quantity - 1 : 1);
+          return { ...item, quantity: updatedQuantity };
+        }
+        return item;
+      });
+    });
   };
 
-  const calculateTotal = () => {
-    const prices = {
-      1: 624,
-      2: 750,
-      3: 500,
-      4: 400,
-      5: 900,
-      6: 200,
-      7: 320,
-      8: 150,
-      9: 500,
+  useEffect(() => {
+    const calculateTotal = () => {
+      let total = 0;
+      cartdata.forEach((item) => {
+        if (selectedItems.includes(item._id)) {
+          total += item.price * item.quantity;
+        }
+      });
+      setGrandTotal(total);
     };
-    return selectedItems.reduce((total, itemId) => total + prices[itemId], 0);
+
+    calculateTotal();
+  }, [cartdata, selectedItems]);
+
+  const calculateDiscountedTotal = () => {
+    return grandTotal + 30;
   };
 
-  // Detect scroll position to hide mobile footer when reaching the price section
   useEffect(() => {
     const handleScroll = () => {
       const priceSection = document.getElementById("price-section");
@@ -54,7 +247,7 @@ export default function Cart() {
       if (priceSection && mobileFooter) {
         const priceSectionTop = priceSection.getBoundingClientRect().top;
         const windowHeight = window.innerHeight;
-        // Hide the mobile footer when the price section is in view
+
         if (priceSectionTop <= windowHeight) {
           setShowMobileFooter(false);
         } else {
@@ -63,67 +256,113 @@ export default function Cart() {
       }
     };
 
-    // Attach scroll event listener
+    const getAllData = async () => {
+      const token = localStorage.getItem('token');
+      if (token) {
+        try {
+          const decodedToken = jwtDecode(token);
+          const userId = decodedToken?.id;
+          console.log("Consoling the user id:", userId);
+
+          if (!userId) {
+            throw new Error('User ID is missing in the token');
+          }
+
+          const response = await axios.get(`/api/cart?userId=${userId}`);
+          console.log("Cart data:", response.data.cart);
+
+          const cartItems = response.data.cart.map(item => ({
+            ...item,
+            quantity: item.quantity || 1,
+          }));
+
+          setcartdata(cartItems);
+          console.log(cartItems);
+          
+        } catch (error) {
+          console.error("Error decoding token:", error);
+        }
+      } else {
+        console.error("Token not found.");
+      }
+    };
+
+    getAllData();
     window.addEventListener("scroll", handleScroll);
 
-    // Cleanup on unmount
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
+
   }, []);
 
   return (
     <div className="min-h-screen bg-white text-black">
-      {/* Navbar */}
-
-      {/* CART Heading */}
-      <div className="flex flex-col md:flex-row justify-between p-4 pt-5">
-        <div className="flex-1 overflow-y-auto max-h-[calc(100vh-160px)] space-y-6 pr-4">
-          {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((item, index) => (
+      {/* Cart Heading */}
+      <div className="flex flex-col md:flex-row justify-between p-4 pt-4">
+        <div className="flex-1 overflow-y-auto max-h-[calc(100vh-160px)] space-y-4 pr-4">
+          {cartdata.map((item, index) => (
             <div
-              key={item}
-              className="flex items-center border rounded-md p-4 bg-gray-50 sm:h-32 md:h-40 lg:h-48 overflow-hidden relative shadow-lg hover:shadow-2xl transition-all duration-300"
+              key={item._id}
+              className="flex items-center border rounded-md p-4 bg-gray-50 sm:h-28 md:h-32 lg:h-40 overflow-hidden relative shadow-lg hover:shadow-2xl transition-all duration-300"
             >
               <input
                 type="checkbox"
                 className="custom-checkbox text-blue-500 absolute top-2 right-2"
-                checked={selectedItems.includes(item)}
-                onChange={() => handleCheckboxChange(item, 624)}
+                checked={selectedItems.includes(item._id)}
+                onChange={() => handleCheckboxChange(item._id, item.price)}
               />
               <Image
-                src={images[index % images.length]} // Use modulo to cycle images
-                alt={`product-${item}`}
-                className="w-20 sm:w-24 h-20 sm:h-24 object-cover rounded-md shadow-md"
+                src={images[index % images.length]}
+                alt={`product-${item.name}`}
+                className="w-16 sm:w-20 h-16 sm:h-20 object-cover rounded-md shadow-md"
               />
               <div className="ml-4 flex-1">
                 <h2 className="font-bold text-sm sm:text-base md:text-lg lg:text-xl text-gray-800 hover:text-blue-500">
-                  GREY TRACK PANTS
+                  {item.name}
                 </h2>
                 <p className="text-xs sm:text-sm md:text-base lg:text-lg text-gray-600 mt-1">
                   SIZE: 34
                 </p>
                 <p className="text-xs sm:text-sm md:text-base lg:text-lg text-gray-600">
-                  COUNT: 1
+                  COUNT: {item.quantity}
                 </p>
                 <div className="flex justify-between items-center mt-2">
                   <p className="text-sm sm:text-lg md:text-xl lg:text-2xl font-semibold text-gray-800">
-                    624 RS
+                    {item.price * item.quantity} RS
                   </p>
                   <p className="text-blue-800 font-bold text-xs sm:text-sm md:text-base lg:text-lg line-through text-gray-500">
-                    879 RS
+                    {item.originalprice * item.quantity} RS
                   </p>
                 </div>
                 <p className="text-green-800 font-bold text-xs sm:text-sm md:text-base lg:text-lg mt-1">
-                  SAVED 255 RS
+                  SAVED {item.originalprice - item.price} RS
                 </p>
+              </div>
+
+              {/* Quantity Controls */}
+              <div className="flex items-center space-x-4 ml-4">
+                <button
+                  onClick={() => handleQuantityChange(item._id, "decrement")}
+                  className="text-gray-700 hover:text-blue-500 text-xl transform hover:scale-110 transition-all duration-300"
+                >
+                  <i className="fas fa-minus-circle"></i>
+                </button>
+                <span className="text-lg font-semibold text-gray-800">{item.quantity}</span>
+                <button
+                  onClick={() => handleQuantityChange(item._id, "increment")}
+                  className="text-gray-700 hover:text-blue-500 text-xl transform hover:scale-110 transition-all duration-300"
+                >
+                  <i className="fas fa-plus-circle"></i>
+                </button>
               </div>
 
               {/* Icons Section */}
               <div className="flex flex-col items-center space-y-2 ml-4">
-                <button className="text-gray-700 hover:text-blue-500 text-xl sm:text-2xl transform hover:scale-110 transition-all duration-300">
+                <button className="text-gray-700 hover:text-blue-500 text-xl sm:text-2xl transform hover:scale-110 transition-all duration-300" onClick={()=>handleAction('WISHLIST',item._id)}>
                   <i className="fas fa-heart"></i>
                 </button>
-                <button className="text-gray-700 hover:text-red-500 text-xl sm:text-2xl transform hover:scale-110 transition-all duration-300">
+                <button className="text-gray-700 hover:text-red-500 text-xl sm:text-2xl transform hover:scale-110 transition-all duration-300" onClick={()=>handleAction("DELETE",item._id)}>
                   <i className="fas fa-trash"></i>
                 </button>
               </div>
@@ -131,23 +370,18 @@ export default function Cart() {
           ))}
         </div>
 
-        {/* Fixed Sections */}
+        {/* Price Section */}
         <div className="mt-6 md:mt-0 md:ml-8 md:w-1/3 space-y-6">
           {/* Coupon Section */}
           <div className="bg-gray-50 p-6 rounded-lg shadow-md hover:shadow-xl transition-all duration-300">
-            <label className="block text-sm text-gray-700 mb-2">
-              Enter Coupon Code:
-            </label>
+            <h3 className="font-bold text-lg sm:text-xl lg:text-2xl">Apply Coupon</h3>
             <input
               type="text"
-              placeholder="Enter the coupon code..."
-              className="border px-4 py-2 w-full mb-4 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base lg:text-lg"
+              className="border p-2 rounded-md w-full text-sm sm:text-base lg:text-lg mt-2"
+              placeholder="Enter coupon code"
             />
-            <button className="bg-black text-white px-6 py-2 rounded-md w-full text-sm sm:text-base lg:text-lg hover:bg-gray-800 transition-all duration-300">
+            <button className="bg-black mt-5 text-white px-6 py-2 rounded-md w-full text-sm sm:text-base lg:text-lg hover:bg-gray-800 transition-all duration-300">
               APPLY COUPON
-            </button>
-            <button className="mt-4 text-blue-500 underline w-full hidden md:block text-sm sm:text-base lg:text-lg">
-              AVAILABLE COUPONS
             </button>
           </div>
 
@@ -158,7 +392,7 @@ export default function Cart() {
           >
             <div className="flex justify-between">
               <span>Total MRP</span>
-              <span>{calculateTotal()} RS</span>
+              <span>{grandTotal} RS</span>
             </div>
             <div className="flex justify-between">
               <span>Discount</span>
@@ -174,7 +408,7 @@ export default function Cart() {
             </div>
             <div className="flex justify-between font-bold text-lg sm:text-xl lg:text-2xl mt-2">
               <span>Grand Total</span>
-              <span>{calculateTotal() + 30} RS</span>
+              <span>{calculateDiscountedTotal()} RS</span>
             </div>
             <p className="text-green-500 text-sm sm:text-base lg:text-lg mt-1">
               SAVINGS 583 RS
@@ -183,46 +417,41 @@ export default function Cart() {
 
           {/* Purchase Button */}
           <div className="mt-6">
-            <button className="bg-black text-white px-8 py-3 rounded-md w-full text-lg font-bold sm:text-xl lg:text-2xl hover:bg-gray-800 transition-all duration-300">
+            <button className="bg-black text-white px-8 py-3 rounded-md w-full text-lg font-bold sm:text-xl lg:text-2xl hover:bg-gray-800 transition-all duration-300" onClick={()=>handleAction('PURCHASENOW',5)}>
               PURCHASE NOW
             </button>
           </div>
         </div>
       </div>
 
-      {/* Mobile-specific buttons for Coupon and Purchase */}
+      {/* Mobile-specific buttons */}
       <div
-        className={`block md:hidden fixed bottom-4 left-4 w-full px-6 ${
-          showMobileFooter ? "" : "hidden"
-        }`}
+        className={`block md:hidden fixed bottom-4 left-4 w-full px-6 ${showMobileFooter ? "" : "hidden"}`}
       >
-        <div className="space-y-4">
-          <button className="bg-black text-white px-6 py-3 rounded-md w-full text-lg font-bold sm:text-xl">
-            PURCHASE
-          </button>
-        </div>
+        <button className="bg-black text-white px-6 py-3 rounded-md w-full text-lg font-bold sm:text-xl">
+          PURCHASE
+        </button>
       </div>
 
       {/* Fixed Price Section for Mobile */}
       <div
         id="mobile-footer"
-        className={`block md:hidden fixed bottom-0 left-0 w-full bg-gray-50 p-4 z-20 ${
-          showMobileFooter ? "" : "hidden"
-        }`}
+        className={`block md:hidden fixed bottom-0 left-0 w-full bg-gray-50 p-4 z-20 ${showMobileFooter ? "" : "hidden"}`}
       >
         <div className="flex justify-between">
           <span>Total MRP</span>
-          <span>{calculateTotal()} RS</span>
+          <span>{grandTotal} RS</span>
         </div>
         <div className="flex justify-between">
           <span>Grand Total</span>
-          <span>{calculateTotal() + 30} RS</span>
+          <span>{calculateDiscountedTotal()} RS</span>
         </div>
         <button className="bg-black text-white px-8 py-3 rounded-md w-full text-lg font-bold sm:text-xl mt-4">
           PURCHASE
         </button>
       </div>
-      {/* <div id="otpless-login-page"></div> */}
+      <ToastContainer />
+
     </div>
   );
 }

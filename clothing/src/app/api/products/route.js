@@ -1,10 +1,9 @@
 import cloudinary from "cloudinary";
+import formidable from "formidable";
 import Product from "../Model/Product";
 import dotenv from "dotenv";
 import connectMongoDB from "../Connection";
-
 dotenv.config();
-
 cloudinary.v2.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
@@ -72,8 +71,9 @@ export async function POST(request) {
   }
 }
 export async function GET() {
-  await connectMongoDB();
 
+  await connectMongoDB();
+  console.log("iv fv fvbfvbfvbfvb😤😤😤😤😤😤fvbfvb")
   try {
     const products = await Product.find();
     return Response.json(products, { status: 200 });
@@ -82,88 +82,58 @@ export async function GET() {
   }
 }
 
-export async function PUT(request) {
+
+
+
+
+export async function PUT(req) {
   await connectMongoDB();
 
   try {
-    const url = new URL(request.url);
-    const id = url.searchParams.get("id");
-    const form = await request.formData();
-
-    const name = form.get("name");
-    const description = form.get("description");
-    const price = form.get("price");
-    const category = form.get("category");
-    const stock = form.get("stock");
-    const brand = form.get("brand");
-    const files = form.getAll("images");
-    const reviews = JSON.parse(form.get("reviews") || "[]");
-    const sentImagePublicIds = JSON.parse(form.get("sentImages") || "[]");
-
-    const existingProduct = await Product.findById(id);
-    if (!existingProduct) {
-      return Response.json({ error: "Product not found" }, { status: 404 });
+    const { id, reviews } = await req.json();
+console.log("fihbdfihfdbihfdvbihdfvibdfvhbdfvhbdfvhfdk ",reviews)
+    if (!reviews.username || !reviews.rating || !reviews.comment) {
+      return new Response(
+        JSON.stringify({ error: "Review must include username, rating, and comment" }),
+        { status: 400, headers: { "Content-Type": "application/json" } }
+      );
     }
 
-    const retainedImages = existingProduct.images.filter((img) =>
-      sentImagePublicIds.includes(img.public_id)
-    );
-    const imagesToRemove = existingProduct.images.filter(
-      (img) => !sentImagePublicIds.includes(img.public_id)
-    );
-
-    if (imagesToRemove.length > 0) {
-      try {
-        await Promise.all(
-          imagesToRemove.map(async (img) => {
-            console.log(`Deleting image: ${img.public_id}`);
-            await deleteFromCloudinary(img.public_id);
-          })
-        );
-      } catch (error) {
-        console.error("Error while removing images:", error);
-        return Response.json(
-          { error: "Failed to remove unused images" },
-          { status: 500 }
-        );
-      }
+    const product = await Product.findById(id);
+    if (!product) {
+      return new Response(
+        JSON.stringify({ error: "Product not found" }),
+        { status: 404, headers: { "Content-Type": "application/json" } }
+      );
     }
 
-    const newImages = files.length
-      ? await Promise.all(
-          files.map(async (file) => {
-            const buffer = await file.arrayBuffer();
-            const base64 = Buffer.from(buffer).toString("base64");
-            return await uploadToCloudinary(
-              `data:${file.type};base64,${base64}`
-            );
-          })
-        )
-      : [];
-    const updatedImages = [...retainedImages, ...newImages];
-
-    const updatedData = {
-      name,
-      description,
-      price,
-      category,
-      stock,
-      brand,
-      reviews,
-      images: updatedImages,
-      updatedAt: Date.now(),
-    };
-
-    const updatedProduct = await Product.findByIdAndUpdate(id, updatedData, {
-      new: true,
+    product.reviews.push({
+      username: reviews.username, 
+      ratings: reviews.rating,
+      feedback: reviews.comment, 
     });
 
-    return Response.json(updatedProduct, { status: 200 });
+    product.numReviews = product.reviews.length;
+
+    const updatedProduct = await product.save();
+    console.log("Updated product:", updatedProduct);
+
+    return new Response(
+      JSON.stringify({
+        message: "Product updated successfully with new review",
+        product: updatedProduct,
+      }),
+      { status: 200, headers: { "Content-Type": "application/json" } }
+    );
   } catch (error) {
-    console.error("Error updating product:", error);
-    return Response.json({ error: error.message }, { status: 500 });
+    console.error("Error during product save:", error);
+    return new Response(
+      JSON.stringify({ error: error.message }),
+      { status: 500, headers: { "Content-Type": "application/json" } }
+    );
   }
 }
+
 
 export async function DELETE(request) {
   await connectMongoDB();

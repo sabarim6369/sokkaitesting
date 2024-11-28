@@ -9,8 +9,16 @@ const page = () => {
   const router = useRouter();
 
   const handleSignUpRedirect = () => {
-    router.push('/frontend/signup');
+    router.push('/frontend/auth');
   };
+  const googleredirect = () => {
+    try {
+      router.push('/frontend/auth');
+    } catch (error) {
+      console.error('Failed to redirect:', error);
+    }
+  };
+  
   const [backgroundIndex, setBackgroundIndex] = useState(0);
   const [showPassword, setShowPassword] = useState(false);
 
@@ -98,7 +106,9 @@ const page = () => {
         <div className="divider">Or log in with</div>
 
         <div className="social-buttons">
-          <button className="google-button">Google</button>
+      <button className="google-button"
+      onClick={googleredirect}
+      >Google</button>
           <button className="apple-button">Apple</button>
         </div>
 

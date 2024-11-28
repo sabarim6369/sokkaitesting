@@ -1,23 +1,42 @@
-import User from "../models/User";
+import {Wishlist} from "../Model/customerdata"
 import connectMongoDB from "../Connection";
 export async function POST(request) {
   await connectMongoDB();
+
   try {
     const { userId, productId } = await request.json();
-    const user = await User.findOne({ userId });
+    console.log("consoling the productid ",productId)
+    console.log("Received UserId:", userId);
+
+    
+    let user = await Wishlist.findOne({ userid: userId });
 
     if (!user) {
-      return Response.json({ error: "User not found" }, { status: 404 });
+      console.log("User not found, creating a new user...");
+
+      
+      user = new Wishlist({ userid: userId, products: [] });
     }
-    if (!user.wishlist.includes(productId)) {
-      user.wishlist.push(productId);
-      await user.save();
+
+    
+    const productInCart = user.products.find(
+      (item) => item.toString() === productId
+    );
+
+    if (!productInCart) {
+      
+      user.products.push( productId );
     }
+
+    
+    await user.save();
+
     return Response.json(
-      { message: "Product added to wishlist", wishlist: user.wishlist },
+      { message: "Product added to wishlist", cart: user.products },
       { status: 200 }
     );
   } catch (error) {
+    console.error("Error adding product to wishlist:", error);
     return Response.json({ error: error.message }, { status: 400 });
   }
 }

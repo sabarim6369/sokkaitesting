@@ -1,22 +1,26 @@
-require("dotenv").config();
-// const express = require("express");
+require("dotenv").config(); // Ensure dotenv is loaded correctly
+
 const mongoose = require("mongoose");
-// const cors = require("cors");
-// const app = express();
-// app.use(cors({ origin: "http://localhost:3000" }));
-// app.use(express.json());
-// app.use(express.urlencoded({ extended: true }));
+
 const connectMongoDB = async () => {
-  console.log(process.env.MONGODB_URI);
+  const mongoURI = process.env.MONGODB_URI;
+
+  if (!mongoURI) {
+    console.log("MongoDB URI is missing in environment variables.");
+    throw new Error("MongoDB URI is required.");
+  }
+
   try {
-    await mongoose.connect(process.env.MONGODB_URI, {
+    console.log("Attempting to connect to MongoDB...");
+    await mongoose.connect(mongoURI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
-    console.log("Connected successfully to MongoDB");
+    console.log("Connected successfully to MongoDB.");
   } catch (error) {
-    console.log("Error occurred during MongoDB connection: 😒", error);
+    console.error("Error occurred during MongoDB connection: 😒", error);
     throw new Error("Could not connect to MongoDB");
   }
 };
+
 module.exports = connectMongoDB;

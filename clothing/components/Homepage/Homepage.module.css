@@ -76,7 +76,11 @@
   width: 400px;
   font-size: 1rem;
   transition: width 0.3s ease, border-color 0.3s ease;
+  margin-left: 200px;
+  margin-right: 0;
+  display: block;
 }
+
 
 .searchBar input:focus {
   outline: none;
@@ -322,16 +326,38 @@
 }
 
 .trendingItems, .arrivalsItems {
-  display: flex;
-  overflow-x: auto;
-  gap: 5rem;
-  padding-bottom: 1rem;
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-rows: auto;
+  grid-auto-columns: 300px;
+  overflow-x: auto; /* Enable horizontal scrolling */
+  overflow-y: hidden; /* Prevent vertical scrolling */
+  gap: 2rem;
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on mobile */
+}
+
+/* Hide scrollbars */
+.trendingItems::-webkit-scrollbar,
+.arrivalsItems::-webkit-scrollbar {
+  height: 8px; /* Control the height of horizontal scrollbar */
+  width: 0; /* Completely hide vertical scrollbar */
+}
+
+.trendingItems::-webkit-scrollbar-thumb,
+.arrivalsItems::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.3); /* Customize scrollbar thumb */
+  border-radius: 4px; /* Rounded scrollbar thumb */
+}
+
+.trendingItems::-webkit-scrollbar-track,
+.arrivalsItems::-webkit-scrollbar-track {
+  background-color: transparent; /* Transparent scrollbar track */
 }
 
 .trendingItems img,
 .arrivalsItems img {
-  width: 220px;  
-  height: 300px; 
+  width: 100%;  
+  height: 500px; 
   object-fit: cover;
   border-radius: 10px;
   border: 2px solid #ddd; 
@@ -534,23 +560,34 @@
 }
 
 .trendingItemsWrapper {
-  display: flex;
-  overflow-x: auto;
-  gap: 4rem;
-  padding-bottom: 1rem;
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-rows: auto;
+  grid-auto-columns: 300px;
+  overflow-x: auto; /* Enable horizontal scrolling */
+  overflow-y: hidden; /* Disable vertical scrolling */
+  gap: 2rem;
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling for mobile */
+  
+  /* Hide scrollbar */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+.trendingItemsWrapper::-webkit-scrollbar {
+  display: none; /* WebKit browsers (Chrome, Safari) */
 }
 
 .itemWrapper {
   position: relative;
   min-width: 220px;
-  scroll-snap-align: start;
+  scroll-snap-align: start; /* Enable snap behavior */
 }
+
 
 .itemImage {
   width: 100%;
-  height: 300px;
+  height: 500px;
   object-fit: cover;
   border-radius: 10px;
   border: 2px solid #ddd;

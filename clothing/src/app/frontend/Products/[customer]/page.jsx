@@ -1,7 +1,8 @@
 'use client';
-
+import Link from "next/link";
 import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
+import axios from 'axios';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import a1 from "../../../../../public/images/cart/a1.jpg";
 import a2 from "../../../../../public/images/cart/a2.jpg";
@@ -9,17 +10,18 @@ import a3 from "../../../../../public/images/cart/a3.jpg";
 import a4 from "../../../../../public/images/cart/a4.jpg";
 import a5 from "../../../../../public/images/cart/a5.jpg";
 
-// ProductCard component remains the same
-const ProductCard = ({ image, name, price, originalPrice }) => (
+const ProductCard = ({images, name, price, description, category,productId }) => (
   <div className="flex flex-col items-center">
     <div className="relative w-full h-[90vh] mb-4">
-      <Image
-        src={image}
+    <Link href={`/frontend/productdetails/${productId}`} passHref>
+      <img
+         src={images[0]?.url} 
         alt={name}
         layout="fill"
-        objectFit="cover"
-        className="rounded-none"
+        style={{ objectFit: "cover",width:"100%",height:"100%" }}
+                className="rounded-none"
       />
+       </Link>
     </div>
 
     <h2 className="text-lg font-medium text-black">{name.toUpperCase()}</h2>
@@ -33,9 +35,9 @@ const ProductCard = ({ image, name, price, originalPrice }) => (
       </button>
     </div>
 
-    {originalPrice && (
+    {price && (
       <span className="mt-2 text-sm text-blue-500 line-through">
-        {originalPrice} RS
+        {price} RS
       </span>
     )}
   </div>
@@ -44,46 +46,30 @@ const ProductCard = ({ image, name, price, originalPrice }) => (
 const ProductsPage = ({ params }) => {
   const [products, setProducts] = useState([]);
   const [category, setCategory] = useState(null);
-
-  // Use React.use() to unwrap the params promise
+  const [filteredProducts, setFilteredProducts] = useState([]);
   const unwrappedParams = React.use(params);
 
-  // Access customer once unwrapped
-  const { customer } = unwrappedParams || {};  
-
-  useEffect(() => {
-    const fetchProducts = async () => {
-      if (customer === "wishlist") {
-        const wishlistData = [
-          { id: 1, image: a1, name: "Wishlist Item 1", price: 500, originalPrice: 600 },
-          { id: 2, image: a2, name: "Wishlist Item 2", price: 400, originalPrice: 500 },
-        ];
-        setProducts(wishlistData);
-      } else if (customer === "shirts") {
-        const shirtsData = [
-          { id: 1, image: a3, name: "Maroon Royal Shirt", price: 778, originalPrice: 899 },
-          { id: 2, image: a4, name: "Chinese White Kurta", price: 778, originalPrice: 899 },
-        ];
-        setProducts(shirtsData);
-      } else if (customer === "somecategory") {
-        const someData = [
-          { id: 1, image: a5, name: "Some Item", price: 999 },
-          { id: 2, image: a3, name: "Another Item", price: 799 },
-        ];
-        setProducts(someData);
-      } else {
-        const defaultData = [
-          { id: 1, image: a1, name: "Product 1", price: 500 },
-          { id: 2, image: a2, name: "Product 2", price: 600 },
-        ];
-        setProducts(defaultData);
-      }
-    };
-
-    if (customer) {
+    const { customer } = unwrappedParams || {};  
+    useEffect(() => {
+      const fetchProducts = async () => {
+        try {
+          const response = await axios.get("/api/products");
+          const fetchedProducts = response.data;
+          console.log(fetchedProducts)
+  
+          const filtered = customer
+            ? fetchedProducts.filter(product => product.category === customer)
+            : fetchedProducts;
+  
+          setProducts(fetchedProducts);
+          setFilteredProducts(filtered);
+        } catch (error) {
+          console.error("Error fetching products:", error);
+        }
+      };
+  
       fetchProducts();
-    }
-  }, [customer]); 
+    }, [customer]);
 
   return (
     <div className="p-6">
@@ -91,15 +77,21 @@ const ProductsPage = ({ params }) => {
         {customer ? customer.toUpperCase() : "Products"}
       </h1>
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4">
-        {products.map((product) => (
-          <ProductCard
-            key={product.id}
-            image={product.image}
+      {products.length > 0 ? (
+          products.map((product) => (
+            <ProductCard
+            key={product._id} 
+            productId={product._id}
+            images={product.images}
             name={product.name}
+            description={product.description}
             price={product.price}
-            originalPrice={product.originalPrice}
-          />
-        ))}
+            category={product.category}
+            />
+          ))
+        ) : (
+          <p>No products found in this category.</p>
+        )}
       </div>
     </div>
   );

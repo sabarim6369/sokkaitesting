@@ -1,8 +1,11 @@
 "use client";  
-import { usePathname } from "next/navigation";  
+import { usePathname } from "next/navigation"; 
+import { useEffect } from 'react';
 import localFont from "next/font/local";
 import "./globals.css";
 import ClientHeader from "../../components/header/header";
+import { Inter } from 'next/font/google';  // Import the font from next/font
+import Modal from 'react-modal';
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -20,6 +23,13 @@ export default function RootLayout({ children }) {
   const pathname = usePathname();
   const showHeader = !["/", "/frontend/login", "/frontend/signup"].includes(pathname);
 
+
+  useEffect(() => {
+    // Ensure __next exists before setting the app element
+    if (typeof window !== 'undefined' && document.getElementById('__next')) {
+      Modal.setAppElement('#__next');
+    }
+  }, []);
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>

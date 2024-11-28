@@ -1,34 +1,25 @@
-import Product from "@/models/Product";
-
+import Product from "../../Model/Product";
+import { NextResponse } from "next/server"; // Import NextResponse
+import connectMongoDB from "../../Connection";
+await connectMongoDB();
 export async function GET(request) {
+
   const { searchParams } = new URL(request.url);
   const id = searchParams.get("id");
-
+console.log(id)
   try {
     const product = await Product.findById(id);
-    if (!product)
-      return (
-        Response.json({ error: "Product not found" }),
-        {
-          status: 404,
-        }
-      );
+console.log(product)
+    if (!product) {
+      return NextResponse.json({ error: "Product not found" }, { status: 404 });
+    }
 
-    const productWithImages = product.toObject();
-    productWithImages.images = productWithImages.images.map((image) => {
-      return {
-        ...image,
-        data: image.data.toString("base64"),
-      };
-    });
+ 
 
-    return Response.json(productWithImages), { status: 200 };
+    // Returning the 200 response with the product data
+    return NextResponse.json(product, { status: 200 });
+
   } catch (error) {
-    return (
-      Response.json({ error: error.message }),
-      {
-        status: 500,
-      }
-    );
+    return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }

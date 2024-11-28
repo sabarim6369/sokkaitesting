@@ -99,6 +99,15 @@ const SideBar = () => {
                 <span className="text-xl">Customer Data</span>
               </Link>
             </li>
+            <li>
+              <Link
+                href="/frontend/admin/orderawaiting"
+                className="flex items-center gap-4 p-3 text-white rounded-lg hover:bg-purple-700"
+              >
+                <FaDiscourse className="text-xl" />
+                <span className="text-xl">Pending Orders</span>
+              </Link>
+            </li>
 
             <li>
               <button

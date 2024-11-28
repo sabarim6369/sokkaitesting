@@ -14,23 +14,14 @@ body, html {
 .login-container {
   display: flex;
   height: 100vh;
+  flex-direction: row;
 }
 
 .left-section {
   position: relative;
-  width: 45%;
+  width: 50%;
   overflow: hidden;
   background-color: #000;
-}
-
-.background-image {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
 }
 
 .overlay {
@@ -101,10 +92,6 @@ body, html {
 .form-group {
   margin-bottom: 20px;
   width: 100%;
-}
-
-.input-group {
-  position: relative;
 }
 
 input {
@@ -198,11 +185,34 @@ input:focus {
   text-decoration: underline;
 }
 
-input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:focus, textarea:-webkit-autofill, textarea:-webkit-autofill:hover, textarea:-webkit-autofill:focus, select:-webkit-autofill, select:-webkit-autofill:hover, select:-webkit-autofill:focus {
-  border: 1px solid #495057;
-  -webkit-text-fill-color: #f8f9fa;
-  -webkit-box-shadow: inset 0 0 0 1000px #343a40;
-  transition: background-color 5000s ease-in-out;
+@media (width <= 768px) {
+  .login-container {
+    flex-direction: column;
+  }
+
+  .left-section {
+    display: none;
+  }
+
+  .right-section {
+    width: 100%;
+    padding: 30px;
+  }
+}
+
+@media (width <= 480px) {
+  .form-card {
+    padding: 20px;
+  }
+
+  .form-header {
+    font-size: 24px;
+  }
+
+  .login-button {
+    font-size: 16px;
+    padding: 12px;
+  }
 }
 
 

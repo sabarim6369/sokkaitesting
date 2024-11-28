@@ -12,7 +12,7 @@
   .login-container {
     display: flex;
     height: 100vh;
-    background-color: #1e1e2e; /* Dark background for the whole container */
+    background-color: #1e1e2e;
     overflow: hidden;
   }
   
@@ -101,7 +101,7 @@
   
   .signup-form .form-group {
     margin-bottom: 20px;
-    width: 100%; /* Ensure full width for input fields */
+    width: 100%;
   }
   
   .form-row {
@@ -110,7 +110,7 @@
   }
   
   .signup-form input {
-    width: 100%; /* Make input fields take full width */
+    width: 100%;
     padding: 14px;
     font-size: 16px;
     border: 1px solid #495057;
@@ -129,7 +129,7 @@
   }
   
   .signup-button {
-    width: 100%; /* Full width for the signup button */
+    width: 100%;
     padding: 14px;
     background-color: #6f42c1;
     color: #f8f9fa;
@@ -195,7 +195,7 @@
     text-decoration: underline;
   }
   
-  /* Remove the white/yellow autofill background */
+ 
   input:-webkit-autofill,
   input:-webkit-autofill:hover,
   input:-webkit-autofill:focus,
@@ -211,7 +211,7 @@
     transition: background-color 5000s ease-in-out 0s;
   }
   
-  /* Media Queries for smaller screens */
+ 
   @media (max-width: 768px) {
     .login-container {
       flex-direction: column;
@@ -219,7 +219,7 @@
   
     .left-section {
       width: 100%;
-      height: 40vh; /* Adjusted to keep some space for content */
+      height: 40vh;
     }
   
     .right-section {
@@ -312,4 +312,45 @@
       font-size: 12px;
     }
   }
-  
+ 
+.otpless-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
+
+
+.otpless-modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: none;
+  border: none;
+  width: 400px;
+  padding: 0;
+  z-index: 1001;
+}
+
+
+.otpless-container {
+  margin: 0;
+  padding: 0;
+}
+
+
+.close-modal-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 20px;
+  cursor: pointer;
+  z-index: 1002;
+}
