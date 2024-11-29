@@ -1,5 +1,5 @@
-'use client'
-import { useState,useEffect } from 'react';
+'use client';
+import { useState, useEffect } from 'react';
 import AddressForm from './AddressForm';
 import AddressCard from './AddressCard';
 import PaymentSection from './PaymentSection';
@@ -9,58 +9,73 @@ import './order.css';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { jwtDecode } from 'jwt-decode';
-const  App=()=> {
-    const token = localStorage.getItem('token');
-    const decodedToken = jwtDecode(token);
-    const userId = decodedToken?.id; 
-    
+import { useOrderContext } from '../cart/OrderContext';
+
+const App = () => {
+  const router = useRouter();
+  const { orderData, setOrderData } = useOrderContext();
   const [selectedAddress, setSelectedAddress] = useState(0);
   const [showAddressForm, setShowAddressForm] = useState(false);
   const [currentStep, setCurrentStep] = useState('address'); // address, payment, success
   const [addresses, setAddresses] = useState([]);
-  const [orderSummary, setOrderSummary] = useState(null);
+  const [orderSummary, setOrderSummary] = useState(orderData);
+  const [totalSavings, setTotalSavings] = useState(0);
+  const token = localStorage.getItem('token');
+  const decodedToken = jwtDecode(token);
+  const userId = decodedToken?.id;
+
   useEffect(() => {
+    const storedOrderData = localStorage.getItem('orderData');
+    if (storedOrderData) {
+      setOrderData(JSON.parse(storedOrderData)); 
+    }
+  }, [setOrderData]);
+
+  useEffect(() => {
+    if (orderData) {
+      localStorage.setItem('orderData', JSON.stringify(orderData));
+    }
+  }, [orderData]);
+
+  useEffect(() => {
+    setOrderSummary(orderData); // Set orderData to state
+  }, [orderData]);
+
+  useEffect(() => {
+    console.log("hello", orderData?.items);
+
     const getAllAddresses = async () => {
       try {
         const response = await axios.get(`/api/address?userId=${userId}`);
-        console.log(response.data.address)
+        console.log("dff", response.data.address);
         setAddresses(response.data.address);
       } catch (err) {
-        console.log("Some error occurred", err);
+        console.error("Error fetching addresses:", err);
       }
     };
 
     if (userId) {
       getAllAddresses();
     }
-  }, [userId]);
-  useEffect(() => {
-    // Retrieve the order summary from localStorage
-    const storedOrderSummary = localStorage.getItem('orderDetails');
-    console.log("storedOrderSummary",storedOrderSummary)
+  }, [orderData?.userId]);
 
-    if (storedOrderSummary) {
-        console.log("storedOrderSummary",storedOrderSummary)
-      setOrderSummary(JSON.parse(storedOrderSummary));
-    }
-  }, []);
   const priceDetails = orderSummary ? {
-    price: orderSummary.totalAmount,
-    deliveryCharges: { original: 49, current: orderSummary.deliveryCharge },
-    platformFee: 3,
-    totalSavings: orderSummary.discount + orderSummary.couponDiscount
+    count:orderData?.items?.length||0,
+    price: orderSummary.total,
+    deliveryCharges: { original: 49, current: 500 }, // Replace with actual delivery charges
+    platformFee: 0,
+    totalSavings: orderSummary.savings,
   } : {
-    price: 0,
+    count:0,
+    price: 0, 
     deliveryCharges: { original: 0, current: 0 },
     platformFee: 0,
-    totalSavings: 0
+    totalSavings: 0,
   };
 
   const handleAddAddress = async (newAddress) => {
     try {
-  alert("before response")
-      const response = await axios.post("/api/address", { userId, ...newAddress });
-  console.log("ishbvif;vbfsbv")
+      const response = await axios.post('/api/address', { userId: userId, ...newAddress });
       if (response.status === 200) {
         setAddresses([...addresses, newAddress]);
         alert("Address added successfully!");
@@ -71,15 +86,16 @@ const  App=()=> {
       console.error("Error adding address:", error);
       alert("An error occurred while adding the address.");
     }
-  
+
     setShowAddressForm(false);
   };
-  
 
+  // Handle address selection for delivery
   const handleDeliverHere = () => {
     setCurrentStep('payment');
   };
 
+  // Handle payment completion
   const handlePaymentComplete = () => {
     setCurrentStep('success');
   };
@@ -97,7 +113,7 @@ const  App=()=> {
               <h2 className="section-title">
                 <span className="number">2</span> DELIVERY ADDRESS
               </h2>
-              
+
               <div className="addresses-list">
                 {!showAddressForm ? (
                   <>
@@ -111,8 +127,8 @@ const  App=()=> {
                         showDeliverButton={currentStep === 'address'}
                       />
                     ))}
-                    
-                    <button 
+
+                    <button
                       className="add-address-btn"
                       onClick={() => setShowAddressForm(true)}
                     >
@@ -120,7 +136,7 @@ const  App=()=> {
                     </button>
                   </>
                 ) : (
-                  <AddressForm 
+                  <AddressForm
                     onSubmit={handleAddAddress}
                     onCancel={() => setShowAddressForm(false)}
                   />
@@ -133,7 +149,7 @@ const  App=()=> {
                 <h2 className="section-title">
                   <span className="number">3</span> PAYMENT OPTIONS
                 </h2>
-                <PaymentSection 
+                <PaymentSection
                   onPaymentComplete={handlePaymentComplete}
                   totalAmount={totalAmount}
                 />
@@ -144,13 +160,13 @@ const  App=()=> {
       </div>
 
       {currentStep !== 'success' && (
-        <PriceDetails 
+        <PriceDetails
           priceDetails={priceDetails}
           totalAmount={totalAmount}
         />
       )}
     </div>
   );
-}
+};
 
 export default App;

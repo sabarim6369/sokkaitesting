@@ -1,4 +1,4 @@
-function PaymentMethod({ value, label, selected, onChange }) {
+function PaymentMethod({ value, label, selected, onChange, disabled }) {
   return (
     <label className="payment-option">
       <input
@@ -7,6 +7,7 @@ function PaymentMethod({ value, label, selected, onChange }) {
         value={value}
         checked={selected}
         onChange={(e) => onChange(e.target.value)}
+        disabled={disabled} // Apply the disabled attribute here
       />
       <span className="payment-label">{label}</span>
     </label>

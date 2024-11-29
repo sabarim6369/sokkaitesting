@@ -7,6 +7,9 @@ import ClientHeader from "../../components/header/header";
 import { Inter } from 'next/font/google';  // Import the font from next/font
 import Modal from 'react-modal';
 
+// Import your OrderProvider
+import { OrderProvider } from "../../components/cart/OrderContext"; // Adjust the path
+
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -23,20 +26,20 @@ export default function RootLayout({ children }) {
   const pathname = usePathname();
   const showHeader = !["/", "/frontend/login", "/frontend/signup"].includes(pathname);
 
-
   useEffect(() => {
-    // Ensure __next exists before setting the app element
     if (typeof window !== 'undefined' && document.getElementById('__next')) {
       Modal.setAppElement('#__next');
     }
   }, []);
+
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        {showHeader && <ClientHeader />}  
-        {children}
+        <OrderProvider> {/* Wrap your app with the context provider */}
+          {showHeader && <ClientHeader />}  
+          {children}
+        </OrderProvider>
       </body>
     </html>
   );
 }
-

@@ -16,7 +16,7 @@ import "./cart.css";
 import { jwtDecode } from 'jwt-decode';
 import axios from 'axios';
 import { useRouter } from "next/navigation";
-
+import { useOrderContext } from '../../../../components/cart/OrderContext';
 export default function Cart() {
   const token = localStorage.getItem('token');
 const router=useRouter();
@@ -27,14 +27,16 @@ const router=useRouter();
   const [cartdata, setcartdata] = useState([]);
   const [showMobileFooter, setShowMobileFooter] = useState(true);
   const [grandTotal, setGrandTotal] = useState(0);
+  const[savings,settotalsavings]=useState(0);
   const images = [a1, a2, a3, a4, a5, a6, a7];
+  const { setOrderData } = useOrderContext();
+
 
   const handleCheckboxChange = (itemData) => {
     setSelectedItems((prevSelected) => {
       const itemExists = prevSelected.some((item) => item.id === itemData.id);
   
       if (itemExists) {
-        // If the item already exists, remove it
         return prevSelected.filter((item) => item.id !== itemData.id);
       } else {
         return [...prevSelected, itemData];
@@ -163,12 +165,19 @@ const router=useRouter();
           }
           break;
           case 'PURCHASENOW':
-          
-            console.log("Consoling the products😒😒😒😒", selectedItems);
-          
+            console.log("Selected products:", selectedItems);
+        
+        
+            setOrderData({
+                items: selectedItems,
+                total: calculateDiscountedTotal(),
+                savings:savings
+            });
         
             router.push('/frontend/ordersummary');
             break;
+        
+
           
       }
     } else {
@@ -202,12 +211,16 @@ const router=useRouter();
   useEffect(() => {
     const calculateTotal = () => {
       let total = 0;
+      let totalsavings=0;
       cartdata.forEach((item) => {
         if (selectedItems.includes(item._id)) {
           total += item.price * item.quantity;
+          totalsavings+=item.originalprice-item.price;
         }
       });
       setGrandTotal(total);
+      settotalsavings(totalsavings)
+      
     };
 
     calculateTotal();
@@ -373,11 +386,11 @@ const router=useRouter();
             </div>
             <div className="flex justify-between">
               <span>Discount</span>
-              <span className="text-green-500">-413 RS</span>
+              <span className="text-green-500">0 RS</span>
             </div>
             <div className="flex justify-between">
               <span>Coupon Discount</span>
-              <span className="text-green-500">-200 RS</span>
+              <span className="text-green-500">0 RS</span>
             </div>
             <div className="flex justify-between">
               <span>Delivery Charge</span>
@@ -388,7 +401,7 @@ const router=useRouter();
               <span>{calculateDiscountedTotal()} RS</span>
             </div>
             <p className="text-green-500 text-sm sm:text-base lg:text-lg mt-1">
-              SAVINGS 583 RS
+              SAVINGS {savings} RS
             </p>
           </div>
 

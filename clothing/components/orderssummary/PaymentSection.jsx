@@ -3,7 +3,7 @@ import { useState } from 'react';
 import PaymentMethod from './PaymentMethod';
 
 function PaymentSection({ onPaymentComplete, totalAmount }) {
-  const [paymentMethod, setPaymentMethod] = useState('');
+  const [paymentMethod, setPaymentMethod] = useState('cod'); // Default to COD
 
   const handlePayment = () => {
     if (paymentMethod) {
@@ -22,11 +22,13 @@ function PaymentSection({ onPaymentComplete, totalAmount }) {
     <div className="payment-section">
       <div className="payment-methods">
         {paymentMethods.map(method => (
+          // Disable all methods except COD
           <PaymentMethod
             key={method.value}
             {...method}
             selected={paymentMethod === method.value}
             onChange={setPaymentMethod}
+            disabled={method.value !== 'cod'} // Disable if it's not COD
           />
         ))}
       </div>

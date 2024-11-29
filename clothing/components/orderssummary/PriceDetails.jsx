@@ -3,7 +3,7 @@ function PriceDetails({ priceDetails, totalAmount }) {
     <div className="price-details">
       <h2>PRICE DETAILS</h2>
       <div className="price-row">
-        <span>Price (1 item)</span>
+        <span>Price ({priceDetails.count} item)</span>
         <span>₹{priceDetails.price}</span>
       </div>
       <div className="price-row">
