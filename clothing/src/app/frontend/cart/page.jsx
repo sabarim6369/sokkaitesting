@@ -166,30 +166,7 @@ const router=useRouter();
           
             console.log("Consoling the products😒😒😒😒", selectedItems);
           
-            // Calculate total including discount and other charges
-            let totalAmount = 0;
-            let discountAmount = 0;
-            selectedItems.forEach(item => {
-              const itemTotal = item.price * item.quantity;
-              totalAmount += itemTotal;
-              discountAmount += (item.originalprice - item.price) * item.quantity; // Assuming discount is calculated as the difference between original price and discounted price
-            });
-          
-            const deliveryCharge = 30; // Static delivery charge, you can adjust it based on your logic
-          
-            const grandTotal = totalAmount - discountAmount + deliveryCharge; // Adjust for total after discount and adding delivery charge
-          
-            // Store all details in localStorage
-            const orderDetails = {
-              selectedItems: selectedItems,
-              totalAmount,
-              discountAmount,
-              deliveryCharge,
-              grandTotal
-            };
-          
-            localStorage.setItem('orderDetails', JSON.stringify(orderDetails));
-          
+        
             router.push('/frontend/ordersummary');
             break;
           

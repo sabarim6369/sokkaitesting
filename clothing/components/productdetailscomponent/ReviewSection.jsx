@@ -9,7 +9,7 @@ const ReviewSection = ({ reviews, newReview, setNewReview, handleReviewSubmit, r
 
   return (
     <div ref={reviewsRef} className="bg-white rounded-2xl shadow-lg border border-gray-200 p-8">
-      <h3 className="text-3xl font-bold text-gray-900 mb-8 text-center">Customer Reviews</h3>
+      <h3 className="text-3xl font-bold text-gray-900 mb-8 text-center">Custome Reviews</h3>
       
       <div className="mb-8 p-6 bg-gray-50 rounded-xl">
         <div className="flex items-center justify-between">
