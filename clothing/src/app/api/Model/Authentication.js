@@ -10,16 +10,52 @@ const addressSchema = new mongoose.Schema({
 });
 
 
+const purchaseHistorySchema = new mongoose.Schema({
+  products: [
+    {
+      productId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Product',
+        required: true
+      },
+      quantity: {
+        type: Number,
+        required: true
+      },
+      totalPrice: {
+        type: Number,
+        required: true
+      }
+    }
+  ],
+  totalAmount:{
+    type:Number,
+    required:true,
+  },
+  purchaseDate: {
+    type: Date,
+    default: Date.now
+  },
+  purchaseTime: {
+    type: String,
+    default: () => new Date().toLocaleTimeString()
+  }
+});
+
+
+
 const userSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true },
   name: { type: String },
   phone: { type: String },
   password: { type: String },
-  address: { type: [addressSchema], default: [] }, 
-  role: { type: String, default: 'customer' }
+  address: { type: [addressSchema], default: [] },
+  role: { type: String, default: 'customer' },
+  purchaseHistory: { type: [purchaseHistorySchema], default: [] } 
 });
 
-const Address = mongoose.models.Address || mongoose.model("Address", addressSchema);
+
+const Address = mongoose.models.Address || mongoose.model("location", addressSchema);
 const User = mongoose.models.User || mongoose.model("User", userSchema);
 
 export { User, Address };

@@ -14,7 +14,7 @@ import { useOrderContext } from '../cart/OrderContext';
 const App = () => {
   const router = useRouter();
   const { orderData, setOrderData } = useOrderContext();
-  const [selectedAddress, setSelectedAddress] = useState(0);
+  const [selectedAddress, setSelectedAddress] = useState(null);
   const [showAddressForm, setShowAddressForm] = useState(false);
   const [currentStep, setCurrentStep] = useState('address'); // address, payment, success
   const [addresses, setAddresses] = useState([]);
@@ -38,11 +38,11 @@ const App = () => {
   }, [orderData]);
 
   useEffect(() => {
-    setOrderSummary(orderData); // Set orderData to state
+    setOrderSummary(orderData); 
   }, [orderData]);
 
   useEffect(() => {
-    console.log("hello", orderData?.items);
+    console.log("hello", orderData);
 
     const getAllAddresses = async () => {
       try {
@@ -105,7 +105,7 @@ const App = () => {
   return (
     <div className="app-container">
       <div className="main-content">
-        {currentStep === 'success' ? (
+        {currentStep === "success" ? (
           <OrderSuccess />
         ) : (
           <>
@@ -121,10 +121,10 @@ const App = () => {
                       <AddressCard
                         key={addr._id}
                         address={addr}
-                        selected={selectedAddress === index}
-                        onSelect={() => setSelectedAddress(index)}
+                        selected={selectedAddress === addr._id}
+                        onSelect={() => setSelectedAddress(addr._id)}
                         onDeliverHere={handleDeliverHere}
-                        showDeliverButton={currentStep === 'address'}
+                        showDeliverButton={currentStep === "address"}
                       />
                     ))}
 
@@ -144,7 +144,7 @@ const App = () => {
               </div>
             </div>
 
-            {currentStep === 'payment' && (
+            {currentStep === "payment" && (
               <div className="payment-options">
                 <h2 className="section-title">
                   <span className="number">3</span> PAYMENT OPTIONS
@@ -152,6 +152,11 @@ const App = () => {
                 <PaymentSection
                   onPaymentComplete={handlePaymentComplete}
                   totalAmount={totalAmount}
+                  productIds={orderData.items.map((item) => item.productId)}
+                  count={orderData.items.length || 0}
+                  userId={userId}
+                  orderData={orderData.items}
+                  addressId={selectedAddress}
                 />
               </div>
             )}
@@ -159,11 +164,8 @@ const App = () => {
         )}
       </div>
 
-      {currentStep !== 'success' && (
-        <PriceDetails
-          priceDetails={priceDetails}
-          totalAmount={totalAmount}
-        />
+      {currentStep !== "success" && (
+        <PriceDetails priceDetails={priceDetails} totalAmount={totalAmount} />
       )}
     </div>
   );

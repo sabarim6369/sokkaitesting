@@ -1,13 +1,38 @@
-'use client'
 import { useState } from 'react';
 import PaymentMethod from './PaymentMethod';
+import axios from 'axios';
 
-function PaymentSection({ onPaymentComplete, totalAmount }) {
-  const [paymentMethod, setPaymentMethod] = useState('cod'); // Default to COD
+function PaymentSection({ onPaymentComplete, totalAmount, productIds, count, userId,orderData,addressId}) {
+  const [paymentMethod, setPaymentMethod] = useState('cod');
 
-  const handlePayment = () => {
+  const handlePayment = async () => {
     if (paymentMethod) {
-      onPaymentComplete();
+      try {
+        const products = orderData.map((product) => ({
+          productId: product._id, 
+          quantity: product.quantity, 
+          totalPrice: product.price * product.quantity, 
+        }));
+    
+    
+        const purchaseHistory = {
+          userId, 
+          products,  
+          totalAmount:totalAmount,
+          timestamp: new Date(),
+          addressId:addressId
+        };
+    
+        const response = await axios.post('/api/purchasehistory', purchaseHistory);
+        if (response.status === 200) {
+          onPaymentComplete();
+          console.log('Purchase history saved successfully!');
+        } else {
+          console.error('Failed to save purchase history');
+        }
+      } catch (error) {
+        console.error('Error saving purchase history:', error);
+      }
     }
   };
 
@@ -22,7 +47,6 @@ function PaymentSection({ onPaymentComplete, totalAmount }) {
     <div className="payment-section">
       <div className="payment-methods">
         {paymentMethods.map(method => (
-          // Disable all methods except COD
           <PaymentMethod
             key={method.value}
             {...method}
@@ -32,7 +56,7 @@ function PaymentSection({ onPaymentComplete, totalAmount }) {
           />
         ))}
       </div>
-      
+
       <button 
         className="payment-btn"
         disabled={!paymentMethod}

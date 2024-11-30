@@ -32,17 +32,16 @@ const router=useRouter();
   const { setOrderData } = useOrderContext();
 
 
-  const handleCheckboxChange = (itemData) => {
+  const handleCheckboxChange = (itemId) => {
     setSelectedItems((prevSelected) => {
-      const itemExists = prevSelected.some((item) => item.id === itemData.id);
-  
-      if (itemExists) {
-        return prevSelected.filter((item) => item.id !== itemData.id);
+      if (prevSelected.includes(itemId)) {
+        return prevSelected.filter((id) => id !== itemId);
       } else {
-        return [...prevSelected, itemData];
+        return [...prevSelected, itemId];
       }
     });
   };
+  
   
   const isAuthenticated = () => {
     const token = localStorage.getItem('token');
@@ -166,16 +165,21 @@ const router=useRouter();
           break;
           case 'PURCHASENOW':
             console.log("Selected products:", selectedItems);
-        
-        
+            // Assuming selectedItems contains product IDs like ['67482f4fb56e45bac9fe1dd3']
+            const selectedCartData = cartdata.filter(item => selectedItems.includes(item._id)); 
+            
+            console.log("Selected Cart Data:", selectedCartData); // Logs the filtered cart data (full product details)
+          
             setOrderData({
-                items: selectedItems,
-                total: calculateDiscountedTotal(),
-                savings:savings
+              items: selectedCartData,  
+              total: calculateDiscountedTotal(), 
+              savings: savings 
             });
-        
+          
+            // Navigate to the order summary page
             router.push('/frontend/ordersummary');
             break;
+           
         
 
           
