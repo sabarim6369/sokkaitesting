@@ -16,7 +16,7 @@ function PaymentSection({ onPaymentComplete, totalAmount, productIds, count, use
     
     
         const purchaseHistory = {
-          userId, 
+          userId,
           products,  
           totalAmount:totalAmount,
           timestamp: new Date(),

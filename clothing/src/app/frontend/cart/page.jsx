@@ -204,14 +204,27 @@ const router=useRouter();
     setcartdata((prevData) => {
       return prevData.map((item) => {
         if (item._id === itemId) {
-          const updatedQuantity = action === "increment" ? item.quantity + 1 : (item.quantity > 1 ? item.quantity - 1 : 1);
+          const availableStock = item.stock; 
+          let updatedQuantity = item.quantity;
+  
+          if (action === "increment") {
+            if (updatedQuantity < availableStock) {
+              updatedQuantity += 1;
+            } else {
+              toast.warning(`Sorry,Only ${item.stock} left`);
+              return item; 
+            }
+          } else if (action === "decrement" && updatedQuantity > 1) {
+            updatedQuantity -= 1;
+          }
+  
           return { ...item, quantity: updatedQuantity };
         }
         return item;
       });
     });
   };
-
+  
   useEffect(() => {
     const calculateTotal = () => {
       let total = 0;
