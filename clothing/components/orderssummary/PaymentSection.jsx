@@ -71,7 +71,7 @@ function PaymentSection({ onPaymentComplete, totalAmount, productIds, count, use
             {...method}
             selected={paymentMethod === method.value}
             onChange={setPaymentMethod}
-            disabled={method.value !== 'cod'} // Disable if it's not COD
+            disabled={method.value !== 'cod'} 
           />
         ))}
       </div>

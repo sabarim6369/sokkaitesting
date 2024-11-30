@@ -4,24 +4,20 @@ import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import axios from 'axios';
 import '@fortawesome/fontawesome-free/css/all.min.css';
-import a1 from "../../../../../public/images/cart/a1.jpg";
-import a2 from "../../../../../public/images/cart/a2.jpg";
-import a3 from "../../../../../public/images/cart/a3.jpg";
-import a4 from "../../../../../public/images/cart/a4.jpg";
-import a5 from "../../../../../public/images/cart/a5.jpg";
+import LoaderComponent from '../../../../../components/loader1/loader';
 
-const ProductCard = ({images, name, price, description, category,productId }) => (
+const ProductCard = ({images, name, price, description, category, productId }) => (
   <div className="flex flex-col items-center">
     <div className="relative w-full h-[90vh] mb-4">
-    <Link href={`/frontend/productdetails/${productId}`} passHref>
-      <img
-         src={images[0]?.url} 
-        alt={name}
-        layout="fill"
-        style={{ objectFit: "cover",width:"100%",height:"100%" }}
-                className="rounded-none"
-      />
-       </Link>
+      <Link href={`/frontend/productdetails/${productId}`} passHref>
+        <img
+          src={images[0]?.url} 
+          alt={name}
+          layout="fill"
+          style={{ objectFit: "cover", width:"100%", height:"100%" }}
+          className="rounded-none"
+        />
+      </Link>
     </div>
 
     <h2 className="text-lg font-medium text-black">{name.toUpperCase()}</h2>
@@ -47,29 +43,41 @@ const ProductsPage = ({ params }) => {
   const [products, setProducts] = useState([]);
   const [category, setCategory] = useState(null);
   const [filteredProducts, setFilteredProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
   const unwrappedParams = React.use(params);
 
-    const { customer } = unwrappedParams || {};  
-    useEffect(() => {
-      const fetchProducts = async () => {
-        try {
-          const response = await axios.get("/api/products");
-          const fetchedProducts = response.data;
-          console.log(fetchedProducts)
+  const { customer } = unwrappedParams || {};  
   
-          const filtered = customer
-            ? fetchedProducts.filter(product => product.category === customer)
-            : fetchedProducts;
-  
-          setProducts(fetchedProducts);
-          setFilteredProducts(filtered);
-        } catch (error) {
-          console.error("Error fetching products:", error);
-        }
-      };
-  
-      fetchProducts();
-    }, [customer]);
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        setLoading(true);
+        const response = await axios.get("/api/products");
+        const fetchedProducts = response.data;
+        console.log(fetchedProducts);
+
+        const filtered = customer
+          ? fetchedProducts.filter(product => product.category === customer)
+          : fetchedProducts;
+
+        setProducts(fetchedProducts);
+        setFilteredProducts(filtered);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      } finally {
+        // Add a minimum delay of 1.5 seconds for the loader
+        setTimeout(() => {
+          setLoading(false);
+        }, 1500);
+      }
+    };
+
+    fetchProducts();
+  }, [customer]);
+
+  if (loading) {
+    return <LoaderComponent />;
+  }
 
   return (
     <div className="p-6">
@@ -77,16 +85,16 @@ const ProductsPage = ({ params }) => {
         {customer ? customer.toUpperCase() : "Products"}
       </h1>
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4">
-      {products.length > 0 ? (
+        {products.length > 0 ? (
           products.map((product) => (
             <ProductCard
-            key={product._id} 
-            productId={product._id}
-            images={product.images}
-            name={product.name}
-            description={product.description}
-            price={product.price}
-            category={product.category}
+              key={product._id} 
+              productId={product._id}
+              images={product.images}
+              name={product.name}
+              description={product.description}
+              price={product.price}
+              category={product.category}
             />
           ))
         ) : (

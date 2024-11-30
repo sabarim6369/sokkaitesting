@@ -120,3 +120,53 @@ console.log("cnsoling the userid",userId)
     );
   }
 }
+
+export async function PUT(request) {
+  await connectMongoDB();
+
+  try {
+    const body = await request.json();
+    console.log("Parsed request body:", body);
+
+    const { userId, ...updateData } = body;
+
+    if (!userId) {
+      return new Response(
+        JSON.stringify({ error: "User ID is required for updating user data." }),
+        { status: 400 }
+      );
+    }
+
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return new Response(
+        JSON.stringify({ error: "User not found." }),
+        { status: 404 }
+      );
+    }
+
+    Object.keys(updateData).forEach((key) => {
+      if (updateData[key] !== undefined && updateData[key] !== null) {
+        user[key] = updateData[key];
+      }
+    });
+
+    await user.save();
+
+    console.log("Updated user:", user);
+
+    return new Response(
+      JSON.stringify({ message: "User updated successfully.", user }),
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error("Error updating user:", error);
+
+    return new Response(
+      JSON.stringify({ error: "Internal Server Error: " + error.message }),
+      { status: 500 }
+    );
+  }
+}
+

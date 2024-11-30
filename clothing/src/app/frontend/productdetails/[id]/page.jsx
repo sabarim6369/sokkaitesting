@@ -190,30 +190,31 @@ const ProductsPage = ({ params }) => {
               onSizeSelect={setSelectedSize}
             />
 
-            <div className="space-y-4">
-              <button
-                onClick={() => handleAction('ORDER')}
-                className="w-full bg-black text-white py-4 rounded-lg text-lg font-medium hover:bg-gray-900 transition-colors duration-200"
-              >
-                Buy Now
-              </button>
-              <div className="grid grid-cols-2 gap-4">
-                <button
-                  onClick={() => handleAction('WISHLIST')}
-                  className="flex items-center justify-center space-x-2 border border-gray-300 py-3 rounded-lg hover:bg-gray-50 transition-colors duration-200"
-                >
-                  <i className="fas fa-heart text-red-500"></i>
-                  <span>Wishlist</span>
-                </button>
-                <button
-                  onClick={() => handleAction('CART')}
-                  className="flex items-center justify-center space-x-2 border border-gray-300 py-3 rounded-lg hover:bg-gray-50 transition-colors duration-200"
-                >
-                  <i className="fas fa-shopping-cart text-gray-600"></i>
-                  <span>Add to Cart</span>
-                </button>
-              </div>
-            </div>
+<div className="space-y-4">
+  <button
+    onClick={() => handleAction('ORDER')}
+    className="w-full bg-black text-white py-4 rounded-lg text-lg font-medium hover:bg-gray-900 transition-colors duration-200"
+  >
+    Buy Now
+  </button>
+  <div className="grid grid-cols-2 gap-4">
+    <button
+      onClick={() => handleAction('WISHLIST')}
+      className="flex items-center justify-center space-x-2 border border-gray-300 py-3 rounded-lg hover:bg-gray-50 transition-colors duration-200"
+    >
+      <i className="fas fa-heart text-black"></i> {/* Updated icon color to black */}
+      <span className="text-black">Wishlist</span>
+    </button>
+    <button
+      onClick={() => handleAction('CART')}
+      className="flex items-center justify-center space-x-2 border border-gray-300 py-3 rounded-lg hover:bg-gray-50 transition-colors duration-200"
+    >
+      <i className="fas fa-shopping-cart text-black"></i> {/* Updated icon color to black */}
+      <span className='text-black'>Add to Cart</span>
+    </button>
+  </div>
+</div>
+
 
             <div className="mt-8">
               <button

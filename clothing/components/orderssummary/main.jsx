@@ -9,7 +9,7 @@ import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { jwtDecode } from 'jwt-decode';
 import { useOrderContext } from '../cart/OrderContext';
-import Loader from "../loader/loader"; // Import your loader component
+import Loader from "../loader/loader"; 
 
 const App = () => {
   const router = useRouter();
@@ -48,14 +48,14 @@ const App = () => {
 
   useEffect(() => {
     const getAllAddresses = async () => {
-      setLoading(true); // Start loading
+      setLoading(true);
       try {
         const response = await axios.get(`/api/address?userId=${userId}`);
         setAddresses(response.data.address);
       } catch (err) {
         console.error("Error fetching addresses:", err);
       }
-      setLoading(false); // Stop loading
+      setLoading(false); 
     };
 
     if (userId) {

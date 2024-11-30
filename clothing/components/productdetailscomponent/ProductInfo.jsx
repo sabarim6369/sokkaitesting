@@ -33,15 +33,14 @@ const ProductInfo = ({ product, selectedSize, setSelectedSize, handleAction }) =
             onClick={() => handleAction('ORDER')}
             className="w-full bg-black text-white py-4 rounded-lg text-lg font-medium hover:bg-gray-900 transition-colors duration-200"
           >
-            Buy Now
           </button>
           <div className="grid grid-cols-2 gap-4">
             <button
               onClick={() => handleAction('WISHLIST')}
               className="flex items-center justify-center space-x-2 border border-gray-300 py-3 rounded-lg hover:bg-gray-50 transition-colors duration-200"
             >
-              <i className="fas fa-heart text-red-500"></i>
-              <span>Wishlist</span>
+             
+              <span className="text-black">Wishlist</span>
             </button>
             <button
               onClick={() => handleAction('CART')}

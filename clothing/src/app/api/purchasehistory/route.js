@@ -8,7 +8,7 @@ export async function POST(request) {
   try {
     await connectMongoDB();
 
-    const { userId, products, totalAmount, timestamp, addressId } = await request.json();
+    const { userId, products, totalAmount, timestamp, addressId,couponDiscount } = await request.json();
     console.log(addressId);
     
     const user = await User.findById(userId);
@@ -35,12 +35,13 @@ export async function POST(request) {
       user.purchaseHistory = [];
     }
 
-    // Save the purchase history
+  
     const purchaseItems = products.map((product) => ({
       productId: product.productId,
       quantity: product.quantity,
       totalPrice: product.totalPrice,
     }));
+    let amount;
 
     user.purchaseHistory.push({
       products: purchaseItems,
@@ -51,19 +52,16 @@ export async function POST(request) {
 
     await user.save();
 
-    // Update the stock of each purchased product
     for (const product of products) {
       const productInDb = await Product.findById(product.productId);
       
       if (productInDb) {
-        // Ensure that there is enough stock available
         if (productInDb.stock >= product.quantity) {
           productInDb.stock -= product.quantity; // Reduce stock
           await productInDb.save(); // Save updated product stock
           console.log(`Stock updated for product ${product.productId}`);
         } else {
           console.error(`Not enough stock for product ${product.productId}`);
-          // Optionally return an error response if not enough stock is available
           return new Response(
             JSON.stringify({ error: `Not enough stock for product ${product.productId}` }),
             { status: 400 }
