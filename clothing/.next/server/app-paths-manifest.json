@@ -1,5 +1,1 @@
-{
-  "/api/cart/route": "app/api/cart/route.js",
-  "/frontend/ordersummary/page": "app/frontend/ordersummary/page.js",
-  "/api/address/route": "app/api/address/route.js"
-}
+{}

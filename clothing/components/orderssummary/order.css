@@ -473,3 +473,26 @@
       flex-direction: column;
     }
   }
+  .edit-btn {
+    background-color: #07b62a;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    font-size: 0.9rem;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .edit-btn:hover {
+    background-color: #15c676;
+  }
+  .address-form input,
+.address-form textarea,
+.address-form select {
+  color: black; /* Set text color to black */
+}
+
+.address-form input::placeholder,
+.address-form textarea::placeholder {
+  color: gray; /* Optional: Placeholder color */
+}

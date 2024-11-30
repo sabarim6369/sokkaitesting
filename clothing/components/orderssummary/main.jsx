@@ -1,4 +1,3 @@
-'use client';
 import { useState, useEffect } from 'react';
 import AddressForm from './AddressForm';
 import AddressCard from './AddressCard';
@@ -10,19 +9,22 @@ import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { jwtDecode } from 'jwt-decode';
 import { useOrderContext } from '../cart/OrderContext';
+import Loader from "../loader/loader"; // Import your loader component
 
 const App = () => {
   const router = useRouter();
   const { orderData, setOrderData } = useOrderContext();
   const [selectedAddress, setSelectedAddress] = useState(null);
   const [showAddressForm, setShowAddressForm] = useState(false);
-  const [currentStep, setCurrentStep] = useState('address'); // address, payment, success
+  const [currentStep, setCurrentStep] = useState('address');
   const [addresses, setAddresses] = useState([]);
   const [orderSummary, setOrderSummary] = useState(orderData);
   const [totalSavings, setTotalSavings] = useState(0);
+  const [addressToEdit, setAddressToEdit] = useState(null);
   const token = localStorage.getItem('token');
   const decodedToken = jwtDecode(token);
   const userId = decodedToken?.id;
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const storedOrderData = localStorage.getItem('orderData');
@@ -42,16 +44,15 @@ const App = () => {
   }, [orderData]);
 
   useEffect(() => {
-    console.log("hello", orderData);
-
     const getAllAddresses = async () => {
+      setLoading(true); // Start loading
       try {
         const response = await axios.get(`/api/address?userId=${userId}`);
-        console.log("dff", response.data.address);
         setAddresses(response.data.address);
       } catch (err) {
         console.error("Error fetching addresses:", err);
       }
+      setLoading(false); // Stop loading
     };
 
     if (userId) {
@@ -60,13 +61,13 @@ const App = () => {
   }, [orderData?.userId]);
 
   const priceDetails = orderSummary ? {
-    count:orderData?.items?.length||0,
+    count: orderData?.items?.length || 0,
     price: orderSummary.total,
-    deliveryCharges: { original: 49, current: 500 }, // Replace with actual delivery charges
+    deliveryCharges: { original: 49, current: 500 },
     platformFee: 0,
     totalSavings: orderSummary.savings,
   } : {
-    count:0,
+    count: 0,
     price: 0, 
     deliveryCharges: { original: 0, current: 0 },
     platformFee: 0,
@@ -74,11 +75,13 @@ const App = () => {
   };
 
   const handleAddAddress = async (newAddress) => {
+    setLoading(true); // Start loading
     try {
       const response = await axios.post('/api/address', { userId: userId, ...newAddress });
       if (response.status === 200) {
         setAddresses([...addresses, newAddress]);
         alert("Address added successfully!");
+        window.location.reload();
       } else {
         alert(response.data.error || "Failed to add address.");
       }
@@ -86,16 +89,51 @@ const App = () => {
       console.error("Error adding address:", error);
       alert("An error occurred while adding the address.");
     }
-
+    setLoading(false); // Stop loading
     setShowAddressForm(false);
   };
 
-  // Handle address selection for delivery
+  const handleEditAddress = async (editedAddress) => {
+    if (!addressToEdit || !addressToEdit._id) {
+      alert("Cannot update: Invalid address selected.");
+      return;
+    }
+
+    setLoading(true); // Start loading
+    try {
+      const response = await axios.put('/api/address', { 
+        userId, 
+        addressId: addressToEdit._id, 
+        ...editedAddress 
+      });
+
+      if (response.status === 200) {
+        const updatedAddresses = addresses.map(addr =>
+          addr._id === addressToEdit._id ? { ...addr, ...editedAddress } : addr
+        );
+        setAddresses(updatedAddresses);
+        alert("Address updated successfully!");
+      } else {
+        alert(response.data.error || "Failed to update address.");
+      }
+    } catch (error) {
+      console.error("Error editing address:", error);
+      alert("An error occurred while updating the address.");
+    }
+    setLoading(false); // Stop loading
+    setShowAddressForm(false);
+    setAddressToEdit(null);
+  };
+
   const handleDeliverHere = () => {
     setCurrentStep('payment');
   };
 
-  // Handle payment completion
+  const handleEdit = (address) => {
+    setAddressToEdit(address);
+    setShowAddressForm(true); 
+  };
+
   const handlePaymentComplete = () => {
     setCurrentStep('success');
   };
@@ -105,60 +143,72 @@ const App = () => {
   return (
     <div className="app-container">
       <div className="main-content">
-        {currentStep === "success" ? (
-          <OrderSuccess />
+        {loading ? (
+          <Loader /> // Show the loader while loading is true
         ) : (
           <>
-            <div className="delivery-section">
-              <h2 className="section-title">
-                <span className="number">2</span> DELIVERY ADDRESS
-              </h2>
+            {currentStep === "success" ? (
+              <OrderSuccess />
+            ) : (
+              <>
+                <div className="delivery-section">
+                  <h2 className="section-title">
+                    <span className="number">2</span> DELIVERY ADDRESS
+                  </h2>
 
-              <div className="addresses-list">
-                {!showAddressForm ? (
-                  <>
-                    {addresses.map((addr, index) => (
-                      <AddressCard
-                        key={addr._id}
-                        address={addr}
-                        selected={selectedAddress === addr._id}
-                        onSelect={() => setSelectedAddress(addr._id)}
-                        onDeliverHere={handleDeliverHere}
-                        showDeliverButton={currentStep === "address"}
+                  <div className="addresses-list">
+                    {!showAddressForm ? (
+                      <>
+                        {addresses.map((addr) => (
+                          <AddressCard
+                            key={addr._id}
+                            address={addr}
+                            selected={selectedAddress === addr._id}
+                            onSelect={() => setSelectedAddress(addr._id)}
+                            onDeliverHere={handleDeliverHere}
+                            showDeliverButton={currentStep === "address"}
+                            onEdit={() => handleEdit(addr)}
+                          />
+                        ))}
+
+                        <button
+                          className="add-address-btn"
+                          onClick={() => setShowAddressForm(true)}
+                        >
+                          <span className="plus-icon">+</span> Add a new address
+                        </button>
+                      </>
+                    ) : (
+                      <AddressForm
+                        addressToEdit={addressToEdit}
+                        onSubmit={addressToEdit ? handleEditAddress : handleAddAddress}
+                        onCancel={() => {
+                          setShowAddressForm(false);
+                          setAddressToEdit(null);
+                        }}
+                        userid={userId}
                       />
-                    ))}
+                    )}
+                  </div>
+                </div>
 
-                    <button
-                      className="add-address-btn"
-                      onClick={() => setShowAddressForm(true)}
-                    >
-                      <span className="plus-icon">+</span> Add a new address
-                    </button>
-                  </>
-                ) : (
-                  <AddressForm
-                    onSubmit={handleAddAddress}
-                    onCancel={() => setShowAddressForm(false)}
-                  />
+                {currentStep === "payment" && (
+                  <div className="payment-options">
+                    <h2 className="section-title">
+                      <span className="number">3</span> PAYMENT OPTIONS
+                    </h2>
+                    <PaymentSection
+                      onPaymentComplete={handlePaymentComplete}
+                      totalAmount={totalAmount}
+                      productIds={orderData.items.map((item) => item.productId)}
+                      count={orderData.items.length || 0}
+                      userId={userId}
+                      orderData={orderData.items}
+                      addressId={selectedAddress || null}
+                    />
+                  </div>
                 )}
-              </div>
-            </div>
-
-            {currentStep === "payment" && (
-              <div className="payment-options">
-                <h2 className="section-title">
-                  <span className="number">3</span> PAYMENT OPTIONS
-                </h2>
-                <PaymentSection
-                  onPaymentComplete={handlePaymentComplete}
-                  totalAmount={totalAmount}
-                  productIds={orderData.items.map((item) => item.productId)}
-                  count={orderData.items.length || 0}
-                  userId={userId}
-                  orderData={orderData.items}
-                  addressId={selectedAddress}
-                />
-              </div>
+              </>
             )}
           </>
         )}

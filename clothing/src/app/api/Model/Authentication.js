@@ -6,7 +6,7 @@ const addressSchema = new mongoose.Schema({
   phone: { type: String, required: true },
   address: { type: String, required: true },
   location: { type: String, required: true },
-  type: { type: String, enum: ['HOME', 'WORK', 'OTHER'], default: 'HOME' }
+  type: { type: String, enum: ["HOME", "WORK", "OTHER"], default: "HOME" }, 
 });
 
 
@@ -15,33 +15,36 @@ const purchaseHistorySchema = new mongoose.Schema({
     {
       productId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Product',
-        required: true
+        ref: "Product", 
+        required: true,
       },
       quantity: {
         type: Number,
-        required: true
+        required: true,
       },
       totalPrice: {
         type: Number,
-        required: true
-      }
-    }
+        required: true,
+      },
+    },
   ],
-  totalAmount:{
-    type:Number,
-    required:true,
+  totalAmount: {
+    type: Number,
+    required: true,
   },
   purchaseDate: {
     type: Date,
-    default: Date.now
+    default: Date.now,
   },
   purchaseTime: {
     type: String,
-    default: () => new Date().toLocaleTimeString()
-  }
+    default: () => new Date().toLocaleTimeString(),
+  },
+  addressId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "location", 
+  },
 });
-
 
 
 const userSchema = new mongoose.Schema({
@@ -49,13 +52,13 @@ const userSchema = new mongoose.Schema({
   name: { type: String },
   phone: { type: String },
   password: { type: String },
-  address: { type: [addressSchema], default: [] },
-  role: { type: String, default: 'customer' },
-  purchaseHistory: { type: [purchaseHistorySchema], default: [] } 
+  address: { type: [addressSchema], default: [] }, 
+  role: { type: String, default: "customer" },
+  purchaseHistory: { type: [purchaseHistorySchema], default: [] }, 
 });
 
 
-const Address = mongoose.models.Address || mongoose.model("location", addressSchema);
-const User = mongoose.models.User || mongoose.model("User", userSchema);
+const Address = mongoose.models.location || mongoose.model("location", addressSchema); 
+const User = mongoose.models.User || mongoose.model("User", userSchema); 
 
 export { User, Address };

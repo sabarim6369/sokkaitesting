@@ -25,6 +25,7 @@ function PaymentSection({ onPaymentComplete, totalAmount, productIds, count, use
     
         const response = await axios.post('/api/purchasehistory', purchaseHistory);
         if (response.status === 200) {
+          axios.post('https://4069-2401-4900-67ae-55a0-e868-9dc7-331b-f8f4.ngrok-free.app/api/communication/invoice')
           onPaymentComplete();
           console.log('Purchase history saved successfully!');
         } else {

@@ -6,7 +6,6 @@ export async function POST(request) {
     console.log("Connecting to MongoDB...");
     try {
       const body = await request.json();
-    //   console.log("Request body:", body);
   
       const { userId, name, phone, address, location, type } = body;
       console.log("consoling the user id :", userId);
@@ -70,6 +69,57 @@ export async function POST(request) {
       console.error("Error fetching addresses:", err);
       return new Response(
         JSON.stringify({ error: "Internal Server Error" }),
+        { status: 500 }
+      );
+    }
+  }
+  
+
+  export async function PUT(request) {
+    await connectMongoDB();
+    try {
+      const body = await request.json();
+      const { userId, addressId, name, phone, address, location, type } = body;
+  
+      if (!userId || !addressId || !name || !phone || !address || !location) {
+        return new Response(
+          JSON.stringify({ error: "Missing required fields" }),
+          { status: 400 }
+        );
+      }
+  
+      const user = await User.findById(userId);
+      if (!user) {
+        return new Response(
+          JSON.stringify({ error: "User not found" }),
+          { status: 404 }
+        );
+      }
+  
+      const addressToUpdate = user.address.id(addressId);
+      if (!addressToUpdate) {
+        return new Response(
+          JSON.stringify({ error: "Address not found" }),
+          { status: 404 }
+        );
+      }
+  
+      addressToUpdate.name = name;
+      addressToUpdate.phone = phone;
+      addressToUpdate.address = address;
+      addressToUpdate.location = location;
+      addressToUpdate.type = type;
+  
+      await user.save();
+  
+      return new Response(
+        JSON.stringify({ message: "Address updated successfully", address: user.address }),
+        { status: 200 }
+      );
+    } catch (error) {
+      console.error("Error updating address:", error);
+      return new Response(
+        JSON.stringify({ error: "Internal Server Error: " + error.message }),
         { status: 500 }
       );
     }

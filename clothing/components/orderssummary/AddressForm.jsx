@@ -1,21 +1,37 @@
-'use client'
-import { useState } from 'react';
+'use client';
+import { useState, useEffect } from 'react';
 
-function AddressForm({ onSubmit, onCancel }) {
+function AddressForm({ onSubmit, onCancel, addressToEdit }) {
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
     address: '',
     location: '',
-    type: 'HOME'
+    type: 'HOME',
   });
+
+  useEffect(() => {
+    if (addressToEdit) {
+      setFormData({
+        name: addressToEdit.name || '',
+        phone: addressToEdit.phone || '',
+        address: addressToEdit.address || '',
+        location: addressToEdit.location || '',
+        type: addressToEdit.type || 'HOME',
+      });
+    }
+  }, [addressToEdit]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit({
-      ...formData,
-      id: Date.now()
-    });
+    const submissionData = { ...formData };
+
+    // Include `_id` only when editing an address
+    if (addressToEdit?._id) {
+      submissionData._id = addressToEdit._id;
+    }
+
+    onSubmit(submissionData);
   };
 
   return (
@@ -69,7 +85,7 @@ function AddressForm({ onSubmit, onCancel }) {
           Cancel
         </button>
         <button type="submit" className="save-btn">
-          Save Address
+          {addressToEdit ? 'Update Address' : 'Save Address'}
         </button>
       </div>
     </form>

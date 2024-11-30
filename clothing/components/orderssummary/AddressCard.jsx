@@ -1,4 +1,6 @@
-function AddressCard({ address, selected, onSelect, onDeliverHere, showDeliverButton }) {
+import React from 'react';
+
+function AddressCard({ address, selected, onSelect, onDeliverHere, showDeliverButton, onEdit }) {
   return (
     <div 
       className={`address-card ${selected ? 'selected' : ''}`}
@@ -10,6 +12,15 @@ function AddressCard({ address, selected, onSelect, onDeliverHere, showDeliverBu
           {address.type && <span className="address-type">{address.type}</span>}
         </div>
         <span className="phone">{address.phone}</span>
+        <button 
+          className="edit-btn"
+          onClick={(e) => {
+            e.stopPropagation(); 
+            onEdit(address); 
+          }}
+        >
+          Edit
+        </button>
       </div>
       <div className="address-content">
         <p>{address.address}</p>

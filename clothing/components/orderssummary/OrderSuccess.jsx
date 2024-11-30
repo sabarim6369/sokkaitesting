@@ -1,9 +1,14 @@
 'use client'
+import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import Lottie from 'lottie-react';
 import successAnimation from './success-animation.json';
 
 function OrderSuccess() {
+  const router=useRouter();
+  const handleContinueShopping = () => {
+    router.push('/'); // Navigates to the homepage
+  };
   return (
     <motion.div 
       className="order-success"
@@ -40,7 +45,7 @@ function OrderSuccess() {
           className="continue-shopping"
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          onClick={() => window.location.reload()}
+          onClick={handleContinueShopping}
         >
           Continue Shopping
         </motion.button>
