@@ -49,7 +49,7 @@ const ProductsPage = ({ params }) => {
   const fetchSimilarProducts = async () => {
     try {
       const response = await axios.get('/api/products');
-      setSimilarProducts(response.data.filter(p => p._id !== id).slice(0, 8));
+      setSimilarProducts(response.data);
     } catch (error) {
       console.error('Error fetching similar products:', error);
     }
@@ -60,31 +60,38 @@ const ProductsPage = ({ params }) => {
       toast.warning('Please fill in all review fields');
       return;
     }
-
+  
     try {
-      const newReviews = [
-        ...reviews,
-        {
+      const response = await axios.put("/api/products", {
+        id,
+        review: {
+          username: newReview.username,
+          ratings: newReview.rating, // Ensure key matches backend
+          feedback: newReview.comment, // Ensure key matches backend
+        },
+      });
+  
+      if (response.status === 200) {
+        // Update reviews locally after successful submission
+        setReviews([...reviews, {
           username: newReview.username,
           ratings: newReview.rating,
           feedback: newReview.comment,
-        },
-      ];
-
-      const response = await axios.put("/api/products", {
-        id,
-        reviews: newReviews,
-      });
-
-      if (response.status === 200) {
-        setReviews(newReviews);
+        }]);
         setNewReview({ username: '', rating: 0, comment: '' });
         toast.success('Review submitted successfully!');
       }
     } catch (error) {
-      toast.error('Failed to submit review');
+      if (error.response?.status === 409) {
+        toast.warning('You have already submitted a review for this product');
+      } else {
+        toast.error('Failed to submit review');
+      }
     }
   };
+  
+  
+  
 
   const handleAction = async (action) => {
     if (!isAuthenticated()) {

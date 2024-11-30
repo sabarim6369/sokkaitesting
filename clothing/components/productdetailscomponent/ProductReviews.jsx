@@ -3,9 +3,9 @@ import { motion } from "framer-motion";
 
 const ProductReviews = ({ reviews, onSubmitReview, newReview, setNewReview }) => {
   return (
-    <section className="mt-16 max-w-4xl mx-auto bg-white rounded-xl shadow-lg border border-gray-300 p-8">
+    <section className="mt-12 max-w-4xl mx-auto bg-white rounded-xl shadow-lg border border-gray-300 p-8">
       {/* Header */}
-      <h3 className="text-3xl font-semibold text-gray-800 text-center mb-10">
+      <h3 className="text-4xl font-semibold text-gray-800 text-center mb-12">
         Customer Reviews
       </h3>
 
@@ -18,13 +18,12 @@ const ProductReviews = ({ reviews, onSubmitReview, newReview, setNewReview }) =>
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}
-              className="bg-gray-50 p-6 rounded-lg shadow-md border border-gray-200"
+              className="bg-gray-50 p-6 rounded-lg shadow-lg border border-gray-200 hover:shadow-xl transition-all duration-300"
             >
               <div className="flex justify-between items-center mb-4">
-                <h4 className="font-medium text-lg text-gray-900">
-                  {review.username}
-                </h4>
-                <div className="flex items-center">
+                <h4 className="font-semibold text-lg text-gray-900">{review.username}</h4>
+                <div className="flex items-center space-x-1">
+                  {/* Render Star Ratings */}
                   {[...Array(5)].map((_, i) => (
                     <i
                       key={i}
@@ -35,7 +34,7 @@ const ProductReviews = ({ reviews, onSubmitReview, newReview, setNewReview }) =>
                   ))}
                 </div>
               </div>
-              <p className="text-gray-700">{review.feedback}</p>
+              <p className="text-gray-700 text-sm">{review.feedback}</p>
             </motion.div>
           ))
         ) : (
@@ -47,9 +46,7 @@ const ProductReviews = ({ reviews, onSubmitReview, newReview, setNewReview }) =>
 
       {/* Review Form */}
       <div className="mt-12 bg-gray-100 p-8 rounded-xl shadow-md border border-gray-200">
-        <h4 className="text-2xl font-semibold text-gray-800 mb-6">
-          Write a Review
-        </h4>
+        <h4 className="text-3xl font-semibold text-gray-800 mb-6">Write a Review</h4>
         <form
           onSubmit={(e) => {
             e.preventDefault();
@@ -69,7 +66,7 @@ const ProductReviews = ({ reviews, onSubmitReview, newReview, setNewReview }) =>
               onChange={(e) =>
                 setNewReview({ ...newReview, username: e.target.value })
               }
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500"
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 p-3"
               placeholder="John Doe"
               required
             />
@@ -86,11 +83,9 @@ const ProductReviews = ({ reviews, onSubmitReview, newReview, setNewReview }) =>
                   type="button"
                   key={rating}
                   onClick={() => setNewReview({ ...newReview, rating })}
-                  className={`text-2xl focus:outline-none ${
-                    rating <= newReview.rating
-                      ? "text-yellow-400"
-                      : "text-gray-300"
-                  }`}
+                  className={`text-2xl focus:outline-none transition-all duration-300 ${
+                    rating <= newReview.rating ? "text-yellow-400" : "text-gray-300"
+                  } hover:text-yellow-500`}
                 >
                   <i className="fas fa-star"></i>
                 </button>
@@ -110,7 +105,7 @@ const ProductReviews = ({ reviews, onSubmitReview, newReview, setNewReview }) =>
               onChange={(e) =>
                 setNewReview({ ...newReview, comment: e.target.value })
               }
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500"
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 p-3"
               placeholder="Share your experience with this product..."
               required
             ></textarea>
@@ -119,7 +114,7 @@ const ProductReviews = ({ reviews, onSubmitReview, newReview, setNewReview }) =>
           {/* Submit Button */}
           <button
             type="submit"
-            className="w-full bg-blue-600 text-white py-3 rounded-lg font-medium hover:bg-blue-700 transition duration-200"
+            className="w-full bg-blue-600 text-white py-3 rounded-lg font-medium hover:bg-blue-700 transition-all duration-200 transform hover:scale-105"
           >
             Submit Review
           </button>

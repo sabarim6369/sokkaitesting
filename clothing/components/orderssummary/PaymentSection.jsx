@@ -2,9 +2,10 @@ import { useState } from 'react';
 import PaymentMethod from './PaymentMethod';
 import axios from 'axios';
 
-function PaymentSection({ onPaymentComplete, totalAmount, productIds, count, userId,orderData,addressId}) {
-  const [paymentMethod, setPaymentMethod] = useState('cod');
 
+function PaymentSection({ onPaymentComplete, totalAmount, productIds, count, userId,orderData,addressId,pricedetails}) {
+  const [paymentMethod, setPaymentMethod] = useState('cod');
+  const couponDiscount = pricedetails?.couponDiscount || 0;
   const handlePayment = async () => {
     if (paymentMethod) {
       try {
@@ -20,17 +21,34 @@ function PaymentSection({ onPaymentComplete, totalAmount, productIds, count, use
           products,  
           totalAmount:totalAmount,
           timestamp: new Date(),
-          addressId:addressId
+          addressId:addressId,
+          couponDiscount
         };
     
         const response = await axios.post('/api/purchasehistory', purchaseHistory);
+        console.log(pricedetails)
+        alert("helli")
         if (response.status === 200) {
+          alert("hiiii",couponDiscount)
+          if (couponDiscount > 0) {
+            alert("helllo")
+            await axios.put('/api/coupun/validate', {
+              userId,
+              couponId: pricedetails.couponid, 
+            });
+          }
+          
           axios.post('https://4069-2401-4900-67ae-55a0-e868-9dc7-331b-f8f4.ngrok-free.app/api/communication/invoice')
           onPaymentComplete();
           console.log('Purchase history saved successfully!');
-        } else {
+        }
+        else if(response.status==400){
+          alert("not enough stock")
+        }
+        else {
           console.error('Failed to save purchase history');
         }
+       
       } catch (error) {
         console.error('Error saving purchase history:', error);
       }

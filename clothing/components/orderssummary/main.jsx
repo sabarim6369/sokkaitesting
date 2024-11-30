@@ -39,6 +39,9 @@ const App = () => {
     }
   }, [orderData]);
 
+  useEffect(()=>{
+    console.log("orderData🙏🙏🙏🙏",orderData)
+  });
   useEffect(() => {
     setOrderSummary(orderData); 
   }, [orderData]);
@@ -66,12 +69,16 @@ const App = () => {
     deliveryCharges: { original: 49, current: 500 },
     platformFee: 0,
     totalSavings: orderSummary.savings,
+    couponDiscount: orderSummary.couponPrice || 0,  
+    couponid:orderSummary.couponId||null
   } : {
     count: 0,
     price: 0, 
     deliveryCharges: { original: 0, current: 0 },
     platformFee: 0,
     totalSavings: 0,
+    couponDiscount: 0, 
+    couponid:null
   };
 
   const handleAddAddress = async (newAddress) => {
@@ -205,6 +212,7 @@ const App = () => {
                       userId={userId}
                       orderData={orderData.items}
                       addressId={selectedAddress || null}
+                      pricedetails={priceDetails} 
                     />
                   </div>
                 )}

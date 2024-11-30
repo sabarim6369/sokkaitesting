@@ -44,6 +44,11 @@ const purchaseHistorySchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "location", 
   },
+  status: {
+    type: String,
+    default: "pending",
+    enum: ["pending", "accepted", "cancelled"], 
+  },
 });
 
 

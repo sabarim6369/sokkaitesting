@@ -90,11 +90,12 @@ export async function PUT(req) {
   await connectMongoDB();
 
   try {
-    const { id, reviews } = await req.json();
-console.log("fihbdfihfdbihfdvbihdfvibdfvhbdfvhbdfvhfdk ",reviews)
-    if (!reviews.username || !reviews.rating || !reviews.comment) {
+    const { id, review } = await req.json(); // Expecting a single review
+    console.log("Received review:", review);
+
+    if (!review || !review.username || !review.ratings || !review.feedback) {
       return new Response(
-        JSON.stringify({ error: "Review must include username, rating, and comment" }),
+        JSON.stringify({ error: "Review must include username, ratings, and feedback" }),
         { status: 400, headers: { "Content-Type": "application/json" } }
       );
     }
@@ -107,12 +108,26 @@ console.log("fihbdfihfdbihfdvbihdfvibdfvhbdfvhbdfvhfdk ",reviews)
       );
     }
 
+    // Check if the review already exists (e.g., by username or other criteria)
+    const existingReview = product.reviews.find(
+      (r) => r.username === review.username
+    );
+
+    if (existingReview) {
+      return new Response(
+        JSON.stringify({ error: "Review from this user already exists" }),
+        { status: 409, headers: { "Content-Type": "application/json" } }
+      );
+    }
+
+    // Add the new review
     product.reviews.push({
-      username: reviews.username, 
-      ratings: reviews.rating,
-      feedback: reviews.comment, 
+      username: review.username,
+      ratings: review.ratings,
+      feedback: review.feedback,
     });
 
+    // Update the number of reviews
     product.numReviews = product.reviews.length;
 
     const updatedProduct = await product.save();
@@ -120,7 +135,7 @@ console.log("fihbdfihfdbihfdvbihdfvibdfvhbdfvhbdfvhfdk ",reviews)
 
     return new Response(
       JSON.stringify({
-        message: "Product updated successfully with new review",
+        message: "Review added successfully",
         product: updatedProduct,
       }),
       { status: 200, headers: { "Content-Type": "application/json" } }
@@ -133,6 +148,8 @@ console.log("fihbdfihfdbihfdvbihdfvibdfvhbdfvhbdfvhfdk ",reviews)
     );
   }
 }
+
+
 
 
 export async function DELETE(request) {
