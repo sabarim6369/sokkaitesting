@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import PaymentMethod from './PaymentMethod';
 import axios from 'axios';
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function PaymentSection({ onPaymentComplete, totalAmount, productIds, count, userId,orderData,addressId,pricedetails}) {
   const [paymentMethod, setPaymentMethod] = useState('cod');
@@ -27,11 +28,8 @@ function PaymentSection({ onPaymentComplete, totalAmount, productIds, count, use
     
         const response = await axios.post('/api/purchasehistory', purchaseHistory);
         console.log(pricedetails)
-        alert("helli")
         if (response.status === 200) {
-          alert("hiiii",couponDiscount)
           if (couponDiscount > 0) {
-            alert("helllo")
             await axios.put('/api/coupun/validate', {
               userId,
               couponId: pricedetails.couponid, 
@@ -43,7 +41,7 @@ function PaymentSection({ onPaymentComplete, totalAmount, productIds, count, use
           console.log('Purchase history saved successfully!');
         }
         else if(response.status==400){
-          alert("not enough stock")
+          toast.warning("not enough stock")
         }
         else {
           console.error('Failed to save purchase history');
@@ -83,6 +81,7 @@ function PaymentSection({ onPaymentComplete, totalAmount, productIds, count, use
       >
         Pay ₹{totalAmount}
       </button>
+      <ToastContainer/>
     </div>
   );
 }

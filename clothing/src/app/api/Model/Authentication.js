@@ -47,7 +47,7 @@ const purchaseHistorySchema = new mongoose.Schema({
   status: {
     type: String,
     default: "pending",
-    enum: ["pending", "accepted", "cancelled"], 
+    enum: ["pending", "dispatched", "cancelled"], 
   },
 });
 

@@ -48,7 +48,6 @@ const HomePage = () => {
   const imagePairs1 = [watch, a1, watch];
   const imagePairs = [
     "https://st4.depositphotos.com/1007995/20729/i/450/depositphotos_207295690-stock-photo-handsome-leader-young-men-black.jpg",
-    "https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?q=80&w=2070"
   ];
 
   const nextImage = () => {
@@ -199,34 +198,33 @@ const HomePage = () => {
       </header>
 
       <main className={styles.main}>
-      <section className={styles.hero}>
-  <div className={styles.imageContainer}>
-    {/* Text Section */}
-    <div className={styles.leftText}>FLAT 40% OFF ON SHIRTS</div>
+      <section className="relative flex flex-col lg:flex-row justify-between items-center my-8 max-w-screen-lg mx-auto h-[100px] lg:h-[120px] text-center bg-[#f8f9fa] overflow-hidden">
+  <div className="flex w-full items-center justify-between relative">
+    <div className="text-xl lg:text-2xl font-bold text-[#333] z-10 px-4 text-left max-w-full lg:max-w-[50%] relative lg:left-0 lg:top-0 lg:transform-none lg:translate-y-0">
+      FLAT 40% OFF ON SHIRTS
+    </div>
 
     {/* Image Section */}
-    <div className={styles.imageWrapper}>
+    <div className="relative w-full lg:w-[50%] h-[100px] lg:h-[120px] bg-[#ececec] flex items-center justify-end">
       {/* Left Arrow */}
-      <button onClick={prevImage} className={styles.arrowButtonLeft}>
+      <button onClick={prevImage} className="absolute top-1/2 left-2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white border-none p-2 text-xl cursor-pointer z-10 rounded-full transition-all ease-in-out duration-300 hover:bg-opacity-70">
         &#10094;
       </button>
 
       {/* Image */}
-      <div className="w-full h-full relative overflow-hidden">
+      <div className="relative overflow-hidden w-full h-full">
         {imagePairs.map((image, index) => (
           <img
             key={index}
             src={image}
             alt={`Image ${currentPair}-${index}`}
-            className={`w-full h-full object-cover transition-opacity duration-500 ${
-              index === currentPair ? "opacity-100" : "opacity-0 absolute"
-            }`}
+            className={`w-full h-full object-contain transition-opacity duration-500 ${index === currentPair ? "opacity-100" : "opacity-0 absolute"}`}
           />
         ))}
       </div>
 
       {/* Right Arrow */}
-      <button onClick={nextImage} className={styles.arrowButtonRight}>
+      <button onClick={nextImage} className="absolute top-1/2 right-2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white border-none p-2 text-xl cursor-pointer z-10 rounded-full transition-all ease-in-out duration-300 hover:bg-opacity-70">
         &#10095;
       </button>
     </div>
@@ -234,10 +232,16 @@ const HomePage = () => {
 </section>
 
 
+
+
+
+
+
+
         <section className={styles.trendingSection}>
           <div className={styles.trendingHeader}>
             <h3 className={styles.trendingTitle}>Trending Beach Shorts</h3>
-            <Link href="/frontend/Products/shirts">
+            <Link href="/frontend/Products/all">
               <button className={styles.exploreButton}>Explore</button>
             </Link>
           </div>
@@ -324,7 +328,7 @@ const HomePage = () => {
         <section className={styles.newArrivals}>
           <div className={styles.newArrivalsHeader}>
             <h3>New Arrivals</h3>
-            <Link href="/frontend/Products/shirts">
+            <Link href="/frontend/Products/all">
               <button className={styles.exploreButton}>Explore</button>
             </Link>
           </div>

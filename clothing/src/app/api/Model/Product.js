@@ -41,7 +41,7 @@ const productSchema = new mongoose.Schema(
         public_id: { type: String, required: true }
       }
     ],
-    reviews: [  // Reviews are optional when the product is created
+    reviews: [  
       {
         username: { 
           type: String, 
@@ -64,9 +64,13 @@ const productSchema = new mongoose.Schema(
         },
       }
     ],
+    total_revenue:{
+      type:Number,
+      default:0
+    },
     numReviews: {
       type: Number,
-      default: 0 // Initial value of 0 when the product is created
+      default: 0 
     },
     total_revenue: {
       type: Number,

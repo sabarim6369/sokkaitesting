@@ -185,7 +185,7 @@ const ProductsPage = ({ params }) => {
             </div>
 
             <SizeSelector
-              availableSizes={['XS', 'S']}
+              availableSizes={JSON.parse(product.sizes[0])} 
               selectedSize={selectedSize}
               onSizeSelect={setSelectedSize}
             />

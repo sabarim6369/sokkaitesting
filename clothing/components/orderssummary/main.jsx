@@ -10,7 +10,8 @@ import { useRouter } from 'next/navigation';
 import { jwtDecode } from 'jwt-decode';
 import { useOrderContext } from '../cart/OrderContext';
 import Loader from "../loader/loader"; 
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const App = () => {
   const router = useRouter();
   const { orderData, setOrderData } = useOrderContext();
@@ -87,14 +88,14 @@ const App = () => {
       const response = await axios.post('/api/address', { userId: userId, ...newAddress });
       if (response.status === 200) {
         setAddresses([...addresses, newAddress]);
-        alert("Address added successfully!");
+       toast.success("Address added successfully")
         window.location.reload();
       } else {
-        alert(response.data.error || "Failed to add address.");
+        toast.error("Failed to add address.");
       }
     } catch (error) {
       console.error("Error adding address:", error);
-      alert("An error occurred while adding the address.");
+      toast.error("An error occurred while adding the address.");
     }
     setLoading(false); // Stop loading
     setShowAddressForm(false);
@@ -102,7 +103,7 @@ const App = () => {
 
   const handleEditAddress = async (editedAddress) => {
     if (!addressToEdit || !addressToEdit._id) {
-      alert("Cannot update: Invalid address selected.");
+     toast.error("Cannot update: Invalid address selected.");
       return;
     }
 
@@ -119,13 +120,13 @@ const App = () => {
           addr._id === addressToEdit._id ? { ...addr, ...editedAddress } : addr
         );
         setAddresses(updatedAddresses);
-        alert("Address updated successfully!");
+        toast.success("Address updated successfully!");
       } else {
-        alert(response.data.error || "Failed to update address.");
+        toast.error("Failed to update address.");
       }
     } catch (error) {
       console.error("Error editing address:", error);
-      alert("An error occurred while updating the address.");
+      toast.error("An error occurred while updating the address.");
     }
     setLoading(false); // Stop loading
     setShowAddressForm(false);
@@ -225,6 +226,7 @@ const App = () => {
       {currentStep !== "success" && (
         <PriceDetails priceDetails={priceDetails} totalAmount={totalAmount} />
       )}
+      <ToastContainer/>
     </div>
   );
 };

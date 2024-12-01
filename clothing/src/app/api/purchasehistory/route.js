@@ -57,8 +57,9 @@ export async function POST(request) {
       
       if (productInDb) {
         if (productInDb.stock >= product.quantity) {
-          productInDb.stock -= product.quantity; // Reduce stock
-          await productInDb.save(); // Save updated product stock
+          productInDb.stock -= product.quantity;
+          productInDb.total_revenue+=product.totalPrice
+          await productInDb.save();
           console.log(`Stock updated for product ${product.productId}`);
         } else {
           console.error(`Not enough stock for product ${product.productId}`);
