@@ -48,6 +48,7 @@ const HomePage = () => {
   const imagePairs1 = [watch, a1, watch];
   const imagePairs = [
     "https://st4.depositphotos.com/1007995/20729/i/450/depositphotos_207295690-stock-photo-handsome-leader-young-men-black.jpg",
+    "https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?q=80&w=2070"
   ];
 
   const nextImage = () => {
@@ -198,32 +199,40 @@ const HomePage = () => {
       </header>
 
       <main className={styles.main}>
-        <section className={styles.hero}>
-          <div className={styles.imageContainer}>
-            <div className={styles.leftText}>FLAT 40% OFF ON SHIRTS</div>
-            <div className={styles.images}>
-              {/* Left Arrow */}
-              <button onClick={prevImage} className={styles.arrowButtonLeft}>
-                &#10094;
-              </button>
+      <section className={styles.hero}>
+  <div className={styles.imageContainer}>
+    {/* Text Section */}
+    <div className={styles.leftText}>FLAT 40% OFF ON SHIRTS</div>
 
-              <div className="w-full h-full relative overflow-hidden">
-                {imagePairs.map((image, index) => (
-                  <img
-                    key={index}
-                    src={image}
-                    alt={`Image ${currentPair}-${index}`}
-                    className="w-full h-full object-cover"
-                  />
-                ))}
-              </div>
+    {/* Image Section */}
+    <div className={styles.imageWrapper}>
+      {/* Left Arrow */}
+      <button onClick={prevImage} className={styles.arrowButtonLeft}>
+        &#10094;
+      </button>
 
-              <button onClick={nextImage} className={styles.arrowButtonRight}>
-                &#10095;
-              </button>
-            </div>
-          </div>
-        </section>
+      {/* Image */}
+      <div className="w-full h-full relative overflow-hidden">
+        {imagePairs.map((image, index) => (
+          <img
+            key={index}
+            src={image}
+            alt={`Image ${currentPair}-${index}`}
+            className={`w-full h-full object-cover transition-opacity duration-500 ${
+              index === currentPair ? "opacity-100" : "opacity-0 absolute"
+            }`}
+          />
+        ))}
+      </div>
+
+      {/* Right Arrow */}
+      <button onClick={nextImage} className={styles.arrowButtonRight}>
+        &#10095;
+      </button>
+    </div>
+  </div>
+</section>
+
 
         <section className={styles.trendingSection}>
           <div className={styles.trendingHeader}>

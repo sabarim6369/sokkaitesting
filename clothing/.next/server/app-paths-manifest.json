@@ -1,14 +1,5 @@
 {
-  "/api/Auth/route": "app/api/Auth/route.js",
-  "/frontend/profile/page": "app/frontend/profile/page.js",
-  "/_not-found/page": "app/_not-found/page.js",
-  "/api/user/route": "app/api/user/route.js",
-  "/favicon.ico/route": "app/favicon.ico/route.js",
-  "/frontend/cart/page": "app/frontend/cart/page.js",
-  "/api/cart/route": "app/api/cart/route.js",
-  "/frontend/Products/[customer]/page": "app/frontend/Products/[customer]/page.js",
   "/page": "app/page.js",
   "/api/products/route": "app/api/products/route.js",
-  "/frontend/productdetails/[id]/page": "app/frontend/productdetails/[id]/page.js",
-  "/api/products/getproducts_by_id/route": "app/api/products/getproducts_by_id/route.js"
+  "/favicon.ico/route": "app/favicon.ico/route.js"
 }
