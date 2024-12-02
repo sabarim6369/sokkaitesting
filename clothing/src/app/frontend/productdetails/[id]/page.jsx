@@ -103,7 +103,7 @@ const ProductsPage = ({ params }) => {
       return;
     }
 
-    if (!selectedSize && (action === 'ORDER' || action === 'CART')) {
+    if (!selectedSize && (action === 'ORDER')) {
       toast.warning('Please select a size first');
       return;
     }

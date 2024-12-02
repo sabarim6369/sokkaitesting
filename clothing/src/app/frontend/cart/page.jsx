@@ -398,21 +398,21 @@ const[coupundiscount,setcoupundiscount]=useState(0)
           No Stock
         </div>
       )}
-      <Image
-        src={images[index % images.length]}
+      <img
+        src={item.images[0].url}
         alt={`product-${item.name}`}
         className="w-16 sm:w-20 h-16 sm:h-20 object-cover rounded-md shadow-md"
       />
       <div className="ml-4 flex-1">
       <h2
       className="font-bold text-sm sm:text-base md:text-lg lg:text-xl text-gray-800 hover:text-blue-500"
-      onClick={() => showdetails(item._id)} // Properly call the function
+      onClick={() => showdetails(item._id)} 
     >
       {item.name}
     </h2>
 
         <p className="text-xs sm:text-sm md:text-base lg:text-lg text-gray-600 mt-1">
-          SIZE: 34
+          SIZE: {item.sizes}
         </p>
         <p className="text-xs sm:text-sm md:text-base lg:text-lg text-gray-600">
           COUNT: {item.quantity}

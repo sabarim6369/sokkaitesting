@@ -1,6 +1,7 @@
 import { Package, Truck, CheckCircle, Clock, ArrowRight, MapPin, Calendar, Star } from 'lucide-react';
 import { useEffect } from 'react';
-
+import { useRouter } from "next/navigation";
+import axios from 'axios';
 const statusConfig = {
   'delivered': { 
     icon: CheckCircle, 
@@ -16,7 +17,7 @@ const statusConfig = {
     lightBg: 'bg-blue-50',
     label: 'In Transit'
   },
-  'processing': { 
+  'dispatched': { 
     icon: Clock, 
     color: 'text-yellow-600',
     bgColor: 'bg-yellow-600',
@@ -33,18 +34,21 @@ const statusConfig = {
 };
 
 const OrderCard = ({ order }) => {
-  const config = statusConfig[order.status] || {}; // Default to empty object if status is undefined
+  const config = statusConfig[order.status] || {}; 
   const StatusIcon = config.icon || "pending";
-
+const router=useRouter();
   useEffect(() => {
-    console.log("🔍🔍🔍");
+    console.log(order);
+    console.log("😎😎😎😎",config)
     console.log(order.products[0].productId);
   }, [order]);
 
   if (!StatusIcon) {
-    return <div>Error: Invalid status</div>; // Or a default message/component if the icon is missing
+    return <div>Error: Invalid status</div>; 
   }
-
+const handleproducts=async(id)=>{
+router.push(`/frontend/productdetails/${id}`);
+}
   const status = order.status;
 
   return (
@@ -59,7 +63,7 @@ const OrderCard = ({ order }) => {
             <div className="flex items-center space-x-2">
               <span className="text-lg font-semibold text-gray-900">Order #{order.id}</span>
               <span className={`px-3 py-1 text-xs rounded-full ${config.lightBg || 'bg-gray-200'} ${config.color || 'text-gray-600'}`}>
-                {config.label || 'Unknown Status'}
+                {order.status || 'Unknown Status'}
               </span>
             </div>
             <div className="flex items-center text-xs text-gray-500 mt-1">
@@ -79,17 +83,21 @@ const OrderCard = ({ order }) => {
           const { name, images, price, _id } = item.productId;
           const totalPrice = item.totalPrice;
           return (
-            <div key={_id} className="flex items-start space-x-4 p-4 rounded-lg hover:bg-gray-50 transition-colors">
-              <div className="relative flex-shrink-0">
-                <img 
-                  src={images?.[0]?.url || '/default-image.jpg'}  // Fallback if no image exists
-                  alt={name || 'Product Image'}  // Fallback name
-                  className="w-20 h-20 object-cover rounded-lg border-2 border-gray-300 shadow-sm"
-                />
-                <div className="absolute -top-2 -right-2 w-7 h-7 rounded-full bg-blue-600 text-white flex items-center justify-center text-xs font-semibold">
-                  {item.quantity}
-                </div>
-              </div>
+            <div key={_id} className="flex items-start space-x-4 p-4 rounded-lg hover:bg-gray-50 transition-colors"  onClick={()=>handleproducts(_id)}>
+       <div className="relative flex-shrink-0">
+  <img 
+    src={images?.[0]?.url || '/default-image.jpg'}  // Fallback if no image exists
+    alt={name || 'Product Image'}  // Fallback name
+    className="w-20 h-20 object-cover rounded-lg border-2 border-gray-300 shadow-sm"
+  />
+
+  {/* Quantity Label */}
+  <div className="absolute -top-6 -right-2 text-xs text-gray-600">
+    <span className="font-semibold">Qty:</span> {item.quantity}
+  </div>
+</div>
+
+
               <div className="flex-grow min-w-0">
                 <h4 className="font-medium text-gray-900 text-lg truncate">{name || 'Unnamed Product'}</h4>
                 <div className="mt-2 flex items-center space-x-4">
@@ -109,15 +117,21 @@ const OrderCard = ({ order }) => {
 
       {/* Delivery Information Section */}
       <div className="flex items-center justify-between p-5 bg-gray-50 border-t border-gray-100 rounded-b-xl">
-        <div className="flex items-center text-sm text-gray-600">
-          <MapPin className="w-4 h-4 mr-2" />
-          <span className="truncate max-w-[220px]">{order.deliveryAddress || 'No address provided'}</span>
-        </div>
-        <button className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-full hover:bg-blue-700 transition-colors">
-          <span>Track</span>
-          <ArrowRight className="w-4 h-4" />
-        </button>
-      </div>
+  <div className="flex items-center text-sm text-gray-600">
+    <MapPin className="w-4 h-4 mr-2" />
+    <span className="truncate max-w-[220px]">
+      {/* Access the address fields here and combine them into a single string */}
+      {order.address 
+        ? `${order.address.name}, ${order.address.address}, ${order.address.location}` 
+        : 'No address provided'}
+    </span>
+  </div>
+  <button className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-full hover:bg-blue-700 transition-colors">
+    <span>Track</span>
+    <ArrowRight className="w-4 h-4" />
+  </button>
+</div>
+
     </div>
   );
 };
