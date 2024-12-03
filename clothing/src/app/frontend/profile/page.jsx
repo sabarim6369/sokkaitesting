@@ -2,31 +2,32 @@
 import { useState, useEffect } from "react";
 import { FaInstagram, FaFacebookF, FaWhatsapp, FaTwitter } from "react-icons/fa";
 import axios from 'axios';
-import { jwtDecode } from 'jwt-decode';
+import { getUserIdFromToken } from "@/app/utils/token/token";
 
 const Profile = () => {
-  const token = localStorage.getItem('token');
-  const decodedToken = jwtDecode(token);
-  const userId = decodedToken?.id;
-  
+  const userId = getUserIdFromToken();
   const [userdata, setData] = useState({
     name: '',
     phone: '',
     email: ''
   });
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [loadingContent, setLoadingContent] = useState(true); // To handle loading state for content
-  const [loadingSave, setLoadingSave] = useState(false); // To handle loading state for save button
+  const [loadingContent, setLoadingContent] = useState(true);
+  const [loadingSave, setLoadingSave] = useState(false); 
 
   useEffect(() => {
     const getuserdata = async () => {
-      try {
-        const response = await axios.get(`/api/user?userId=${userId}`);
-        setData(response.data.userdata);
-        setLoadingContent(false); // Set loading to false once data is loaded
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-        setLoadingContent(false); // Stop loading even if there is an error
+      if (userId) {
+        try {
+          const response = await axios.get(`/api/user?userId=${userId}`);
+          setData(response.data.userdata);
+          setLoadingContent(false);
+        } catch (error) {
+          console.error("Error fetching user data:", error);
+          setLoadingContent(false); // Stop loading even if there is an error
+        }
+      } else {
+        setLoadingContent(false); // Stop loading if no userId
       }
     };
     getuserdata();
@@ -43,7 +44,7 @@ const Profile = () => {
   };
 
   const saveChanges = async () => {
-    setLoadingSave(true); // Show loader when saving changes
+    setLoadingSave(true);
     try {
       const updatedUser = {
         userId,
@@ -63,7 +64,7 @@ const Profile = () => {
     } catch (error) {
       console.error("Error saving changes:", error);
     } finally {
-      setLoadingSave(false); // Hide loader once save is complete or failed
+      setLoadingSave(false);
     }
   };
 
@@ -77,7 +78,7 @@ const Profile = () => {
             <div className="flex justify-center items-center h-32">
               <div className="w-8 h-8 border-4 border-t-4 border-blue-500 rounded-full animate-spin"></div>
             </div>
-          ) : (
+          ) : userId ? (
             <>
               <div className="flex flex-col md:flex-row justify-between items-center border-b pb-6 md:pb-8 mb-6 md:mb-8">
                 <div className="flex flex-col md:flex-row items-center gap-4 md:gap-8">
@@ -124,6 +125,18 @@ const Profile = () => {
                 </button>
               </div>
             </>
+          ) : (
+            <div className="text-center">
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-4">Please Log In or Sign Up</h2>
+              <div className="flex justify-center gap-4">
+                <button className="py-2 px-6 text-sm font-semibold text-blue-600 border border-blue-600 rounded-lg hover:bg-blue-100">
+                  Login
+                </button>
+                <button className="py-2 px-6 text-sm font-semibold text-blue-600 border border-blue-600 rounded-lg hover:bg-blue-100">
+                  Sign Up
+                </button>
+              </div>
+            </div>
           )}
         </section>
       </main>

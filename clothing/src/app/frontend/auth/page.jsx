@@ -16,7 +16,6 @@ const Page = () => {
       try {
         const { identities } = otplessUser;
 
-        // Ensure identities array exists and has elements
         if (!identities || identities.length === 0) {
           console.error("Identities array is missing or empty:", identities);
           return;

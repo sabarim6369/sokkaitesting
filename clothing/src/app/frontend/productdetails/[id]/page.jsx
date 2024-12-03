@@ -11,9 +11,9 @@ import ProductGallery from '../../../../../components/productdetailscomponent/Pr
 import SizeSelector from '../../../../../components/productdetailscomponent/SizeSelector';
 import ProductReviews from '../../../../../components/productdetailscomponent/ProductReviews';
 import SimilarProducts from '../../../../../components/productdetailscomponent/SimilarProducts';
-import useAuth from '../../../../../components/productdetailscomponent/useAuth';
-
+import { getUserIdFromToken,getToken,isAuthenticated} from '../../../utils/token/token';
 const ProductsPage = ({ params }) => {
+  const userId =getUserIdFromToken()
   const [product, setProduct] = useState(null);
   const [selectedSize, setSelectedSize] = useState(null);
   const [reviews, setReviews] = useState([]);
@@ -24,7 +24,7 @@ const ProductsPage = ({ params }) => {
   const reviewsRef = useRef(null);
   const { id } = React.use(params) || {};
   const router = useRouter();
-  const { isAuthenticated, getUserId } = useAuth();
+
 
   useEffect(() => {
     if (id) {
@@ -108,7 +108,6 @@ const ProductsPage = ({ params }) => {
       return;
     }
 
-    const userId = getUserId();
     if (!userId) {
       toast.error("Authentication error");
       return;

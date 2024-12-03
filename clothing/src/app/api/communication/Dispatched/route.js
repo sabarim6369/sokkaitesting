@@ -19,7 +19,6 @@ export async function POST() {
     });
 
     console.log("Message sent to WhatsApp successfully.");
-
     return new Response(
       JSON.stringify({
         success: true,

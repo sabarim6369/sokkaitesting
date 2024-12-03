@@ -6,6 +6,7 @@ import OrderTabs from './OrderTabs';
 import SearchBar from './SearchBar';
 import OrderStats from './OrderStats';
 import { jwtDecode } from 'jwt-decode';
+import { getUserIdFromToken } from '@/app/utils/token/token';
 const OrderHistory = () => {
   
   const [orders, setOrders] = useState([]);
@@ -16,9 +17,7 @@ const OrderHistory = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    const decodedToken = jwtDecode(token);
-    const userId = decodedToken?.id; 
+    const userId = getUserIdFromToken(); 
     const fetchOrders = async () => {
 
       try {

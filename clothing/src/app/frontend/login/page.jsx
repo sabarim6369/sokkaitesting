@@ -8,7 +8,8 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { initOTPless } from '@/app/utils/initOtpless';
 import Modal from 'react-modal';
-
+import Cookies from 'js-cookie';
+import { setToken } from '@/app/utils/token/token';
 const Login = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -53,16 +54,20 @@ const Login = () => {
       const response = await axios.post('/api/Auth/login', formData);
       const { token, user } = response.data;
 
-      localStorage.setItem('token', token);
-      if(response.status===401){
-        toast.warning("Email not exists.Sign in to contiue..");
+      if (process.env.NODE_ENV === 'production') {
+        document.cookie = `token=${token}; path=/; secure`;
+      } else {
+setToken(token);
+      }
+
+      if (response.status === 401) {
+        toast.warning("Email not exists. Sign in to continue.");
         return;
       }
-      toast.success("Login succesfull")
+
+      toast.success("Login successful!");
       setTimeout(() => {
-        // router.back();
-        // window.location.reload();
-        router.push("/")
+        router.push("/");
       }, 2000);
     } catch (err) {
       console.error('Login error:', err);
@@ -87,39 +92,43 @@ const Login = () => {
   const closeModal = () => {
     setIsModalOpen(false);
   };
+
   const callback = async (otplessUser) => {
     if (!otplessUser) {
       toast.error("OTPless authentication failed.");
       return;
     }
-  
+
     try {
       const { identities } = otplessUser;
       const email = identities[0]?.identityValue;
-  
+
       const response = await axios.post("/api/Auth/login", { email });
-  
+
       if (response.status === 200) {
         const { token } = response.data;
-        localStorage.setItem("token", token);
+
+        // Set the cookie based on the environment
+        if (process.env.NODE_ENV === 'production') {
+          document.cookie = `token=${token}; path=/; secure`;
+        } else {
+          Cookies.set("token", token, { expires: 7 });
+        }
+
         toast.success("Login successful!");
         router.push("/");
       } else if (response.status === 401) {
-        const errorMessage = response.data.error || "Email not exists. Please signup to continue";
-        toast.error("email not exists"); // Show the message from backend
+        toast.error("Email not exists. Please signup to continue.");
       } else {
         toast.error("Unexpected response from login API.");
       }
     } catch (error) {
-     toast.error("Email not exists.signup to continue")
-     setTimeout(()=>{
-      router.push("/frontend/signup")
-     },3000)
-   
+      toast.error("Email not exists. Sign up to continue.");
+      setTimeout(() => {
+        router.push("/frontend/signup");
+      }, 3000);
     }
   };
-  
-
 
   return (
     <div className="login-container">
@@ -205,7 +214,6 @@ const Login = () => {
         </div>
       </div>
 
-      {/* Modal for OTPless */}
       <Modal
         isOpen={isModalOpen}
         onRequestClose={closeModal}

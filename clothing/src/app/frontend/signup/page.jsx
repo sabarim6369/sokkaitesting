@@ -7,9 +7,9 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { initOTPless } from '@/app/utils/initOtpless';
 import './signup.css';
-
 import Modal from 'react-modal';
-
+import Cookies from 'js-cookie'; // Import js-cookie
+import { setToken } from '@/app/utils/token/token';
 const Signup = () => {
   const [backgroundIndex, setBackgroundIndex] = useState(0);
   const [showPassword, setShowPassword] = useState(false);
@@ -56,10 +56,11 @@ const Signup = () => {
       const response = await axios.post('/api/Auth', formData);
 
       const { token, user } = response.data;
-console.log("token provided is",token,"👏👏👏👏👏👏👏👏👏👏😒❤️‍🔥❤️‍🔥❤️‍🔥❤️‍🔥❤️‍🔥❤️‍🔥❤️‍🔥")
-      localStorage.setItem('token', token);
+      console.log("token provided is", token);
 
-      toast.success('Account created successfully!')
+   setToken(token);
+
+      toast.success('Account created successfully!');
 
       setTimeout(() => {
         router.back();
@@ -71,9 +72,9 @@ console.log("token provided is",token,"👏👏👏👏👏👏👏👏👏👏�
       const errorMessage = err.response ? err.response.data.error : err.message;
 
       if (errorMessage === 'Email already exists') {
-        toast.error('This email is already registered. Please use a different one.')
+        toast.error('This email is already registered. Please use a different one.');
       } else {
-        toast.error(errorMessage)
+        toast.error(errorMessage);
       }
     } finally {
       setLoading(false);
@@ -83,19 +84,18 @@ console.log("token provided is",token,"👏👏👏👏👏👏👏👏👏👏�
   const openModal = () => {
     setIsModalOpen(true);
   
-    // Initialize OTPless every time the modal opens
     try {
-      initOTPless(callback);  // Reinitialize OTPless here
+      initOTPless(callback); 
     } catch (error) {
       console.error("Error initializing OTPless:", error);
       toast.error("Error initializing OTPless.");
     }
   };
-  
 
   const closeModal = () => {
     setIsModalOpen(false);
   };
+
   const callback = async (otplessUser) => {
     console.log("Callback triggered with user data:", otplessUser);
   
@@ -122,9 +122,9 @@ console.log("token provided is",token,"👏👏👏👏👏👏👏👏👏👏�
 
           if (response.status === 200) {
               const { token, user } = response.data;
-              console.log("token provided is",token,"👏👏👏👏👏👏👏👏👏👏😒❤️‍🔥❤️‍🔥❤️‍🔥❤️‍🔥❤️‍🔥❤️‍🔥❤️‍🔥")
+              console.log("token provided is", token, "👏👏👏👏👏👏👏👏👏👏😒❤️‍🔥❤️‍🔥❤️‍🔥❤️‍🔥❤️‍🔥❤️‍🔥❤️‍🔥");
 
-              localStorage.setItem("token", token);
+              Cookies.set("token", token, { expires: 7 });
 
               if (response.data.error === "Email already exists") {
                   console.log("Account already exists, skipping success toast.");
@@ -132,10 +132,8 @@ console.log("token provided is",token,"👏👏👏👏👏👏👏👏👏👏�
               }
 
               toast.success(`Account created successfully, ${name}`);
-
               setIsModalOpen(false);
 
-             
               setTimeout(() => {
                 router.back();
               }, 3000);
@@ -144,13 +142,10 @@ console.log("token provided is",token,"👏👏👏👏👏👏👏👏👏👏�
           toast.error("Error during authentication: " + error.message);
           console.error("Error during authentication:", error);
       }
-  } else {
+    } else {
       console.error("OTPless login failed or no user data returned");
-  }
+    }
   };
-  
-  
-  
 
   return (
     <div className="login-container">

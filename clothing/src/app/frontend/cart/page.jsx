@@ -18,11 +18,11 @@ import axios from 'axios';
 import { useRouter } from "next/navigation";
 import { useOrderContext } from '../../../../components/cart/OrderContext';
 import Loader from "../../../../components/loader/loader";
+import { getUserIdFromToken,getToken,isAuthenticated} from '../../utils/token/token';
 export default function Cart() {
-  const token = localStorage.getItem('token');
+  const userId=getUserIdFromToken();
 const router=useRouter();
-  const decodedToken = jwtDecode(token);
- const userId = decodedToken?.id; 
+ 
   const [selectedItems, setSelectedItems] = useState([]);
   const [showPurchaseButton, setShowPurchaseButton] = useState(true);
   const [cartdata, setcartdata] = useState([]);
@@ -95,40 +95,14 @@ const[coupundiscount,setcoupundiscount]=useState(0)
   };
   
   
-  const isAuthenticated = () => {
-    const token = localStorage.getItem('token');
-    console.log("no token",token,"❤️‍🔥❤️‍🔥❤️‍🔥❤️‍🔥❤️‍🔥")
-    if (token) {
-      console.log("token availabel");
-        try {
-            const decodedToken = jwtDecode(token);
-            const expiry = decodedToken?.exp; 
-            
-            if (expiry) {
-                const currentTime = Math.floor(Date.now() / 1000); 
-                
-                if (currentTime < expiry) {
-               
-             console.log("👏👏👏😤😤😤")
-                    return true; 
-                } else {
-                  console.log("jsjvsv sfv fs ")
-                    localStorage.removeItem('token'); 
-                    return false;
-                }
-            }
-        } catch (error) {
-            console.error("Error decoding token:", error);
-        }
-    }
-  
-};
+
 
   const handleAction = async (action,productid) => {
     console.log("Consoling the product id in client side:", productid);
   
     if (isAuthenticated()) {
-   
+      const token = getToken();
+
       if (token) {
         try {
        
@@ -332,11 +306,10 @@ const[coupundiscount,setcoupundiscount]=useState(0)
   
     const getAllData = async () => {
       setLoading(true);
-      const token = localStorage.getItem('token');
+      const token = getToken();
       if (token) {
         try {
-          const decodedToken = jwtDecode(token);
-          const userId = decodedToken?.id;
+          const userId=getUserIdFromToken()
           console.log("Consoling the user id:", userId);
 
           if (!userId) {
