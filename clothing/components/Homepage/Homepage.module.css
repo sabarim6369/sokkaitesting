@@ -361,7 +361,7 @@
   display: grid;
   grid-auto-flow: column;
   grid-template-rows: auto;
-  grid-auto-columns: 300px;
+  grid-auto-columns: 370px;
   overflow-x: auto; /* Enable horizontal scrolling */
   overflow-y: hidden; /* Prevent vertical scrolling */
   gap: 2rem;
@@ -595,7 +595,7 @@
   display: grid;
   grid-auto-flow: column;
   grid-template-rows: auto;
-  grid-auto-columns: 300px;
+  grid-auto-columns: 370px;
   overflow-x: auto; /* Enable horizontal scrolling */
   overflow-y: hidden; /* Disable vertical scrolling */
   gap: 2rem;

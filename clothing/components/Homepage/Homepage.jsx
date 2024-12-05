@@ -258,6 +258,7 @@ const HomePage = () => {
               </div>
             ))}
           </div>
+
           <div className={styles.offerSection}>
             <p className={styles.offerText}>Exclusive offers for you!</p>
             <button className={styles.shopNowButton}>Shop Now</button>
