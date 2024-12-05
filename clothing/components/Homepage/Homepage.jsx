@@ -51,14 +51,12 @@ const HomePage = () => {
     "https://st4.depositphotos.com/1007995/20729/i/450/depositphotos_207295690-stock-photo-handsome-leader-young-men-black.jpg",
   ];
 
-  const nextImage = useCallback(() => {
+  const nextImage = () => {
     setCurrentPair((prev) => (prev + 1) % imagePairs.length);
-  }, [imagePairs.length]); // Only recreate nextImage if imagePairs changes
-
-  const nextImage1 = useCallback(() => {
+  };
+  const nextImage1 = () => {
     setCurrentImageIndex((prevIndex) => (prevIndex + 1) % imagePairs.length);
-  }, [imagePairs.length]); // Only recreate nextImage1 if imagePairs changes
-
+  };
   const prevImage1 = () => {
     setCurrentImageIndex(
       (prevIndex) => (prevIndex - 1 + imagePairs.length) % imagePairs.length
@@ -74,11 +72,11 @@ const HomePage = () => {
   useEffect(() => {
     const interval = setInterval(nextImage, 2000);
     return () => clearInterval(interval);
-  }, [nextImage]);
+  }, []);
   useEffect(() => {
     const interval1 = setInterval(nextImage1, 2000);
     return () => clearInterval(interval1);
-  }, [nextImage1]);
+  }, []);
 
   return (
     <div className={styles.container}>
@@ -210,40 +208,29 @@ const HomePage = () => {
     {/* Image Section */}
     <div className="relative w-full lg:w-[50%] h-[100px] lg:h-[120px] bg-[#ececec] flex items-center justify-end">
       {/* Left Arrow */}
-      <button 
-        onClick={prevImage} 
-        className="absolute top-1/2 left-2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white border-none p-2 text-xl cursor-pointer z-10 rounded-full transition-all ease-in-out duration-300 hover:bg-opacity-70"
-        aria-label="Previous Image"
-      >
+      <button onClick={prevImage} className="absolute top-1/2 left-2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white border-none p-2 text-xl cursor-pointer z-10 rounded-full transition-all ease-in-out duration-300 hover:bg-opacity-70">
         &#10094;
       </button>
 
       {/* Image */}
       <div className="relative overflow-hidden w-full h-full">
-  {imagePairs.map((image, index) => (
-    <Image
-      key={index}
-      src={image}
-      alt={`Image ${currentPair}-${index}`}
-      className={`w-full h-full object-contain transition-opacity duration-500 ${index === currentPair ? "opacity-100" : "opacity-0 absolute"}`}
-      width={700}  
-      height={400} 
-    />
-  ))}
-</div>
+        {imagePairs.map((image, index) => (
+          <img
+            key={index}
+            src={image}
+            alt={`Image ${currentPair}-${index}`}
+            className={`w-full h-full object-contain transition-opacity duration-500 ${index === currentPair ? "opacity-100" : "opacity-0 absolute"}`}
+          />
+        ))}
+      </div>
 
       {/* Right Arrow */}
-      <button 
-        onClick={nextImage} 
-        className="absolute top-1/2 right-2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white border-none p-2 text-xl cursor-pointer z-10 rounded-full transition-all ease-in-out duration-300 hover:bg-opacity-70"
-        aria-label="Next Image"
-      >
+      <button onClick={nextImage} className="absolute top-1/2 right-2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white border-none p-2 text-xl cursor-pointer z-10 rounded-full transition-all ease-in-out duration-300 hover:bg-opacity-70">
         &#10095;
       </button>
     </div>
   </div>
 </section>
-
 
 
 
@@ -262,11 +249,9 @@ const HomePage = () => {
           <div className={styles.trendingItemsWrapper}>
             {products.map((product) => (
               <div className={styles.itemWrapper} key={product.id}>
-               <Image
-  src={product.images[0]?.url}
-  alt="Short 2"
-  width={700}  // Fixed width
-  height={600}
+                <img
+                  src={product.images[0]?.url}
+                  alt="Short 2"
                   className={styles.itemImage}
                 />
                 <div className={styles.offerBadge}>Up to 30% Off</div>
@@ -351,12 +336,10 @@ const HomePage = () => {
           <div className={styles.arrivalsItems}>
             {products.map((product) => (
               <div className={styles.itemWrapper} key={product.id}>
-                <Image
+                <img
                   src={product.images[0]?.url}
                   alt="Short 2"
                   className={styles.itemImage}
-                  width={300}
-                  height={300}
                 />
                 <div className={styles.offerBadge}>Up to 30% Off</div>
               </div>

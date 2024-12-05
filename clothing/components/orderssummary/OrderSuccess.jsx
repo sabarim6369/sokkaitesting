@@ -1,14 +1,19 @@
-'use client'
+'use client';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
-import Lottie from 'lottie-react';
+import dynamic from 'next/dynamic';
+
+// Dynamically import Lottie to avoid SSR issues
+const Lottie = dynamic(() => import('lottie-react'), { ssr: false });
+
 import successAnimation from './success-animation.json';
 
 function OrderSuccess() {
-  const router=useRouter();
+  const router = useRouter();
   const handleContinueShopping = () => {
     router.push('/'); // Navigates to the homepage
   };
+  
   return (
     <motion.div 
       className="order-success"
