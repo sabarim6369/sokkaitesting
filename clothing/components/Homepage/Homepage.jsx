@@ -18,7 +18,7 @@ import a10 from "../../public/images/cart/a5.jpg";
 import a11 from "../../public/images/cart/a6.jpg";
 import watch from "../../public/images/homepage/watch.jpg";
 import Image from "next/image";
-import LoaderComponent from '../../../../../components/loader1/loader';
+import LoaderComponent from '../loader1/loader';
 
 const HomePage = () => {
   const [products, setProducts] = useState([]);
