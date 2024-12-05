@@ -2,15 +2,5 @@
   "/page": "app/page.js",
   "/api/products/route": "app/api/products/route.js",
   "/frontend/Products/[customer]/page": "app/frontend/Products/[customer]/page.js",
-  "/frontend/profile/page": "app/frontend/profile/page.js",
-  "/frontend/login/page": "app/frontend/login/page.js",
-  "/api/Auth/login/route": "app/api/Auth/login/route.js",
-  "/frontend/productdetails/[id]/page": "app/frontend/productdetails/[id]/page.js",
-  "/api/products/getproducts_by_id/route": "app/api/products/getproducts_by_id/route.js",
-  "/favicon.ico/route": "app/favicon.ico/route.js",
-  "/api/cart/route": "app/api/cart/route.js",
-  "/frontend/cart/page": "app/frontend/cart/page.js",
-  "/frontend/ordersummary/page": "app/frontend/ordersummary/page.js",
-  "/api/address/route": "app/api/address/route.js",
-  "/api/purchasehistory/route": "app/api/purchasehistory/route.js"
+  "/api/wishlist/route": "app/api/wishlist/route.js"
 }

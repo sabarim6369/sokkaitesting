@@ -1663,12 +1663,20 @@ Document.default = Document;
 
 var { r: __turbopack_require__, f: __turbopack_module_context__, i: __turbopack_import__, s: __turbopack_esm__, v: __turbopack_export_value__, n: __turbopack_export_namespace__, c: __turbopack_cache__, M: __turbopack_modules__, l: __turbopack_load__, j: __turbopack_dynamic__, P: __turbopack_resolve_absolute_path__, U: __turbopack_relative_url__, R: __turbopack_resolve_module_id_path__, b: __turbopack_worker_blob_url__, g: global, __dirname, x: __turbopack_external_require__, y: __turbopack_external_import__, m: module, e: exports, t: require } = __turbopack_context__;
 {
+// This alphabet uses `A-Za-z0-9_-` symbols.
+// The order of characters is optimized for better gzip and brotli compression.
+// References to the same file (works both for gzip and brotli):
+// `'use`, `andom`, and `rict'`
+// References to the brotli default dictionary:
+// `-26T`, `1983`, `40px`, `75px`, `bush`, `jack`, `mind`, `very`, and `wolf`
 let urlAlphabet = 'useandom-26T198340PX75pxJACKVERYMINDBUSHWOLF_GQZbfghjklqvwyzrict';
 let customAlphabet = (alphabet, defaultSize = 21)=>{
     return (size = defaultSize)=>{
         let id = '';
-        let i = size;
+        // A compact alternative for `for (var i = 0; i < step; i++)`.
+        let i = size | 0;
         while(i--){
+            // `| 0` is more compact and faster than `Math.floor()`.
             id += alphabet[Math.random() * alphabet.length | 0];
         }
         return id;
@@ -1676,8 +1684,10 @@ let customAlphabet = (alphabet, defaultSize = 21)=>{
 };
 let nanoid = (size = 21)=>{
     let id = '';
-    let i = size;
+    // A compact alternative for `for (var i = 0; i < step; i++)`.
+    let i = size | 0;
     while(i--){
+        // `| 0` is more compact and faster than `Math.floor()`.
         id += urlAlphabet[Math.random() * 64 | 0];
     }
     return id;
