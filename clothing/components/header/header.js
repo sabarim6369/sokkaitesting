@@ -127,7 +127,11 @@ export default function ClientHeader() {
               <i className="fas fa-shopping-cart"></i>
             </Link>
           </button>
-
+          <Link href="/frontend/orderhistory">
+  <button className="text-gray-700 hover:text-blue-500" aria-label="History">
+    <i className="fas fa-history text-lg lg:text-2xl"></i> {/* History Icon */}
+  </button>
+</Link>
           {/* User Profile Button */}
           <button className="hover:text-blue-500" aria-label="User Profile">
             <Link href="/frontend/profile">

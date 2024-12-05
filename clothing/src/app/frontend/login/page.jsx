@@ -10,6 +10,7 @@ import { initOTPless } from '@/app/utils/initOtpless';
 import Modal from 'react-modal';
 import Cookies from 'js-cookie';
 import { setToken } from '@/app/utils/token/token';
+import { getpath,setpath,removepath } from '@/app/utils/currentpathnavigate/path';
 const Login = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -66,8 +67,14 @@ setToken(token);
       }
 
       toast.success("Login successful!");
+      const redirectPath = Cookies.get('currentpath');
       setTimeout(() => {
-        router.push("/");
+        if (redirectPath) {
+          removepath()
+          router.push(redirectPath);
+        } else {
+          router.push("/");
+        }
       }, 2000);
     } catch (err) {
       console.error('Login error:', err);
@@ -116,7 +123,14 @@ setToken(token);
         }
 
         toast.success("Login successful!");
-        router.push("/");
+        const redirectPath = Cookies.get('currentpath');
+      setTimeout(() => {
+        if (redirectPath) {
+          router.push(redirectPath);
+        } else {
+          router.push("/");
+        }
+      }, 2000);
       } else if (response.status === 401) {
         toast.error("Email not exists. Please signup to continue.");
       } else {

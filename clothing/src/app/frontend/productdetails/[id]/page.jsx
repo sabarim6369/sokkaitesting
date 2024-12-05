@@ -6,7 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import { motion } from 'framer-motion';
-
+import { setpath } from '@/app/utils/currentpathnavigate/path';
 import ProductGallery from '../../../../../components/productdetailscomponent/ProductGallery';
 import SizeSelector from '../../../../../components/productdetailscomponent/SizeSelector';
 import ProductReviews from '../../../../../components/productdetailscomponent/ProductReviews';
@@ -99,6 +99,8 @@ const ProductsPage = ({ params }) => {
         position: "top-center",
         autoClose: 3000,
       });
+      const currentPath = window.location.pathname;
+      setpath(currentPath)
       setTimeout(() => router.push('/frontend/signup'), 3000);
       return;
     }

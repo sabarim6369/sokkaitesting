@@ -81,7 +81,8 @@ const Signup = () => {
     }
   };
 
-  const openModal = () => {
+  const openModal = (e) => {
+    e.preventDefault()
     setIsModalOpen(true);
   
     try {
@@ -139,7 +140,7 @@ const Signup = () => {
               }, 3000);
           }
       } catch (error) {
-          toast.error("Error during authentication: " + error.message);
+          toast.error("Mail already exists.Login");
           console.error("Error during authentication:", error);
       }
     } else {
@@ -248,7 +249,7 @@ const Signup = () => {
             <div className="divider">Or register with</div>
 
             <div className="social-buttons">
-              <button className="google-button" onClick={openModal}>
+              <button className="google-button" onClick={(e)=>openModal(e)}>
                 Google
               </button>
               <button className="apple-button">Apple</button>

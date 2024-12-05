@@ -236,9 +236,9 @@
   justify-content: space-between;
   align-items: center;
   margin: 2rem 0;
-  height: 330px; /* Consistent height */
+  height: 330px;
   text-align: center;
-  background-color: #f8f9fa; /* Subtle background */
+  background-color: #f8f9fa;
   overflow: hidden;
 }
 
@@ -288,7 +288,7 @@
   .leftText {
     font-size: 1.5rem;
     max-width: 80%;
-    position: relative; /* Centering the text */
+    position: relative;
     left: 50%;
     top: auto;
     transform: translateX(-50%);
@@ -297,7 +297,7 @@
 
 .imageWrapper {
   position: relative;
-  width: 50%; /* Default width for large screens */
+  width: 50%;
   height: 100%;
   margin-left: auto;
   display: flex;
@@ -307,23 +307,23 @@
 
 @media (max-width: 768px) {
   .imageWrapper {
-    width: 60%; /* Reduced width for medium screens */
+    width: 60%;
     margin: 0 auto;
   }
 }
 
 @media (max-width: 480px) {
   .imageWrapper {
-    width: 90%; /* Further reduced width for small screens */
+    width: 90%;
   }
 }
 
 .imageWrapper img {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* Ensures the image covers the container */
-  object-position: center; /* Ensures the image is centered */
-  border-radius: 8px; /* Rounded corners */
+  object-fit: cover;
+  object-position: center;
+  border-radius: 8px;
   transition: opacity 0.5s ease;
 }
 
@@ -336,7 +336,7 @@
   color: white;
   border: none;
   padding: 10px;
-  font-size: 2rem; /* Slightly larger arrows */
+  font-size: 2rem;
   cursor: pointer;
   z-index: 10;
   border-radius: 50%;
@@ -362,28 +362,28 @@
   grid-auto-flow: column;
   grid-template-rows: auto;
   grid-auto-columns: 370px;
-  overflow-x: auto; /* Enable horizontal scrolling */
-  overflow-y: hidden; /* Prevent vertical scrolling */
+  overflow-x: auto;
+  overflow-y: hidden;
   gap: 2rem;
-  -webkit-overflow-scrolling: touch; /* Smooth scrolling on mobile */
+  -webkit-overflow-scrolling: touch;
 }
 
-/* Hide scrollbars */
+
 .trendingItems::-webkit-scrollbar,
 .arrivalsItems::-webkit-scrollbar {
-  height: 8px; /* Control the height of horizontal scrollbar */
-  width: 0; /* Completely hide vertical scrollbar */
+  height: 8px;
+  width: 0;
 }
 
 .trendingItems::-webkit-scrollbar-thumb,
 .arrivalsItems::-webkit-scrollbar-thumb {
-  background-color: rgba(0, 0, 0, 0.3); /* Customize scrollbar thumb */
-  border-radius: 4px; /* Rounded scrollbar thumb */
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
 }
 
 .trendingItems::-webkit-scrollbar-track,
 .arrivalsItems::-webkit-scrollbar-track {
-  background-color: transparent; /* Transparent scrollbar track */
+  background-color: transparent;
 }
 
 .trendingItems img,
@@ -596,24 +596,24 @@
   grid-auto-flow: column;
   grid-template-rows: auto;
   grid-auto-columns: 370px;
-  overflow-x: auto; /* Enable horizontal scrolling */
-  overflow-y: hidden; /* Disable vertical scrolling */
+  overflow-x: auto;
+  overflow-y: hidden;
   gap: 2rem;
-  -webkit-overflow-scrolling: touch; /* Smooth scrolling for mobile */
+  -webkit-overflow-scrolling: touch;
   
-  /* Hide scrollbar */
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE and Edge */
+ 
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
 .trendingItemsWrapper::-webkit-scrollbar {
-  display: none; /* WebKit browsers (Chrome, Safari) */
+  display: none;
 }
 
 .itemWrapper {
   position: relative;
   min-width: 220px;
-  scroll-snap-align: start; /* Enable snap behavior */
+  scroll-snap-align: start;
 }
 
 

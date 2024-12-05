@@ -4,20 +4,28 @@ import axios from 'axios';
 import OrderCard from './OrderCard';
 import OrderTabs from './OrderTabs';
 import SearchBar from './SearchBar';
-import OrderStats from './OrderStats';
 import { jwtDecode } from 'jwt-decode';
-import { getUserIdFromToken } from '@/app/utils/token/token';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { getUserIdFromToken,getToken,isAuthenticated} from '@/app/utils/token/token';
+import{setpath,getpath} from '@/app/utils/currentpathnavigate/path';
+import { useRouter } from 'next/navigation';
 const OrderHistory = () => {
-  
+  const router=useRouter()
   const [orders, setOrders] = useState([]);
   const [filteredOrders, setFilteredOrders] = useState([]);
   const [activeTab, setActiveTab] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
+    
   useEffect(() => {
     const userId = getUserIdFromToken(); 
+    if (isAuthenticated()) {
+      const token = getToken();
+
+      if (token) {
+        try {
     const fetchOrders = async () => {
 
       try {
@@ -32,14 +40,58 @@ const OrderHistory = () => {
       } finally {
         setLoading(false);
       }
+      
     };
 
     
       fetchOrders();
+  }
+  catch(err){
+    console.log(err)
+    toast.error("some error occurred")
+
+  }
+}
+else{
+  toast.info("Oops! You need to sign in first.", {
+    position: "top-right", 
+    autoClose: 5000, 
+    hideProgressBar: true, 
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    theme: "colored",
+  });
+  const currentPath = window.location.pathname;
+setpath(currentPath)
+  setTimeout(() => {
+    router.push('/frontend/signup'); 
+  }, 3000); 
+}
+    }
+    else{
+      toast.info("Oops! You need to sign in first.", {
+        position: "top-right", 
+        autoClose: 5000, 
+        hideProgressBar: true, 
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "colored",
+      });
+      const currentPath = window.location.pathname;
+      setpath(currentPath)
+    
+      setTimeout(() => {
+        router.push('/frontend/signup'); 
+      }, 3000); 
+    }
+      
     
   }, []);
 
   useEffect(() => {
+    const userId = getUserIdFromToken(); 
     const filtered = orders.filter(order => {
       const matchesTab = activeTab === 'all' || order.status === activeTab;
       const matchesSearch = (order.id?.toString()?.toLowerCase().includes(searchQuery.toLowerCase())) ||
@@ -50,6 +102,11 @@ const OrderHistory = () => {
       return matchesTab && matchesSearch;
     });
     setFilteredOrders(filtered);
+    // const getcountofall=async()=>{
+    //   const response=await axios.get(`/api/history/statuscount?userId=${userId}`);
+
+    // }
+    // getcountofall();
   }, [activeTab, searchQuery, orders]);
 
   if (loading) return <div>Loading...</div>;
@@ -63,9 +120,8 @@ const OrderHistory = () => {
           <span className="text-sm text-gray-500">Showing {filteredOrders.length} orders</span>
         </div>
 
-        <OrderStats orders={orders} />
         <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
-        <OrderTabs activeTab={activeTab} onTabChange={setActiveTab} />
+        <OrderTabs activeTab={activeTab} onTabChange={setActiveTab} cartdata={orders} />
 
         <div className="space-y-4">
           {filteredOrders.length > 0 ? (
@@ -85,6 +141,7 @@ const OrderHistory = () => {
           )}
         </div>
       </div>
+      <ToastContainer/>
     </div>
   );
 };

@@ -86,7 +86,7 @@ const SimilarProducts = ({ products }) => {
           className="group relative overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 h-full flex flex-col"
         >
           <div className="w-full h-full aspect-square overflow-hidden rounded-lg bg-gray-100">
-            <Image
+            <img
               src={product.images[0].url}
               alt={product.name}
               width={288}

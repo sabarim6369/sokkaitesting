@@ -19,6 +19,7 @@ import { useRouter } from "next/navigation";
 import { useOrderContext } from '../../../../components/cart/OrderContext';
 import Loader from "../../../../components/loader/loader";
 import { getUserIdFromToken,getToken,isAuthenticated} from '../../utils/token/token';
+import { setpath } from "@/app/utils/currentpathnavigate/path";
 export default function Cart() {
   const userId=getUserIdFromToken();
 const router=useRouter();
@@ -228,7 +229,8 @@ const[coupundiscount,setcoupundiscount]=useState(0)
         draggable: true,
         theme: "colored",
       });
-  
+      const currentPath = window.location.pathname;
+      setpath(currentPath)
       setTimeout(() => {
         router.push('/frontend/signup'); 
       }, 3000); 
