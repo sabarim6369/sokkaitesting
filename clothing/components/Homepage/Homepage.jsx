@@ -51,12 +51,14 @@ const HomePage = () => {
     "https://st4.depositphotos.com/1007995/20729/i/450/depositphotos_207295690-stock-photo-handsome-leader-young-men-black.jpg",
   ];
 
-  const nextImage = () => {
+  const nextImage = useCallback(() => {
     setCurrentPair((prev) => (prev + 1) % imagePairs.length);
-  };
-  const nextImage1 = () => {
+  }, [imagePairs.length]); // Only recreate nextImage if imagePairs changes
+
+  const nextImage1 = useCallback(() => {
     setCurrentImageIndex((prevIndex) => (prevIndex + 1) % imagePairs.length);
-  };
+  }, [imagePairs.length]); // Only recreate nextImage1 if imagePairs changes
+
   const prevImage1 = () => {
     setCurrentImageIndex(
       (prevIndex) => (prevIndex - 1 + imagePairs.length) % imagePairs.length
@@ -72,11 +74,11 @@ const HomePage = () => {
   useEffect(() => {
     const interval = setInterval(nextImage, 2000);
     return () => clearInterval(interval);
-  }, []);
+  }, [nextImage]);
   useEffect(() => {
     const interval1 = setInterval(nextImage1, 2000);
     return () => clearInterval(interval1);
-  }, []);
+  }, [nextImage1]);
 
   return (
     <div className={styles.container}>

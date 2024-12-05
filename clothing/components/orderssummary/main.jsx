@@ -62,7 +62,7 @@ const App = () => {
     if (userId) {
       getAllAddresses();
     }
-  }, [orderData?.userId]);
+  }, [userId,orderData?.userId]);
 
   const priceDetails = orderSummary ? {
     count: orderData?.items?.length || 0,
