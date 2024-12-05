@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { FaInstagram, FaFacebookF, FaWhatsapp, FaTwitter } from "react-icons/fa";
 import axios from 'axios';
 import { getUserIdFromToken } from "@/app/utils/token/token";
-
+import Image from 'next/image';
 const Profile = () => {
   const userId = getUserIdFromToken();
   const [userdata, setData] = useState({
@@ -82,10 +82,12 @@ const Profile = () => {
             <>
               <div className="flex flex-col md:flex-row justify-between items-center border-b pb-6 md:pb-8 mb-6 md:mb-8">
                 <div className="flex flex-col md:flex-row items-center gap-4 md:gap-8">
-                  <img
+                  <Image
                     src="/profile-pic.png"
                     alt="User Avatar"
                     className="w-20 h-20 sm:w-28 sm:h-28 rounded-full border-2 border-gray-300"
+                    width={300}
+                    height={300}
                   />
                   <div className="text-center md:text-left text-gray-800">
                     <h2 className="text-xl sm:text-2xl font-bold">{userdata.name}</h2>

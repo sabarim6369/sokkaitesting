@@ -208,29 +208,40 @@ const HomePage = () => {
     {/* Image Section */}
     <div className="relative w-full lg:w-[50%] h-[100px] lg:h-[120px] bg-[#ececec] flex items-center justify-end">
       {/* Left Arrow */}
-      <button onClick={prevImage} className="absolute top-1/2 left-2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white border-none p-2 text-xl cursor-pointer z-10 rounded-full transition-all ease-in-out duration-300 hover:bg-opacity-70">
+      <button 
+        onClick={prevImage} 
+        className="absolute top-1/2 left-2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white border-none p-2 text-xl cursor-pointer z-10 rounded-full transition-all ease-in-out duration-300 hover:bg-opacity-70"
+        aria-label="Previous Image"
+      >
         &#10094;
       </button>
 
       {/* Image */}
       <div className="relative overflow-hidden w-full h-full">
-        {imagePairs.map((image, index) => (
-          <img
-            key={index}
-            src={image}
-            alt={`Image ${currentPair}-${index}`}
-            className={`w-full h-full object-contain transition-opacity duration-500 ${index === currentPair ? "opacity-100" : "opacity-0 absolute"}`}
-          />
-        ))}
-      </div>
+  {imagePairs.map((image, index) => (
+    <Image
+      key={index}
+      src={image}
+      alt={`Image ${currentPair}-${index}`}
+      className={`w-full h-full object-contain transition-opacity duration-500 ${index === currentPair ? "opacity-100" : "opacity-0 absolute"}`}
+      width={700}  
+      height={400} 
+    />
+  ))}
+</div>
 
       {/* Right Arrow */}
-      <button onClick={nextImage} className="absolute top-1/2 right-2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white border-none p-2 text-xl cursor-pointer z-10 rounded-full transition-all ease-in-out duration-300 hover:bg-opacity-70">
+      <button 
+        onClick={nextImage} 
+        className="absolute top-1/2 right-2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white border-none p-2 text-xl cursor-pointer z-10 rounded-full transition-all ease-in-out duration-300 hover:bg-opacity-70"
+        aria-label="Next Image"
+      >
         &#10095;
       </button>
     </div>
   </div>
 </section>
+
 
 
 
@@ -249,9 +260,11 @@ const HomePage = () => {
           <div className={styles.trendingItemsWrapper}>
             {products.map((product) => (
               <div className={styles.itemWrapper} key={product.id}>
-                <img
-                  src={product.images[0]?.url}
-                  alt="Short 2"
+               <Image
+  src={product.images[0]?.url}
+  alt="Short 2"
+  width={700}  // Fixed width
+  height={600}
                   className={styles.itemImage}
                 />
                 <div className={styles.offerBadge}>Up to 30% Off</div>
@@ -336,10 +349,12 @@ const HomePage = () => {
           <div className={styles.arrivalsItems}>
             {products.map((product) => (
               <div className={styles.itemWrapper} key={product.id}>
-                <img
+                <Image
                   src={product.images[0]?.url}
                   alt="Short 2"
                   className={styles.itemImage}
+                  width={300}
+                  height={300}
                 />
                 <div className={styles.offerBadge}>Up to 30% Off</div>
               </div>

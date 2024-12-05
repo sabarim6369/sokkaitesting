@@ -22,7 +22,8 @@ import { getUserIdFromToken,getToken,isAuthenticated} from '../../utils/token/to
 export default function Cart() {
   const userId=getUserIdFromToken();
 const router=useRouter();
- 
+ const width=300
+ const height=300
   const [selectedItems, setSelectedItems] = useState([]);
   const [showPurchaseButton, setShowPurchaseButton] = useState(true);
   const [cartdata, setcartdata] = useState([]);
@@ -371,10 +372,12 @@ const[coupundiscount,setcoupundiscount]=useState(0)
           No Stock
         </div>
       )}
-      <img
+      <Image
         src={item.images[0].url}
         alt={`product-${item.name}`}
         className="w-16 sm:w-20 h-16 sm:h-20 object-cover rounded-md shadow-md"
+        width={width}
+        height={height}
       />
       <div className="ml-4 flex-1">
       <h2
