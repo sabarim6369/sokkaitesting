@@ -4,14 +4,9 @@
   "/api/products/route": "app/api/products/route.js",
   "/frontend/cart/page": "app/frontend/cart/page.js",
   "/api/cart/route": "app/api/cart/route.js",
-  "/frontend/Products/[customer]/page": "app/frontend/Products/[customer]/page.js",
   "/frontend/productdetails/[id]/page": "app/frontend/productdetails/[id]/page.js",
-  "/api/products/getproducts_by_id/route": "app/api/products/getproducts_by_id/route.js",
   "/frontend/orderhistory/page": "app/frontend/orderhistory/page.js",
   "/api/cart/carthistory/route": "app/api/cart/carthistory/route.js",
-  "/frontend/signup/page": "app/frontend/signup/page.js",
-  "/api/Auth/route": "app/api/Auth/route.js",
-  "/frontend/login/page": "app/frontend/login/page.js",
-  "/api/Auth/login/route": "app/api/Auth/login/route.js",
-  "/api/wishlist/route": "app/api/wishlist/route.js"
+  "/api/products/getproducts_by_id/route": "app/api/products/getproducts_by_id/route.js",
+  "/api/cancelorder/route": "app/api/cancelorder/route.js"
 }

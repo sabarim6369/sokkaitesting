@@ -1,51 +1,65 @@
-import { useState, useEffect } from "react";
-import AddressForm from "./AddressForm";
-import AddressCard from "./AddressCard";
-import PaymentSection from "./PaymentSection";
-import OrderSuccess from "./OrderSuccess";
-import PriceDetails from "./PriceDetails";
-import "./order.css";
-import axios from "axios";
-import { useRouter } from "next/navigation";
-import { jwtDecode } from "jwt-decode";
-import { useOrderContext } from "../cart/OrderContext";
-import Loader from "../loader/loader";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+
+
+
+
+
+
+
+
+
+
+
+
+
+import { useState, useEffect } from 'react';
+import AddressForm from './AddressForm';
+import AddressCard from './AddressCard';
+import PaymentSection from './PaymentSection';
+import OrderSuccess from './OrderSuccess';
+import PriceDetails from './PriceDetails';
+import './order.css';
+import axios from 'axios';
+import { useRouter } from 'next/navigation';
+import { jwtDecode } from 'jwt-decode';
+import { useOrderContext } from '../cart/OrderContext';
+import Loader from "../loader/loader"; 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { getUserIdFromToken } from "@/app/utils/token/token";
 const App = () => {
   const userId = getUserIdFromToken();
   const router = useRouter();
+  const [AddressString, SetAddressString] = useState("");
+
   const { orderData, setOrderData } = useOrderContext();
   const [selectedAddress, setSelectedAddress] = useState(null);
   const [showAddressForm, setShowAddressForm] = useState(false);
-  const [currentStep, setCurrentStep] = useState("address");
-  const [AddressString, SetAddressString] = useState("");
+  const [currentStep, setCurrentStep] = useState('address');
   const [addresses, setAddresses] = useState([]);
   const [orderSummary, setOrderSummary] = useState(orderData);
   const [totalSavings, setTotalSavings] = useState(0);
   const [addressToEdit, setAddressToEdit] = useState(null);
-
+ 
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const storedOrderData = localStorage.getItem("orderData");
+    const storedOrderData = localStorage.getItem('orderData');
     if (storedOrderData) {
-      setOrderData(JSON.parse(storedOrderData));
+      setOrderData(JSON.parse(storedOrderData)); 
     }
   }, [setOrderData]);
 
   useEffect(() => {
     if (orderData) {
-      localStorage.setItem("orderData", JSON.stringify(orderData));
+      localStorage.setItem('orderData', JSON.stringify(orderData));
     }
   }, [orderData]);
 
-  useEffect(() => {
-    console.log("orderData🙏🙏🙏🙏", orderData);
+  useEffect(()=>{
+    console.log("orderData🙏🙏🙏🙏",orderData)
   });
   useEffect(() => {
-    setOrderSummary(orderData);
+    setOrderSummary(orderData); 
   }, [orderData]);
 
   useEffect(() => {
@@ -53,52 +67,43 @@ const App = () => {
       setLoading(true);
       try {
         const response = await axios.get(`/api/address?userId=${userId}`);
-        console.log("Address of the ordered data : ", response.data.address);
         setAddresses(response.data.address);
       } catch (err) {
         console.error("Error fetching addresses:", err);
       }
-      setLoading(false);
+      setLoading(false); 
     };
 
     if (userId) {
       getAllAddresses();
     }
   }, [orderData?.userId]);
-  const AdressSelection=(addr)=>{
-    setSelectedAddress(addr._id);
-    SetAddressString(addr);
-  }
-  const priceDetails = orderSummary
-    ? {
-        count: orderData?.items?.length || 0,
-        price: orderSummary.total,
-        deliveryCharges: { original: 49, current: 500 },
-        platformFee: 0,
-        totalSavings: orderSummary.savings,
-        couponDiscount: orderSummary.couponPrice || 0,
-        couponid: orderSummary.couponId || null,
-      }
-    : {
-        count: 0,
-        price: 0,
-        deliveryCharges: { original: 0, current: 0 },
-        platformFee: 0,
-        totalSavings: 0,
-        couponDiscount: 0,
-        couponid: null,
-      };
+
+  const priceDetails = orderSummary ? {
+    count: orderData?.items?.length || 0,
+    price: orderSummary.total,
+    deliveryCharges: { original: 49, current: 500 },
+    platformFee: 0,
+    totalSavings: orderSummary.savings,
+    couponDiscount: orderSummary.couponPrice || 0,  
+    couponid:orderSummary.couponId||null
+  } : {
+    count: 0,
+    price: 0, 
+    deliveryCharges: { original: 0, current: 0 },
+    platformFee: 0,
+    totalSavings: 0,
+    couponDiscount: 0, 
+    couponid:null
+  };
 
   const handleAddAddress = async (newAddress) => {
-    setLoading(true);
+    setLoading(true); // Start loading
     try {
-      const response = await axios.post("/api/address", {
-        userId: userId,
-        ...newAddress,
-      });
+      const response = await axios.post('/api/address', { userId: userId, ...newAddress });
       if (response.status === 200) {
         setAddresses([...addresses, newAddress]);
-        toast.success("Address added successfully");
+       toast.success("Address added successfully")
         window.location.reload();
       } else {
         toast.error("Failed to add address.");
@@ -107,26 +112,26 @@ const App = () => {
       console.error("Error adding address:", error);
       toast.error("An error occurred while adding the address.");
     }
-    setLoading(false);
+    setLoading(false); // Stop loading
     setShowAddressForm(false);
   };
 
   const handleEditAddress = async (editedAddress) => {
     if (!addressToEdit || !addressToEdit._id) {
-      toast.error("Cannot update: Invalid address selected.");
+     toast.error("Cannot update: Invalid address selected.");
       return;
     }
 
-    setLoading(true);
+    setLoading(true); // Start loading
     try {
-      const response = await axios.put("/api/address", {
-        userId,
-        addressId: addressToEdit._id,
-        ...editedAddress,
+      const response = await axios.put('/api/address', { 
+        userId, 
+        addressId: addressToEdit._id, 
+        ...editedAddress 
       });
 
       if (response.status === 200) {
-        const updatedAddresses = addresses.map((addr) =>
+        const updatedAddresses = addresses.map(addr =>
           addr._id === addressToEdit._id ? { ...addr, ...editedAddress } : addr
         );
         setAddresses(updatedAddresses);
@@ -138,22 +143,25 @@ const App = () => {
       console.error("Error editing address:", error);
       toast.error("An error occurred while updating the address.");
     }
-    setLoading(false);
+    setLoading(false); // Stop loading
     setShowAddressForm(false);
     setAddressToEdit(null);
   };
 
   const handleDeliverHere = () => {
-    setCurrentStep("payment");
+    setCurrentStep('payment');
   };
 
   const handleEdit = (address) => {
     setAddressToEdit(address);
-    setShowAddressForm(true);
+    setShowAddressForm(true); 
   };
-
+  const AdressSelection=(addr)=>{
+    setSelectedAddress(addr._id);
+    SetAddressString(addr);
+  }
   const handlePaymentComplete = () => {
-    setCurrentStep("success");
+    setCurrentStep('success');
   };
 
   const totalAmount = priceDetails.price + priceDetails.platformFee;
@@ -246,5 +254,3 @@ const App = () => {
 };
 
 export default App;
-
-

@@ -10,6 +10,7 @@ import './signup.css';
 import Modal from 'react-modal';
 import Cookies from 'js-cookie'; // Import js-cookie
 import { setToken } from '@/app/utils/token/token';
+import { getpath,setpath,removepath } from '@/app/utils/currentpathnavigate/path';
 const Signup = () => {
   const [backgroundIndex, setBackgroundIndex] = useState(0);
   const [showPassword, setShowPassword] = useState(false);
@@ -129,18 +130,23 @@ const Signup = () => {
 
               if (response.data.error === "Email already exists") {
                   console.log("Account already exists, skipping success toast.");
+                  toast.error("Mail already exists.Try logging in");
+                  router.push("/frontend/login")
                   return;  
               }
 
               toast.success(`Account created successfully, ${name}`);
               setIsModalOpen(false);
-
+              const redirectPath = Cookies.get('currentpath');
               setTimeout(() => {
-                router.back();
-              }, 3000);
+                removepath()
+                router.push(redirectPath);
+                 }, 2000);
           }
       } catch (error) {
-          toast.error("Mail already exists.Login");
+          toast.error("Mail already exists.Try to Login");
+          setIsModalOpen(false);
+          router.push("/frontend/login")
           console.error("Error during authentication:", error);
       }
     } else {

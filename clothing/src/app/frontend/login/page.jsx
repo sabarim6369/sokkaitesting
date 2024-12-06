@@ -66,7 +66,7 @@ setToken(token);
         return;
       }
 
-      toast.success("Login successful!");
+      
       const redirectPath = Cookies.get('currentpath');
       setTimeout(() => {
         if (redirectPath) {

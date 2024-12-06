@@ -595,7 +595,7 @@
   display: grid;
   grid-auto-flow: column;
   grid-template-rows: auto;
-  grid-auto-columns: 370px;
+  grid-auto-columns: 340px;
   overflow-x: auto;
   overflow-y: hidden;
   gap: 2rem;

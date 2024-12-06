@@ -1,87 +1,120 @@
-import { useState } from 'react';
-import PaymentMethod from './PaymentMethod';
-import axios from 'axios';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { useState } from "react";
+import PaymentMethod from "./PaymentMethod";
+import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-function PaymentSection({ onPaymentComplete, totalAmount, productIds, count, userId,orderData,addressId,pricedetails}) {
-  const [paymentMethod, setPaymentMethod] = useState('cod');
+function PaymentSection({
+  AddressString,
+  onPaymentComplete,
+  totalAmount,
+  productIds,
+  count,
+  userId,
+  orderData,
+  addressId,
+  pricedetails,
+}) {
+  const [paymentMethod, setPaymentMethod] = useState("cod");
+  const [isLoading, setIsLoading] = useState(false); // Loading state
   const couponDiscount = pricedetails?.couponDiscount || 0;
+
   const handlePayment = async () => {
     if (paymentMethod) {
+      setIsLoading(true); // Start loader
       try {
         const products = orderData.map((product) => ({
-          productId: product._id, 
-          quantity: product.quantity, 
-          totalPrice: product.price * product.quantity, 
+          productId: product._id,
+          quantity: product.quantity,
+          totalPrice: product.price * product.quantity,
         }));
-    
-    
+
         const purchaseHistory = {
           userId,
-          products,  
-          totalAmount:totalAmount,
+          products,
+          totalAmount: totalAmount,
           timestamp: new Date(),
-          addressId:addressId,
-          couponDiscount
+          addressId: addressId,
+          couponDiscount,
         };
-    
-        const response = await axios.post('/api/purchasehistory', purchaseHistory);
-        console.log(pricedetails)
+
+        const response = await axios.post(
+          "/api/purchasehistory",
+          purchaseHistory
+        );
+
         if (response.status === 200) {
           if (couponDiscount > 0) {
-            await axios.put('/api/coupun/validate', {
+            await axios.put("/api/coupun/validate", {
               userId,
-              couponId: pricedetails.couponid, 
+              couponId: pricedetails.couponid,
             });
           }
-          
-          axios.post('https://4069-2401-4900-67ae-55a0-e868-9dc7-331b-f8f4.ngrok-free.app/api/communication/invoice')
+
+          try {
+            const WhatsappResponse = await axios.post(
+              "/api/communication/invoice",
+              {
+                products: orderData,
+                address: AddressString,
+              }
+            );
+            console.log("WhatsApp response:", WhatsappResponse.data);
+            localStorage.removeItem("orderData");
+          } catch (error) {
+            console.error("Error sending WhatsApp message:", error);
+          }
+
           onPaymentComplete();
-          console.log('Purchase history saved successfully!');
+          console.log("Purchase history saved successfully!");
+        } else if (response.status == 400) {
+          toast.warning("Not enough stock");
+        } else {
+          console.error("Failed to save purchase history");
         }
-        else if(response.status==400){
-          toast.warning("not enough stock")
-        }
-        else {
-          console.error('Failed to save purchase history');
-        }
-       
       } catch (error) {
-        console.error('Error saving purchase history:', error);
+        console.error("Error saving purchase history:", error);
+      } finally {
+        setIsLoading(false); // Stop loader
       }
     }
   };
 
   const paymentMethods = [
-    { value: 'upi', label: 'UPI' },
-    { value: 'card', label: 'Credit/Debit Card' },
-    { value: 'netbanking', label: 'Net Banking' },
-    { value: 'cod', label: 'Cash on Delivery' }
+    { value: "upi", label: "UPI" },
+    { value: "card", label: "Credit/Debit Card" },
+    { value: "netbanking", label: "Net Banking" },
+    { value: "cod", label: "Cash on Delivery" },
   ];
 
   return (
     <div className="payment-section">
       <div className="payment-methods">
-        {paymentMethods.map(method => (
+        {paymentMethods.map((method) => (
           <PaymentMethod
             key={method.value}
             {...method}
             selected={paymentMethod === method.value}
             onChange={setPaymentMethod}
-            disabled={method.value !== 'cod'} 
+            disabled={method.value !== "cod"}
           />
         ))}
       </div>
 
-      <button 
-        className="payment-btn"
-        disabled={!paymentMethod}
+      <button
+        className={`payment-btn ${isLoading ? "opacity-50 cursor-not-allowed" : ""}`}
+        disabled={!paymentMethod || isLoading} 
         onClick={handlePayment}
       >
-        Pay ₹{totalAmount}
+        {isLoading ? (
+          <div className="flex items-center">
+            <span className="loader mr-2"></span> Processing...
+          </div>
+        ) : (
+          `Pay ₹${totalAmount}`
+        )}
       </button>
-      <ToastContainer/>
+      <ToastContainer />
     </div>
   );
 }

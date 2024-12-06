@@ -4,116 +4,86 @@ import axios from 'axios';
 import OrderCard from './OrderCard';
 import OrderTabs from './OrderTabs';
 import SearchBar from './SearchBar';
-import { jwtDecode } from 'jwt-decode';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { getUserIdFromToken,getToken,isAuthenticated} from '@/app/utils/token/token';
-import{setpath,getpath} from '@/app/utils/currentpathnavigate/path';
+import { getUserIdFromToken, getToken, isAuthenticated } from '@/app/utils/token/token';
+import { setpath } from '@/app/utils/currentpathnavigate/path';
 import { useRouter } from 'next/navigation';
-import Loader from '../loader1/loader'
+import Loader from '../loader1/loader';
+
 const OrderHistory = () => {
-  const router=useRouter()
+  const router = useRouter();
   const [orders, setOrders] = useState([]);
   const [filteredOrders, setFilteredOrders] = useState([]);
   const [activeTab, setActiveTab] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-    const[id,setid]=useState();
+
   useEffect(() => {
     const userId = getUserIdFromToken(); 
-    setid(userId)
     if (isAuthenticated()) {
       const token = getToken();
 
       if (token) {
         try {
-    const fetchOrders = async () => {
-
-      try {
-        setLoading(true);
-        const response = await axios.get(`/api/cart/carthistory?userId=${userId}`);
-        console.log("helloooo😍😍😍😍😍😍y")
-        console.log(response.data)
-        setOrders(response.data.purchaseHistory);
-        setFilteredOrders(response.data.purchaseHistory); // Initialize filtered orders
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
+          const fetchOrders = async () => {
+            try {
+              setLoading(true);
+              const response = await axios.get(`/api/cart/carthistory?userId=${userId}`);
+              console.log("Orders fetched:", response.data);
+              setOrders(response.data.purchaseHistory);
+              setFilteredOrders(response.data.purchaseHistory); // Initialize filtered orders
+            } catch (err) {
+              setError(err.message);
+            } finally {
+              setLoading(false);
+            }
+          };
+          fetchOrders();
+        } catch (err) {
+          console.log(err);
+          toast.error("An error occurred while fetching orders.");
+        }
+      } else {
+        handleAuthenticationRedirect();
       }
-      
-    };
-
-    
-      fetchOrders();
-  }
-  catch(err){
-    console.log(err)
-    toast.error("some error occurred")
-
-  }
-}
-else{
-  toast.info("Oops! You need to sign in first.", {
-    position: "top-right", 
-    autoClose: 5000, 
-    hideProgressBar: true, 
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    theme: "colored",
-  });
-  const currentPath = window.location.pathname;
-setpath(currentPath)
-  setTimeout(() => {
-    router.push('/frontend/signup'); 
-  }, 3000); 
-}
+    } else {
+      handleAuthenticationRedirect();
     }
-    else{
-      toast.info("Oops! You need to sign in first.", {
-        position: "top-right", 
-        autoClose: 5000, 
-        hideProgressBar: true, 
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        theme: "colored",
-      });
-      const currentPath = window.location.pathname;
-      setpath(currentPath)
-    
-      setTimeout(() => {
-        router.push('/frontend/signup'); 
-      }, 3000); 
-    }
-      
-    
   }, []);
 
+  const handleAuthenticationRedirect = () => {
+    toast.info("Oops! You need to sign in first.", {
+      position: "top-right", 
+      autoClose: 5000, 
+      hideProgressBar: true, 
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      theme: "colored",
+    });
+    const currentPath = window.location.pathname;
+    setpath(currentPath);
+    setTimeout(() => {
+      router.push('/frontend/signup'); 
+    }, 3000); 
+  };
+
   useEffect(() => {
-    const userId = getUserIdFromToken(); 
     const filtered = orders.filter(order => {
       const matchesTab = activeTab === 'all' || order.status === activeTab;
-      const matchesSearch = (order.id?.toString()?.toLowerCase().includes(searchQuery.toLowerCase())) ||
-      order.products.some(product =>
-        product.productId?.name?.toLowerCase().includes(searchQuery.toLowerCase())
-      );
-    
+      const matchesSearch = order.id?.toString()?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        order.products.some(product =>
+          product.productId?.name?.toLowerCase().includes(searchQuery.toLowerCase())
+        );
       return matchesTab && matchesSearch;
     });
     setFilteredOrders(filtered);
-    // const getcountofall=async()=>{
-    //   const response=await axios.get(`/api/history/statuscount?userId=${userId}`);
-
-    // }
-    // getcountofall();
   }, [activeTab, searchQuery, orders]);
 
   if (loading) return <Loader />;
   if (error) return <div>Error: {error}</div>;
-
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -129,7 +99,7 @@ setpath(currentPath)
         <div className="space-y-4">
           {filteredOrders.length > 0 ? (
             filteredOrders.map((order) => (
-              <OrderCard key={order._id} order={order} userId={id}/>
+              <OrderCard key={order._id} order={order} />
             ))
           ) : (
             <div className="text-center py-12 bg-white rounded-lg shadow-sm">
@@ -144,7 +114,7 @@ setpath(currentPath)
           )}
         </div>
       </div>
-      <ToastContainer/>
+      <ToastContainer />
     </div>
   );
 };
