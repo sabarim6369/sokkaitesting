@@ -16,12 +16,9 @@ function PaymentSection({
   pricedetails,
 }) {
   const [paymentMethod, setPaymentMethod] = useState("cod");
-  const [isLoading, setIsLoading] = useState(false); // Loading state
   const couponDiscount = pricedetails?.couponDiscount || 0;
-
   const handlePayment = async () => {
     if (paymentMethod) {
-      setIsLoading(true); // Start loader
       try {
         const products = orderData.map((product) => ({
           productId: product._id,
@@ -37,12 +34,15 @@ function PaymentSection({
           addressId: addressId,
           couponDiscount,
         };
-
+        //  const address=
         const response = await axios.post(
           "/api/purchasehistory",
           purchaseHistory
         );
-
+        console.log("Product data : ", orderData);
+        console.log("products     :", products);
+        console.log("Address String : ", AddressString);
+        console.log(pricedetails);
         if (response.status === 200) {
           if (couponDiscount > 0) {
             await axios.put("/api/coupun/validate", {
@@ -50,32 +50,29 @@ function PaymentSection({
               couponId: pricedetails.couponid,
             });
           }
-
           try {
             const WhatsappResponse = await axios.post(
-              "/api/communication/invoice",
+              "https://adminsokkai.vercel.app/api/communication/invoice",
               {
                 products: orderData,
                 address: AddressString,
               }
             );
+
             console.log("WhatsApp response:", WhatsappResponse.data);
             localStorage.removeItem("orderData");
           } catch (error) {
             console.error("Error sending WhatsApp message:", error);
           }
-
           onPaymentComplete();
           console.log("Purchase history saved successfully!");
         } else if (response.status == 400) {
-          toast.warning("Not enough stock");
+          toast.warning("not enough stock");
         } else {
           console.error("Failed to save purchase history");
         }
       } catch (error) {
         console.error("Error saving purchase history:", error);
-      } finally {
-        setIsLoading(false); // Stop loader
       }
     }
   };
@@ -102,17 +99,11 @@ function PaymentSection({
       </div>
 
       <button
-        className={`payment-btn ${isLoading ? "opacity-50 cursor-not-allowed" : ""}`}
-        disabled={!paymentMethod || isLoading} 
+        className="payment-btn"
+        disabled={!paymentMethod}
         onClick={handlePayment}
       >
-        {isLoading ? (
-          <div className="flex items-center">
-            <span className="loader mr-2"></span> Processing...
-          </div>
-        ) : (
-          `Pay ₹${totalAmount}`
-        )}
+        Pay ₹{totalAmount}
       </button>
       <ToastContainer />
     </div>

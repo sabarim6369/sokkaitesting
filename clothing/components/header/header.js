@@ -21,7 +21,7 @@ export default function ClientHeader() {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
-
+  //using the useffect with the data manupu.ation
   return (
     <header className="flex items-center px-4 sm:px-6 py-4 bg-white text-black top-0 left-0 w-full z-10 shadow-lg relative">
       <h1
