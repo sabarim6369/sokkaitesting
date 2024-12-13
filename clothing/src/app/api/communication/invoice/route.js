@@ -15,7 +15,7 @@ const num = "+918438434868";
 export async function POST(request) {
   const body = await request.json();
   const { products, address } = body;
-  console.log("products : ", products);
+  console.log("products : ", products,address);
 
   try {
     const htmlContent = `<!DOCTYPE html>

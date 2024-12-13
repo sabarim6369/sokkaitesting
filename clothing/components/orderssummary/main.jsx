@@ -13,9 +13,10 @@ import Loader from "../loader/loader";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { getUserIdFromToken } from "@/app/utils/token/token";
- const userId = getUserIdFromToken();
 const App = () => {
   const router = useRouter();
+  const userId = getUserIdFromToken();
+
   const { orderData, setOrderData } = useOrderContext();
   const [selectedAddress, setSelectedAddress] = useState(null);
   const [showAddressForm, setShowAddressForm] = useState(false);
