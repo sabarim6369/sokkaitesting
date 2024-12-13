@@ -405,7 +405,6 @@ const[coupundiscount,setcoupundiscount]=useState(0)
         </p>
       </div>
 
-      {/* Quantity Controls */}
       <div className="flex items-center space-x-4 ml-4">
         <button
           onClick={() => handleQuantityChange(item._id, "decrement")}

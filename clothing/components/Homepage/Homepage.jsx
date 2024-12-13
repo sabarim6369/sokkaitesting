@@ -18,10 +18,11 @@ import a10 from "../../public/images/cart/a5.jpg";
 import a11 from "../../public/images/cart/a6.jpg";
 import watch from "../../public/images/homepage/watch.jpg";
 import Image from "next/image";
-import LoaderComponent from '../loader1/loader';
+import Loadercomponent from "../loader1/loader"
 import { useRouter } from 'next/navigation';
 const HomePage = () => {
   const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
   const router = useRouter();
   const [currentPair, setCurrentPair] = useState(0);
   const searchRef = useRef(null);
@@ -36,6 +37,8 @@ const HomePage = () => {
         setFilteredProducts(filtered);
       } catch (error) {
         console.error("Error fetching products:", error);
+      }finally {
+        setLoading(false); // Stop loader after fetching
       }
     };
 
@@ -81,7 +84,9 @@ const HomePage = () => {
     const interval1 = setInterval(nextImage1, 2000);
     return () => clearInterval(interval1);
   }, []);
-
+  if (loading) {
+    return <Loadercomponent />; // Render loader while fetching data
+  }
   return (
     <div className={styles.container}>
       <Head>
@@ -337,13 +342,7 @@ const HomePage = () => {
   </div>
 </div>
 
-
-
 </section>
-
-
-
-
 
         <section className={styles.newArrivals}>
           <div className={styles.newArrivalsHeader}>

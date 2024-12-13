@@ -13,8 +13,8 @@ import Loader from "../loader/loader";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { getUserIdFromToken } from "@/app/utils/token/token";
+ const userId = getUserIdFromToken();
 const App = () => {
-  const userId = getUserIdFromToken();
   const router = useRouter();
   const { orderData, setOrderData } = useOrderContext();
   const [selectedAddress, setSelectedAddress] = useState(null);
@@ -25,7 +25,6 @@ const App = () => {
   const [orderSummary, setOrderSummary] = useState(orderData);
   const [totalSavings, setTotalSavings] = useState(0);
   const [addressToEdit, setAddressToEdit] = useState(null);
-
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -246,5 +245,3 @@ const App = () => {
 };
 
 export default App;
-
-
