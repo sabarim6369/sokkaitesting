@@ -57,7 +57,9 @@ const HomePage = () => {
   const imagePairs = [
     "https://st4.depositphotos.com/1007995/20729/i/450/depositphotos_207295690-stock-photo-handsome-leader-young-men-black.jpg",
   ];
-
+const handleshopnow=()=>{
+  router.push("/frontend/Products/all")
+}
   const nextImage = () => {
     setCurrentPair((prev) => (prev + 1) % imagePairs.length);
   };
@@ -368,7 +370,9 @@ const HomePage = () => {
           </div>
           <div className={styles.offerText}>
             <p>Exclusive offers for you!</p>
-            <button className={styles.offerButton}>Shop Now</button>
+            
+            <button className={styles.offerButton} onClick={handleshopnow}>Shop Now</button>
+           
           </div>
         </section>
       </main>

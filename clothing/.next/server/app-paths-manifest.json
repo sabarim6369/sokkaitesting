@@ -11,5 +11,9 @@
   "/frontend/ordersummary/page": "app/frontend/ordersummary/page.js",
   "/api/address/route": "app/api/address/route.js",
   "/api/purchasehistory/route": "app/api/purchasehistory/route.js",
-  "/api/communication/invoice/route": "app/api/communication/invoice/route.js"
+  "/api/communication/invoice/route": "app/api/communication/invoice/route.js",
+  "/frontend/productdetails/[id]/page": "app/frontend/productdetails/[id]/page.js",
+  "/api/products/getproducts_by_id/route": "app/api/products/getproducts_by_id/route.js",
+  "/_not-found/page": "app/_not-found/page.js",
+  "/api/wishlist/route": "app/api/wishlist/route.js"
 }

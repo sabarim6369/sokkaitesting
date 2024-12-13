@@ -36,8 +36,8 @@ const statusConfig = {
 
 const OrderCard = ({ order, userId }) => {
   const [currentOrder, setCurrentOrder] = useState(order);
-  const [showModal, setShowModal] = useState(false); // For confirmation modal
-  const [productToCancel, setProductToCancel] = useState(null); // Product to cancel
+  const [showModal, setShowModal] = useState(false); 
+  const [productToCancel, setProductToCancel] = useState(null); 
   const config = statusConfig[currentOrder.status] || {}; 
   const StatusIcon = config.icon || "pending";
   const router = useRouter();
