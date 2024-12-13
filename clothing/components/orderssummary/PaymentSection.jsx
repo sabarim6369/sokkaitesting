@@ -52,7 +52,7 @@ function PaymentSection({
           }
           try {
             const WhatsappResponse = await axios.post(
-              "/api/communication/invoice",
+              "https://adminsokkai.vercel.app/api/communication/invoice",
               {
                 products: orderData,
                 address: AddressString,
