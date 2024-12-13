@@ -158,7 +158,6 @@ export async function POST(request) {
       console.log("PDF creation failed. File not found.");
     }
 
-    // Generate an image (screenshot) of the PDF
     const imageBrowser = await puppeteer.launch();
     const imagePage = await imageBrowser.newPage();
     await imagePage.setContent(htmlContent);
