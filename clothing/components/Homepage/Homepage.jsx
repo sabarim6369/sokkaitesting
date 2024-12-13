@@ -2,6 +2,8 @@
 import Head from "next/head";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import Link from "next/link";
+import { FaInstagram, FaFacebookF, FaWhatsapp, FaTwitter } from "react-icons/fa";
+
 import axios from "axios";
 import React, { useState, useEffect, useRef } from "react";
 import styles from "./Homepage.module.css";
@@ -285,7 +287,7 @@ const handleshopnow=()=>{
             </Link>
           </div>
         </section>
-        <section className="flex flex-wrap items-center p-4 border shadow-md relative h-auto lg:h-[500px]">
+        <section className="flex flex-wrap items-center p-4 border shadow-md relative h-auto lg:h-[500px] hidden sm:block">
   {/* Left Arrow */}
   <button
     onClick={prevImage1}
@@ -316,36 +318,99 @@ const handleshopnow=()=>{
   >
     &#10095; {/* Right arrow symbol */}
   </button>
-  <div className="w-full lg:w-1/2 text-center sm:hidden md:block lg:text-left mt-4 lg:mt-0 p-6 bg-indigo-100 rounded-lg border-l-4 border-indigo-500">
-  <h4 className="xl:text-3xl text-xl font-semibold uppercase mb-2 text-indigo-700">
-    Get Gift Accessories for Purchases Over
-  </h4>
-  <h5 className="text-2xl font-bold text-indigo-600 mb-4">5000 RS</h5>
-  <p className="text-md text-gray-600 mb-4">
-    Shop our latest collection of clothing and accessories to qualify
-    for exclusive offers.
-  </p>
-  <div className="flex justify-center items-center">
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      className="w-8 h-8 text-indigo-500"
-      fill="none"
-      viewBox="0 0 24 24"
-      stroke="currentColor"
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth={2}
-        d="M12 6v6l4 2m0 0l4-2-4-2m0 0V6"
-      />
-    </svg>
-    <span className="ml-2 text-indigo-600 font-semibold">
-      Limited Time Offer
-    </span>
-  </div>
-</div>
 
+  <div className="w-full lg:w-1/2 text-center sm:hidden md:block lg:text-left mt-4 lg:mt-0 p-6 bg-indigo-100 rounded-lg border-l-4 border-indigo-500">
+    <h4 className="xl:text-3xl text-xl font-semibold uppercase mb-2 text-indigo-700">
+      Get Gift Accessories for Purchases Over
+    </h4>
+    <h5 className="text-2xl font-bold text-indigo-600 mb-4">5000 RS</h5>
+    <p className="text-md text-gray-600 mb-4">
+      Shop our latest collection of clothing and accessories to qualify
+      for exclusive offers.
+    </p>
+    <div className="flex justify-center items-center">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        className="w-8 h-8 text-indigo-500"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={2}
+          d="M12 6v6l4 2m0 0l4-2-4-2m0 0V6"
+        />
+      </svg>
+      <span className="ml-2 text-indigo-600 font-semibold">
+        Limited Time Offer
+      </span>
+    </div>
+  </div>
+</section>
+
+  <section className="flex flex-wrap items-center p-4 border shadow-md relative h-auto lg:h-[500px] lg:hidden">
+  {/* Left Arrow */}
+  <button
+    onClick={prevImage1}
+    className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-600 hover:text-gray-900 text-4xl bg-gray-200 p-2 rounded-full transition-all duration-300"
+    aria-label="Previous Image"
+  >
+    &#10094; {/* Left arrow symbol */}
+  </button>
+
+  {/* Image Section */}
+  <div className="w-full lg:w-1/2 flex justify-center lg:justify-start relative h-full">
+    <Image
+      src={imagePairs1[currentImageIndex]}
+      alt="Accessories"
+      className="rounded-lg object-cover"
+      style={{
+        width: "100%",
+        height: "100%",
+      }}
+    />
+  </div>
+
+  {/* Right Arrow */}
+  <button
+    onClick={nextImage1}
+    className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-600 hover:text-gray-900 text-4xl bg-gray-200 p-2 rounded-full transition-all duration-300"
+    aria-label="Next Image"
+  >
+    &#10095; {/* Right arrow symbol */}
+  </button>
+
+  {/* Text Section */}
+  <div className="hidden lg:block w-full lg:w-1/2 text-center lg:text-left mt-4 lg:mt-0 p-6 bg-indigo-100 rounded-lg border-l-4 border-indigo-500">
+    <h4 className="xl:text-3xl text-xl font-semibold uppercase mb-2 text-indigo-700">
+      Get Gift Accessories for Purchases Over
+    </h4>
+    <h5 className="text-2xl font-bold text-indigo-600 mb-4">5000 RS</h5>
+    <p className="text-md text-gray-600 mb-4">
+      Shop our latest collection of clothing and accessories to qualify for exclusive offers.
+    </p>
+    <div className="flex justify-center items-center">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        className="w-8 h-8 text-indigo-500"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={2}
+          d="M12 6v6l4 2m0 0l4-2-4-2m0 0V6"
+        />
+      </svg>
+      <span className="ml-2 text-indigo-600 font-semibold">
+        Limited Time Offer
+      </span>
+    </div>
+  </div>
 </section>
 
         <section className={styles.newArrivals}>
@@ -377,13 +442,26 @@ const handleshopnow=()=>{
         </section>
       </main>
 
-      <footer className={styles.footer}>
-        <p>SOKKAI - Men Made Better</p>
-        <div className={styles.socialIcons}>
-          <a href="#">Instagram</a>
-          <a href="#">Facebook</a>
-          <a href="#">WhatsApp</a>
-          <a href="#">X</a>
+  
+      <footer className="bg-black text-white py-8 mt-8 w-full">
+        <div className="flex flex-col items-center">
+          <h2 className="text-2xl font-semibold mb-2">SOKKAI</h2>
+          <p className="text-gray-400 text-sm mb-6 text-center">Men Made Better</p>
+
+          <div className="flex gap-6">
+            <a href="#" className="text-gray-400 hover:text-white text-2xl" aria-label="Instagram">
+              <FaInstagram />
+            </a>
+            <a href="#" className="text-gray-400 hover:text-white text-2xl" aria-label="Facebook">
+              <FaFacebookF />
+            </a>
+            <a href="#" className="text-gray-400 hover:text-white text-2xl" aria-label="WhatsApp">
+              <FaWhatsapp />
+            </a>
+            <a href="#" className="text-gray-400 hover:text-white text-2xl" aria-label="Twitter">
+              <FaTwitter />
+            </a>
+          </div>
         </div>
       </footer>
     </div>
