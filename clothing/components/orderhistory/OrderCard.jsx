@@ -76,6 +76,8 @@ const OrderCard = ({ order, userId }) => {
             products: updatedProducts
           };
         });
+        window.location.reload();
+
       }
     } catch (error) {
       console.error('Error canceling product:', error);

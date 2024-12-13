@@ -278,7 +278,9 @@ const HomePage = () => {
 
           <div className={styles.offerSection}>
             <p className={styles.offerText}>Exclusive offers for you!</p>
+            <Link href="/frontend/Products/all">
             <button className={styles.shopNowButton}>Shop Now</button>
+            </Link>
           </div>
         </section>
         <section className="flex flex-wrap items-center p-4 border shadow-md relative h-auto lg:h-[500px]">

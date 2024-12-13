@@ -38,6 +38,7 @@ const router=useRouter();
   const [isCouponApplied, setIsCouponApplied] = useState(false); 
 const[coupunId,setcoupunId]=useState(null)
 const[coupundiscount,setcoupundiscount]=useState(0)
+const [isLoading, setIsLoading] = useState(false); // Loading state
   const handleApplyCoupon = async () => {
     if (!couponCode.trim()) {
       toast.error("Please enter a coupon code.");
@@ -191,6 +192,7 @@ const[coupundiscount,setcoupundiscount]=useState(0)
           }
           break;
           case 'PURCHASENOW':
+            
            
             console.log("Selected products:", selectedItems);
             const selectedCartData = cartdata.filter(item => selectedItems.includes(item._id)); 
@@ -200,6 +202,9 @@ const[coupundiscount,setcoupundiscount]=useState(0)
               toast.info("Please select an item to proceed.");
               return;
             }
+           setTimeout(()=>{
+            setIsLoading(true); 
+           },[2000])
             setOrderData({
               items: selectedCartData,  
               total: calculateDiscountedTotal(), 
@@ -211,7 +216,9 @@ const[coupundiscount,setcoupundiscount]=useState(0)
             });
 
           
-            // Navigate to the order summary page
+            
+              setIsLoading(false); // Stop loader
+            
             router.push('/frontend/ordersummary');
             break;
            
@@ -351,156 +358,184 @@ const[coupundiscount,setcoupundiscount]=useState(0)
     <div className="min-h-screen bg-white text-black">
       {/* Cart Heading */}
       <div className="flex flex-col md:flex-row justify-between p-4 pt-4">
-        <div className="flex-1 overflow-y-auto max-h-[calc(100vh-160px)] space-y-4 pr-4">
-       
-        {loading ? (
-  <Loader />
-) : (
-  cartdata.map((item, index) => (
-    <div
-      key={item._id}
-      className="flex items-center border rounded-md p-4 bg-gray-50 sm:h-28 md:h-32 lg:h-40 overflow-hidden relative shadow-lg hover:shadow-2xl transition-all duration-300"
-    >
-      {item.stock && item.stock > 0 ? (
-        <input
-          type="checkbox"
-          className="custom-checkbox text-blue-500 absolute top-2 right-2"
-          checked={selectedItems.includes(item._id)}
-          onChange={() => handleCheckboxChange(item._id, item.price)}
-        />
-      ) : (
-        <div className="absolute top-2 right-2 text-red-600 font-bold text-xs sm:text-sm">
-          No Stock
-        </div>
-      )}
-      <img
-        src={item.images[0].url}
-        alt={`product-${item.name}`}
-        className="w-16 sm:w-20 h-16 sm:h-20 object-cover rounded-md shadow-md"
-      />
-      <div className="ml-4 flex-1">
-      <h2
-      className="font-bold text-sm sm:text-base md:text-lg lg:text-xl text-gray-800 hover:text-blue-500"
-      onClick={() => showdetails(item._id)} 
-    >
-      {item.name}
-    </h2>
-
-        <p className="text-xs sm:text-sm md:text-base lg:text-lg text-gray-600 mt-1">
-          SIZE: {item.sizes}
-        </p>
-        <p className="text-xs sm:text-sm md:text-base lg:text-lg text-gray-600">
-          COUNT: {item.quantity}
-        </p>
-        <div className="flex justify-between items-center mt-2">
-          <p className="text-sm sm:text-lg md:text-xl lg:text-2xl font-semibold text-gray-800">
-            {item.price * item.quantity} RS
-          </p>
-          <p className="text-blue-800 font-bold text-xs sm:text-sm md:text-base lg:text-lg line-through text-gray-500">
-            {item.originalprice * item.quantity} RS
-          </p>
-        </div>
-        <p className="text-green-800 font-bold text-xs sm:text-sm md:text-base lg:text-lg mt-1">
-          SAVED {item.originalprice - item.price} RS
-        </p>
-      </div>
-
-      <div className="flex items-center space-x-4 ml-4">
-        <button
-          onClick={() => handleQuantityChange(item._id, "decrement")}
-          className="text-gray-700 hover:text-blue-500 text-xl transform hover:scale-110 transition-all duration-300"
+  <div className="flex-1 overflow-y-auto max-h-[calc(100vh-160px)] space-y-4 pr-4">
+    {loading ? (
+      <Loader />
+    ) : (
+      cartdata.map((item, index) => (
+        <div
+          key={item._id}
+          className="flex items-center border rounded-md p-4 bg-gray-50 sm:h-28 md:h-32 lg:h-40 overflow-hidden relative shadow-lg hover:shadow-2xl transition-all duration-300"
         >
-          <i className="fas fa-minus-circle"></i>
-        </button>
-        <span className="text-lg font-semibold text-gray-800">{item.quantity}</span>
-        <button
-          onClick={() => handleQuantityChange(item._id, "increment")}
-          className="text-gray-700 hover:text-blue-500 text-xl transform hover:scale-110 transition-all duration-300"
-          disabled={item.stock < item.quantity}
-        >
-          <i className="fas fa-plus-circle"></i>
-        </button>
-      </div>
+          {item.stock && item.stock > 0 ? (
+            <input
+              type="checkbox"
+              className="custom-checkbox text-blue-500 absolute top-2 right-2"
+              checked={selectedItems.includes(item._id)}
+              onChange={() => handleCheckboxChange(item._id, item.price)}
+            />
+          ) : (
+            <div className="absolute top-2 right-2 text-red-600 font-bold text-xs sm:text-sm">
+              No Stock
+            </div>
+          )}
+          <img
+            src={item.images[0].url}
+            alt={`product-${item.name}`}
+            className="w-16 sm:w-20 h-16 sm:h-20 object-cover rounded-md shadow-md"
+          />
+          <div className="ml-4 flex-1">
+            <h2
+              className="font-bold text-sm sm:text-base md:text-lg lg:text-xl text-gray-800 hover:text-blue-500"
+              onClick={() => showdetails(item._id)}
+            >
+              {item.name}
+            </h2>
 
-      {/* Icons Section */}
-      <div className="flex flex-col items-center space-y-2 ml-4">
-        <button
-          className="text-gray-700 hover:text-blue-500 text-xl sm:text-2xl transform hover:scale-110 transition-all duration-300"
-          onClick={() => handleAction("WISHLIST", item._id)}
-        >
-          <i className="fas fa-heart"></i>
-        </button>
-        <button
-          className="text-gray-700 hover:text-red-500 text-xl sm:text-2xl transform hover:scale-110 transition-all duration-300"
-          onClick={() => handleAction("DELETE", item._id)}
-        >
-          <i className="fas fa-trash"></i>
-        </button>
-      </div>
-    </div>
-  ))
-)}
-
-        </div>
-
-        {/* Price Section */}
-        <div className="mt-6 md:mt-0 md:ml-8 md:w-1/3 space-y-6">
-          {/* Coupon Section */}
-          <div className="bg-gray-50 p-6 rounded-lg shadow-md hover:shadow-xl transition-all duration-300">
-        <h3 className="font-bold text-lg sm:text-xl lg:text-2xl">Apply Coupon</h3>
-        <input
-          type="text"
-          value={couponCode}
-          onChange={(e) => setCouponCode(e.target.value)} // Update coupon code
-          className="border p-2 rounded-md w-full text-sm sm:text-base lg:text-lg mt-2"
-          placeholder="Enter coupon code"
-        />
-        <button
-          onClick={handleApplyCoupon} // Call the function on button click
-          className="bg-black mt-5 text-white px-6 py-2 rounded-md w-full text-sm sm:text-base lg:text-lg hover:bg-gray-800 transition-all duration-300"
-        >
-          APPLY COUPON
-        </button>
-      </div>
-
-          {/* Price Section */}
-          <div
-            id="price-section"
-            className="bg-gray-50 p-6 rounded-lg text-sm sm:text-base lg:text-lg shadow-md hover:shadow-xl transition-all duration-300"
-          >
-            <div className="flex justify-between">
-              <span>Total MRP</span>
-              <span>{grandTotal} RS</span>
+            <p className="text-xs sm:text-sm md:text-base lg:text-lg text-gray-600 mt-1">
+              SIZE: {item.sizes}
+            </p>
+            <p className="text-xs sm:text-sm md:text-base lg:text-lg text-gray-600">
+              COUNT: {item.quantity}
+            </p>
+            <div className="flex justify-between items-center mt-2">
+              <p className="text-sm sm:text-lg md:text-xl lg:text-2xl font-semibold text-gray-800">
+                {item.price * item.quantity} RS
+              </p>
+              <p className="text-blue-800 font-bold text-xs sm:text-sm md:text-base lg:text-lg line-through text-gray-500">
+                {item.originalprice * item.quantity} RS
+              </p>
             </div>
-            <div className="flex justify-between">
-              <span>Discount</span>
-              <span className="text-green-500">0 RS</span>
-            </div>
-            <div className="flex justify-between">
-              <span>Coupon Discount</span>
-              <span className="text-green-500">0 RS</span>
-            </div>
-            <div className="flex justify-between">
-              <span>Delivery Charge</span>
-              <span>30 RS</span>
-            </div>
-            <div className="flex justify-between font-bold text-lg sm:text-xl lg:text-2xl mt-2">
-              <span>Grand Total</span>
-              <span>{calculateDiscountedTotal()} RS</span>
-            </div>
-            <p className="text-green-500 text-sm sm:text-base lg:text-lg mt-1">
-              SAVINGS {savings} RS
+            <p className="text-green-800 font-bold text-xs sm:text-sm md:text-base lg:text-lg mt-1">
+              SAVED {item.originalprice - item.price} RS
             </p>
           </div>
 
-          {/* Purchase Button */}
-          <div className="mt-6">
-            <button className="bg-black text-white px-8 py-3 rounded-md w-full text-lg font-bold sm:text-xl lg:text-2xl hover:bg-gray-800 transition-all duration-300" onClick={()=>handleAction('PURCHASENOW',5)}>
-              PURCHASE NOW
-            </button>
+          {/* Mobile Specific Layout */}
+          <div className="flex flex-col sm:flex-row sm:space-x-4 items-center space-y-4 sm:space-y-0 mt-4 sm:mt-0 ml-4">
+            {/* Quantity Buttons */}
+            <div className="flex items-center space-x-4">
+              <button
+                onClick={() => handleQuantityChange(item._id, "decrement")}
+                className="text-gray-700 hover:text-blue-500 text-xl transform hover:scale-110 transition-all duration-300"
+              >
+                <i className="fas fa-minus-circle"></i>
+              </button>
+              <span className="text-lg font-semibold text-gray-800">{item.quantity}</span>
+              <button
+                onClick={() => handleQuantityChange(item._id, "increment")}
+                className="text-gray-700 hover:text-blue-500 text-xl transform hover:scale-110 transition-all duration-300"
+                disabled={item.stock < item.quantity}
+              >
+                <i className="fas fa-plus-circle"></i>
+              </button>
+            </div>
+
+            {/* Action Icons */}
+            <div className="flex items-center space-x-4">
+              <button
+                className="text-gray-700 hover:text-blue-500 text-xl sm:text-2xl transform hover:scale-110 transition-all duration-300"
+                onClick={() => handleAction("WISHLIST", item._id)}
+              >
+                <i className="fas fa-heart"></i>
+              </button>
+              <button
+                className="text-gray-700 hover:text-red-500 text-xl sm:text-2xl transform hover:scale-110 transition-all duration-300"
+                onClick={() => handleAction("DELETE", item._id)}
+              >
+                <i className="fas fa-trash"></i>
+              </button>
+            </div>
           </div>
         </div>
+      ))
+    )}
+  </div>
+
+  {/* Price Section */}
+  <div className="mt-6 md:mt-0 md:ml-8 md:w-1/3 space-y-6">
+    {/* Coupon Section */}
+    <div className="bg-gray-50 p-6 rounded-lg shadow-md hover:shadow-xl transition-all duration-300">
+      <h3 className="font-bold text-lg sm:text-xl lg:text-2xl">Apply Coupon</h3>
+      <input
+        type="text"
+        value={couponCode}
+        onChange={(e) => setCouponCode(e.target.value)} // Update coupon code
+        className="border p-2 rounded-md w-full text-sm sm:text-base lg:text-lg mt-2"
+        placeholder="Enter coupon code"
+      />
+      <button
+        onClick={handleApplyCoupon} // Call the function on button click
+        className="bg-black mt-5 text-white px-6 py-2 rounded-md w-full text-sm sm:text-base lg:text-lg hover:bg-gray-800 transition-all duration-300"
+      >
+        APPLY COUPON
+      </button>
+    </div>
+
+    {/* Price Section */}
+    <div
+      id="price-section"
+      className="bg-gray-50 p-6 rounded-lg text-sm sm:text-base lg:text-lg shadow-md hover:shadow-xl transition-all duration-300"
+    >
+      <div className="flex justify-between">
+        <span>Total MRP</span>
+        <span>{grandTotal} RS</span>
       </div>
+      <div className="flex justify-between">
+        <span>Discount</span>
+        <span className="text-green-500">0 RS</span>
+      </div>
+      <div className="flex justify-between">
+        <span>Coupon Discount</span>
+        <span className="text-green-500">0 RS</span>
+      </div>
+      <div className="flex justify-between">
+        <span>Delivery Charge</span>
+        <span>30 RS</span>
+      </div>
+      <div className="flex justify-between font-bold text-lg sm:text-xl lg:text-2xl mt-2">
+        <span>Grand Total</span>
+        <span>{calculateDiscountedTotal()} RS</span>
+      </div>
+      <p className="text-green-500 text-sm sm:text-base lg:text-lg mt-1">
+        SAVINGS {savings} RS
+      </p>
+    </div>
+
+    {/* Purchase Button */}
+    <div className="mt-6">
+      <button
+        className="bg-black text-white px-8 py-3 rounded-md w-full text-lg font-bold sm:text-xl lg:text-2xl hover:bg-gray-800 transition-all duration-300"
+        onClick={() => handleAction("PURCHASENOW", 5)}
+      >
+          {isLoading ? (
+            <div className="flex items-center justify-center">
+              <span className="loader mr-2"></span> Processing...
+            </div>
+          ) : (
+            "PURCHASE NOW"
+          )}
+          
+      </button>
+      <style jsx>{`
+          .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            width: 16px;
+            height: 16px;
+            animation: spin 1s linear infinite;
+          }
+
+          @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+          }
+        `}</style>
+    </div>
+  </div>
+</div>
+
 
       {/* Mobile-specific buttons */}
       <div
