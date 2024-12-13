@@ -292,7 +292,12 @@ const [isLoading, setIsLoading] = useState(false); // Loading state
   }, [cartdata, selectedItems]);
 
   const calculateDiscountedTotal = () => {
+    if(selectedItems.length>0){
     return grandTotal + 30;
+    }
+    else{
+      return grandTotal
+    }
   };
   const showdetails = (productid) => {
     router.push(`/frontend/productdetails/${productid}`);
