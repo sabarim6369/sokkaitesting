@@ -38,6 +38,7 @@ const router=useRouter();
   const [isCouponApplied, setIsCouponApplied] = useState(false); 
 const[coupunId,setcoupunId]=useState(null)
 const[coupundiscount,setcoupundiscount]=useState(0)
+const [isLoading, setIsLoading] = useState(false); // Loading state
   const handleApplyCoupon = async () => {
     if (!couponCode.trim()) {
       toast.error("Please enter a coupon code.");
@@ -191,6 +192,7 @@ const[coupundiscount,setcoupundiscount]=useState(0)
           }
           break;
           case 'PURCHASENOW':
+            
            
             console.log("Selected products:", selectedItems);
             const selectedCartData = cartdata.filter(item => selectedItems.includes(item._id)); 
@@ -200,6 +202,9 @@ const[coupundiscount,setcoupundiscount]=useState(0)
               toast.info("Please select an item to proceed.");
               return;
             }
+           setTimeout(()=>{
+            setIsLoading(true); 
+           },[2000])
             setOrderData({
               items: selectedCartData,  
               total: calculateDiscountedTotal(), 
@@ -211,7 +216,9 @@ const[coupundiscount,setcoupundiscount]=useState(0)
             });
 
           
-            // Navigate to the order summary page
+            
+              setIsLoading(false); // Stop loader
+            
             router.push('/frontend/ordersummary');
             break;
            
@@ -501,8 +508,30 @@ const[coupundiscount,setcoupundiscount]=useState(0)
         className="bg-black text-white px-8 py-3 rounded-md w-full text-lg font-bold sm:text-xl lg:text-2xl hover:bg-gray-800 transition-all duration-300"
         onClick={() => handleAction("PURCHASENOW", 5)}
       >
-        PURCHASE NOW
+          {isLoading ? (
+            <div className="flex items-center justify-center">
+              <span className="loader mr-2"></span> Processing...
+            </div>
+          ) : (
+            "PURCHASE NOW"
+          )}
+          
       </button>
+      <style jsx>{`
+          .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            width: 16px;
+            height: 16px;
+            animation: spin 1s linear infinite;
+          }
+
+          @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+          }
+        `}</style>
     </div>
   </div>
 </div>

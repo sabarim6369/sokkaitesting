@@ -18,5 +18,8 @@
   "/api/Auth/login/route": "app/api/Auth/login/route.js",
   "/frontend/Products/[customer]/page": "app/frontend/Products/[customer]/page.js",
   "/api/purchasehistory/route": "app/api/purchasehistory/route.js",
-  "/api/communication/invoice/route": "app/api/communication/invoice/route.js"
+  "/api/communication/invoice/route": "app/api/communication/invoice/route.js",
+  "/frontend/orderhistory/page": "app/frontend/orderhistory/page.js",
+  "/api/cart/carthistory/route": "app/api/cart/carthistory/route.js",
+  "/api/cancelorder/route": "app/api/cancelorder/route.js"
 }
