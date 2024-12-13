@@ -9,11 +9,17 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { jwtDecode } from "jwt-decode";
 import { useOrderContext } from "../cart/OrderContext";
-import Loader from "../loader/loader";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
 import { getUserIdFromToken } from "@/app/utils/token/token";
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> fa599b2677bd4612a90a8117274a785a8506c9b8
 const App = () => {
+   const userId = getUserIdFromToken();
   const router = useRouter();
   const userId = getUserIdFromToken();
 
@@ -26,6 +32,7 @@ const App = () => {
   const [orderSummary, setOrderSummary] = useState(orderData);
   const [totalSavings, setTotalSavings] = useState(0);
   const [addressToEdit, setAddressToEdit] = useState(null);
+
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -65,10 +72,10 @@ const App = () => {
       getAllAddresses();
     }
   }, [orderData?.userId]);
-  const AdressSelection=(addr)=>{
+  const AdressSelection = (addr) => {
     setSelectedAddress(addr._id);
     SetAddressString(addr);
-  }
+  };
   const priceDetails = orderSummary
     ? {
         count: orderData?.items?.length || 0,
@@ -162,7 +169,7 @@ const App = () => {
     <div className="app-container">
       <div className="main-content">
         {loading ? (
-          <Loader />
+          <div>Loading</div>
         ) : (
           <>
             {currentStep === "success" ? (
@@ -182,7 +189,7 @@ const App = () => {
                             key={addr._id}
                             address={addr}
                             selected={selectedAddress === addr._id}
-                            onSelect={()=>AdressSelection(addr)}
+                            onSelect={() => AdressSelection(addr)}
                             // onSelect={() => setSelectedAddress(addr._id)}
                             onDeliverHere={handleDeliverHere}
                             showDeliverButton={currentStep === "address"}
@@ -245,4 +252,6 @@ const App = () => {
   );
 };
 
+
 export default App;
+
