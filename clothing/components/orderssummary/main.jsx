@@ -13,13 +13,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import { getUserIdFromToken } from "@/app/utils/token/token";
-<<<<<<< HEAD
-=======
-
-
->>>>>>> fa599b2677bd4612a90a8117274a785a8506c9b8
 const App = () => {
-   const userId = getUserIdFromToken();
   const router = useRouter();
   const userId = getUserIdFromToken();
 

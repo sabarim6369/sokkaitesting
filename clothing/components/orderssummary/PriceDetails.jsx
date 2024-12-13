@@ -9,14 +9,14 @@ function PriceDetails({ priceDetails, totalAmount }) {
       
       <div className="price-row">
         <span>Price ({priceDetails.count} item)</span>
-        <span>₹{priceDetails.price}</span>
+        <span>₹{priceDetails.price-30}</span>
       </div>
 
       <div className="price-row">
         <span>Delivery Charges</span>
         <span>
-          <span className="original-price">₹{priceDetails.deliveryCharges.original}</span>
-          <span className="free">FREE</span>
+          <span className="original-price">₹100</span>
+          <span className="free">₹30</span>
         </span>
       </div>
 
