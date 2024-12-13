@@ -6,22 +6,27 @@ export default function ClientHeader() {
   const [showSearch, setShowSearch] = useState(false);
   const searchRef = useRef(null);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const filterRef = useRef(null); 
 
   const toggleFilter = () => {
     setIsFilterOpen((prev) => !prev);
   };
 
+  
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (searchRef.current && !searchRef.current.contains(event.target)) {
-        setShowSearch(false);
+      if (
+        filterRef.current && !filterRef.current.contains(event.target) &&
+        !event.target.closest('button[aria-label="Filter"]') 
+      ) {
+        setIsFilterOpen(false);
       }
     };
 
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
-  //using the useffect with the data manupu.ation
+
   return (
     <header className="flex items-center px-4 sm:px-6 py-4 bg-white text-black top-0 left-0 w-full z-10 shadow-lg relative">
       <h1
@@ -67,7 +72,7 @@ export default function ClientHeader() {
 
         <div className="flex items-center space-x-4 text-gray-700 text-lg sm:text-xl lg:space-x-8 lg:text-2xl">
           {/* Filter Dropdown */}
-          <div className="relative">
+          <div className="relative" ref={filterRef}>
             <button
               className="hover:text-blue-500"
               aria-label="Filter"
@@ -128,10 +133,11 @@ export default function ClientHeader() {
             </Link>
           </button>
           <Link href="/frontend/orderhistory">
-  <button className="text-gray-700 hover:text-blue-500" aria-label="History">
-    <i className="fas fa-history text-lg lg:text-2xl"></i> {/* History Icon */}
-  </button>
-</Link>
+            <button className="text-gray-700 hover:text-blue-500" aria-label="History">
+              <i className="fas fa-history text-lg lg:text-2xl"></i> {/* History Icon */}
+            </button>
+          </Link>
+
           {/* User Profile Button */}
           <button className="hover:text-blue-500" aria-label="User Profile">
             <Link href="/frontend/profile">
