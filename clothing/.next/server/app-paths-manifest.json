@@ -4,5 +4,12 @@
   "/frontend/Products/[customer]/page": "app/frontend/Products/[customer]/page.js",
   "/frontend/cart/page": "app/frontend/cart/page.js",
   "/api/cart/route": "app/api/cart/route.js",
-  "/favicon.ico/route": "app/favicon.ico/route.js"
+  "/favicon.ico/route": "app/favicon.ico/route.js",
+  "/frontend/signup/page": "app/frontend/signup/page.js",
+  "/frontend/login/page": "app/frontend/login/page.js",
+  "/api/Auth/login/route": "app/api/Auth/login/route.js",
+  "/frontend/ordersummary/page": "app/frontend/ordersummary/page.js",
+  "/api/address/route": "app/api/address/route.js",
+  "/api/purchasehistory/route": "app/api/purchasehistory/route.js",
+  "/api/communication/invoice/route": "app/api/communication/invoice/route.js"
 }

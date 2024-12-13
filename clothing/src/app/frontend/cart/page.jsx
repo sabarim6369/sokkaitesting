@@ -302,6 +302,19 @@ const [isLoading, setIsLoading] = useState(false); // Loading state
   const showdetails = (productid) => {
     router.push(`/frontend/productdetails/${productid}`);
   };
+  const handlenotsignedin=(a)=>{
+    const currentPath = window.location.pathname;
+    if(a==="login"){
+      
+      setpath(currentPath)
+      router.push('/frontend/login')
+    }
+    else{
+     
+      setpath(currentPath)
+      router.push('/frontend/signup')
+    }
+  }
   useEffect(() => {
     const handleScroll = () => {
       const priceSection = document.getElementById("price-section");
@@ -364,13 +377,37 @@ const [isLoading, setIsLoading] = useState(false); // Loading state
       {/* Cart Heading */}
       <div className="flex flex-col md:flex-row justify-between p-4 pt-4">
   <div className="flex-1 overflow-y-auto max-h-[calc(100vh-160px)] space-y-4 pr-4">
+  {!userId ? (
+            <div className="flex justify-center items-center w-full h-full">
+              <div className="text-center p-4 bg-gray-100 rounded-lg shadow-lg">
+                <h2 className="text-xl sm:text-2xl font-bold text-gray-700">
+                  Please log in or sign up to access your cart
+                </h2>
+                <div className="mt-4 space-x-4">
+                  <button
+                    className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
+                    onClick={() =>handlenotsignedin("login")}
+                  >
+                    Login
+                  </button>
+                  <button
+                    className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600"
+                    onClick={() =>handlenotsignedin("signup") }
+                  >
+                    Sign Up
+                  </button>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div>
     {loading ? (
       <Loader />
     ) : (
       cartdata.map((item, index) => (
         <div
           key={item._id}
-          className="flex items-center border rounded-md p-4 bg-gray-50 sm:h-28 md:h-32 lg:h-40 overflow-hidden relative shadow-lg hover:shadow-2xl transition-all duration-300"
+          className="flex items-center border rounded-md p-4 bg-gray-50 sm:h-28 md:h-32 lg:h-40 overflow-hidden relative shadow-lg hover:shadow-2xl transition-all duration-300 mb-4"  // Add `mb-4` for margin-bottom
         >
           {item.stock && item.stock > 0 ? (
             <input
@@ -396,7 +433,7 @@ const [isLoading, setIsLoading] = useState(false); // Loading state
             >
               {item.name}
             </h2>
-
+      
             <p className="text-xs sm:text-sm md:text-base lg:text-lg text-gray-600 mt-1">
               SIZE: {item.sizes}
             </p>
@@ -412,10 +449,10 @@ const [isLoading, setIsLoading] = useState(false); // Loading state
               </p>
             </div>
             <p className="text-green-800 font-bold text-xs sm:text-sm md:text-base lg:text-lg mt-1">
-              SAVED {item.originalprice - item.price} RS
+              SAVED  ₹ {item.originalprice - item.price}
             </p>
           </div>
-
+      
           {/* Mobile Specific Layout */}
           <div className="flex flex-col sm:flex-row sm:space-x-4 items-center space-y-4 sm:space-y-0 mt-4 sm:mt-0 ml-4">
             {/* Quantity Buttons */}
@@ -435,7 +472,7 @@ const [isLoading, setIsLoading] = useState(false); // Loading state
                 <i className="fas fa-plus-circle"></i>
               </button>
             </div>
-
+      
             {/* Action Icons */}
             <div className="flex items-center space-x-4">
               <button
@@ -454,9 +491,11 @@ const [isLoading, setIsLoading] = useState(false); // Loading state
           </div>
         </div>
       ))
+      
     )}
   </div>
-
+          )}
+          </div>
   {/* Price Section */}
   <div className="mt-6 md:mt-0 md:ml-8 md:w-1/3 space-y-6">
     {/* Coupon Section */}
