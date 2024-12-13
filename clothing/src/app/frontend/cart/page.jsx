@@ -491,7 +491,7 @@ const [isLoading, setIsLoading] = useState(false); // Loading state
       </div>
       <div className="flex justify-between">
         <span>Delivery Charge</span>
-        <span>30 RS</span>
+        <span>{selectedItems.length>0?'30 RS':'0 RS'}</span>
       </div>
       <div className="flex justify-between font-bold text-lg sm:text-xl lg:text-2xl mt-2">
         <span>Grand Total</span>
