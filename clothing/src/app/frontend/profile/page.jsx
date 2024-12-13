@@ -4,6 +4,8 @@ import { FaInstagram, FaFacebookF, FaWhatsapp, FaTwitter } from "react-icons/fa"
 import axios from 'axios';
 import { getUserIdFromToken } from "@/app/utils/token/token";
 import Image from 'next/image';
+import profile1 from "../../../../public/images/profile/pngtree-avatar-icon-profile-icon-member-login-vector-isolated-png-image_1978396.jpg"
+import profile from "../../../../public/images/profile/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIzLTAxL3JtNjA5LXNvbGlkaWNvbi13LTAwMi1wLnBuZw.webp"
 const Profile = () => {
   const userId = getUserIdFromToken();
   const [userdata, setData] = useState({
@@ -83,7 +85,7 @@ const Profile = () => {
               <div className="flex flex-col md:flex-row justify-between items-center border-b pb-6 md:pb-8 mb-6 md:mb-8">
                 <div className="flex flex-col md:flex-row items-center gap-4 md:gap-8">
                   <Image
-                    src="/profile-pic.png"
+                    src={profile}
                     alt="User Avatar"
                     className="w-20 h-20 sm:w-28 sm:h-28 rounded-full border-2 border-gray-300"
                     width={300}

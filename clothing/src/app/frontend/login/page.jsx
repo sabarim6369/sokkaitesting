@@ -55,12 +55,9 @@ const Login = () => {
       const response = await axios.post('/api/Auth/login', formData);
       const { token, user } = response.data;
 
-      if (process.env.NODE_ENV === 'production') {
-        document.cookie = `token=${token}; path=/; secure`;
-      } else {
+    
 setToken(token);
-      }
-
+    
       if (response.status === 401) {
         toast.warning("Email not exists. Sign in to continue.");
         return;
@@ -71,6 +68,7 @@ setToken(token);
       setTimeout(() => {
         if (redirectPath) {
           removepath()
+          document.body.style.backgroundColor = '';
           router.push(redirectPath);
         } else {
           router.push("/");
@@ -115,12 +113,8 @@ setToken(token);
       if (response.status === 200) {
         const { token } = response.data;
 
-        // Set the cookie based on the environment
-        if (process.env.NODE_ENV === 'production') {
-          document.cookie = `token=${token}; path=/; secure`;
-        } else {
+       
           Cookies.set("token", token, { expires: 7 });
-        }
 
         toast.success("Login successful!");
         const redirectPath = Cookies.get('currentpath');

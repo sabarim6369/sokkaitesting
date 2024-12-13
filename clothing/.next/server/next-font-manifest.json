@@ -4,15 +4,35 @@
       "static/media/GeistVF-s.p.7fe29570.woff",
       "static/media/GeistMonoVF-s.p.a9159d35.woff"
     ],
-    "[project]/src/app/frontend/cart/page": [
-      "static/media/GeistVF-s.p.7fe29570.woff",
-      "static/media/GeistMonoVF-s.p.a9159d35.woff"
-    ],
     "[project]/src/app/frontend/productdetails/[id]/page": [
       "static/media/GeistVF-s.p.7fe29570.woff",
       "static/media/GeistMonoVF-s.p.a9159d35.woff"
     ],
-    "[project]/src/app/frontend/orderhistory/page": [
+    "[project]/src/app/frontend/ordersummary/page": [
+      "static/media/GeistVF-s.p.7fe29570.woff",
+      "static/media/GeistMonoVF-s.p.a9159d35.woff"
+    ],
+    "[project]/src/app/frontend/cart/page": [
+      "static/media/GeistVF-s.p.7fe29570.woff",
+      "static/media/GeistMonoVF-s.p.a9159d35.woff"
+    ],
+    "[project]/src/app/frontend/profile/page": [
+      "static/media/GeistVF-s.p.7fe29570.woff",
+      "static/media/GeistMonoVF-s.p.a9159d35.woff"
+    ],
+    "[project]/src/app/_not-found/page": [
+      "static/media/GeistVF-s.p.7fe29570.woff",
+      "static/media/GeistMonoVF-s.p.a9159d35.woff"
+    ],
+    "[project]/src/app/frontend/signup/page": [
+      "static/media/GeistVF-s.p.7fe29570.woff",
+      "static/media/GeistMonoVF-s.p.a9159d35.woff"
+    ],
+    "[project]/src/app/frontend/login/page": [
+      "static/media/GeistVF-s.p.7fe29570.woff",
+      "static/media/GeistMonoVF-s.p.a9159d35.woff"
+    ],
+    "[project]/src/app/frontend/Products/[customer]/page": [
       "static/media/GeistVF-s.p.7fe29570.woff",
       "static/media/GeistMonoVF-s.p.a9159d35.woff"
     ]

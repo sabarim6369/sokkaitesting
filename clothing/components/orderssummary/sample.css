@@ -2,6 +2,7 @@
 .price-details {
     font-family: Arial, sans-serif;
     margin: 20px;
+    
   }
   
   .price-row,
@@ -94,5 +95,11 @@
   
   .coupon-modal-content button:hover {
     background-color: #d32f2f;
+  }
+  @media (max-width: 768px) {
+    .price-details {
+      margin-left: 1px;
+      margin-right: 50px !important; /* Force the margin to apply */
+    }
   }
   
