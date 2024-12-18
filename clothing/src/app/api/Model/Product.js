@@ -51,13 +51,18 @@ const productSchema = new mongoose.Schema(
           type: Number,
           min: 0,
           max: 5, 
-          required: true,
         },
         feedback: {
           type: String,
           trim: true,
           required: true,
         },
+        images: [
+          {
+            url: { type: String, required: true },
+            public_id: { type: String, required: true }
+          }
+        ],
         createdAt: { 
           type: Date, 
           default: Date.now 

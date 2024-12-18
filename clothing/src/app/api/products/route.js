@@ -90,15 +90,8 @@ export async function PUT(req) {
   await connectMongoDB();
 
   try {
-    const { id, review } = await req.json(); // Expecting a single review
-    console.log("Received review:", review);
-
-    if (!review || !review.username || !review.ratings || !review.feedback) {
-      return new Response(
-        JSON.stringify({ error: "Review must include username, ratings, and feedback" }),
-        { status: 400, headers: { "Content-Type": "application/json" } }
-      );
-    }
+    const { id, review } = await req.json(); 
+    console.log("Received review:", review, id);
 
     const product = await Product.findById(id);
     if (!product) {
@@ -108,31 +101,48 @@ export async function PUT(req) {
       );
     }
 
-    // Check if the review already exists (e.g., by username or other criteria)
     const existingReview = product.reviews.find(
       (r) => r.username === review.username
     );
 
-    if (existingReview) {
-      return new Response(
-        JSON.stringify({ error: "Review from this user already exists" }),
-        { status: 409, headers: { "Content-Type": "application/json" } }
-      );
-    }
+    // if (existingReview) {
+    //   return new Response(
+    //     JSON.stringify({ error: "Review from this user already exists" }),
+    //     { status: 409, headers: { "Content-Type": "application/json" } }
+    //   );
+    // }
 
-    // Add the new review
+    const uploadedImages = [];
+
+    for (const imageFilePath of review.images || []) {
+      const uploadImageResponse = await cloudinary.v2.uploader.upload(
+        imageFilePath,
+        {
+          resource_type: "image",
+          folder: "sokkai/reviews",
+          public_id: `invoice_thumbnail_${Date.now()}`,
+          access_mode: "public",
+        }
+      );
+    
+      const imageUrl = uploadImageResponse.secure_url;
+      const publicId = uploadImageResponse.public_id;
+      uploadedImages.push({ url: imageUrl, public_id: publicId });
+      console.log("Image uploaded to Cloudinary:", imageUrl);
+    }
+    console.log("🤣🤣🤣🤣",uploadedImages)
     product.reviews.push({
       username: review.username,
-      ratings: review.ratings,
+      ratings: review.rating,
       feedback: review.feedback,
+      images: uploadedImages, // Now an array of objects with url and public_id
     });
-
-    // Update the number of reviews
+    
     product.numReviews = product.reviews.length;
-
+    
     const updatedProduct = await product.save();
     console.log("Updated product:", updatedProduct);
-
+    
     return new Response(
       JSON.stringify({
         message: "Review added successfully",
@@ -140,6 +150,7 @@ export async function PUT(req) {
       }),
       { status: 200, headers: { "Content-Type": "application/json" } }
     );
+    
   } catch (error) {
     console.error("Error during product save:", error);
     return new Response(
@@ -148,7 +159,6 @@ export async function PUT(req) {
     );
   }
 }
-
 
 
 

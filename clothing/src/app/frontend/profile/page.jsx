@@ -4,9 +4,11 @@ import { FaInstagram, FaFacebookF, FaWhatsapp, FaTwitter } from "react-icons/fa"
 import axios from 'axios';
 import { getUserIdFromToken } from "@/app/utils/token/token";
 import Image from 'next/image';
+import {useRouter} from "next/navigation";
 import profile1 from "../../../../public/images/profile/pngtree-avatar-icon-profile-icon-member-login-vector-isolated-png-image_1978396.jpg"
 import profile from "../../../../public/images/profile/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIzLTAxL3JtNjA5LXNvbGlkaWNvbi13LTAwMi1wLnBuZw.webp"
 const Profile = () => {
+  const router=useRouter();
   const userId = getUserIdFromToken();
   const [userdata, setData] = useState({
     name: '',
@@ -44,7 +46,11 @@ const Profile = () => {
       [name]: value
     }));
   };
-
+const navigate=(a)=>{
+if(a==="orders"){
+  router.push("/frontend/orderhistory")
+}
+}
   const saveChanges = async () => {
     setLoadingSave(true);
     try {
@@ -115,7 +121,7 @@ const Profile = () => {
               </div>
 
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <button className="py-3 text-gray-800 font-semibold bg-gray-100 hover:bg-gray-200 rounded-lg text-center shadow">
+                <button className="py-3 text-gray-800 font-semibold bg-gray-100 hover:bg-gray-200 rounded-lg text-center shadow" onClick={navigate("orders")}>
                   Orders
                 </button>
                 <button className="py-3 text-gray-800 font-semibold bg-gray-100 hover:bg-gray-200 rounded-lg text-center shadow">
@@ -124,7 +130,7 @@ const Profile = () => {
                 <button className="py-3 text-gray-800 font-semibold bg-gray-100 hover:bg-gray-200 rounded-lg text-center shadow">
                   About
                 </button>
-                <button className="py-3 text-gray-800 font-semibold bg-gray-100 hover:bg-gray-200 rounded-lg text-center shadow">
+                <button className="py-3 text-gray-800 font-semibold bg-gray-100 hover:bg-gray-200 rounded-lg text-center shadow" >
                   Contact
                 </button>
               </div>

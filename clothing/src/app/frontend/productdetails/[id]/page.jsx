@@ -233,10 +233,11 @@ const ProductsPage = ({ params }) => {
 
       <div ref={reviewsRef}>
         <ProductReviews
-          reviews={reviews}
+          reviews1={reviews}
           onSubmitReview={handleReviewSubmit}
           newReview={newReview}
           setNewReview={setNewReview}
+          productid={id}
         />
       </div>
 
