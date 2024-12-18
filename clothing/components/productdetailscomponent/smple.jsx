@@ -102,25 +102,32 @@ const ReviewCard = ({ review, index }) => {
 
       {/* Modal for Fullscreen Image */}
       {selectedImage && (
-        <div className="fixed inset-0 bg-black bg-opacity-80 flex justify-center items-center z-50">
-          <div className="relative max-w-full max-h-full">
-            <button
-              className="absolute top-4 right-4 text-white text-2xl"
-              onClick={closeModal}
-              aria-label="Close"
-            >
-              <X />
-            </button>
-            <Image
-              src={selectedImage}
-              alt="Fullscreen Review Image"
-              width={800}
-              height={800}
-              className="object-contain max-w-full max-h-screen"
-            />
-          </div>
-        </div>
-      )}
+  <div className="fixed inset-0 bg-black bg-opacity-80 flex justify-center items-center z-50">
+    <div className="relative w-full max-w-screen-md mx-auto">
+      {/* Close Button */}
+      <button
+        className="absolute top-4 right-4 bg-black bg-opacity-70 text-white rounded-full p-2 hover:bg-opacity-90 transition"
+        onClick={closeModal}
+        aria-label="Close"
+        style={{
+          zIndex: 60, // Ensure it appears above everything else
+        }}
+      >
+        <X className="w-6 h-6" />
+      </button>
+      
+      {/* Image */}
+      <Image
+        src={selectedImage}
+        alt="Fullscreen Review Image"
+        width={800}
+        height={800}
+        className="object-contain w-full h-auto max-h-screen"
+      />
+    </div>
+  </div>
+)}
+
     </>
   );
 };

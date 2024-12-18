@@ -1,25 +1,26 @@
 "use client";
 import React, { useState, useRef, useEffect } from "react";
-import Link from 'next/link';
+import Link from "next/link";
 
 export default function ClientHeader() {
   const [showSearch, setShowSearch] = useState(false);
   const searchRef = useRef(null);
-  const [isFilterOpen, setIsFilterOpen] = useState(false);
-  const filterRef = useRef(null); 
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const sidebarRef = useRef(null); // Reference for the sidebar
 
-  const toggleFilter = () => {
-    setIsFilterOpen((prev) => !prev);
+  const toggleSidebar = () => {
+    setIsSidebarOpen((prev) => !prev);
   };
 
-  
   useEffect(() => {
     const handleClickOutside = (event) => {
+      // Close sidebar if clicked outside
       if (
-        filterRef.current && !filterRef.current.contains(event.target) &&
-        !event.target.closest('button[aria-label="Filter"]') 
+        sidebarRef.current &&
+        !sidebarRef.current.contains(event.target) &&
+        !event.target.closest('button[aria-label="Open Sidebar"]')
       ) {
-        setIsFilterOpen(false);
+        setIsSidebarOpen(false);
       }
     };
 
@@ -28,124 +29,141 @@ export default function ClientHeader() {
   }, []);
 
   return (
-    <header className="flex items-center px-4 sm:px-6 py-4 bg-white text-black top-0 left-0 w-full z-10 shadow-lg relative">
-      <h1
-        className={`text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold flex-1 ${showSearch ? 'hidden' : ''}`}
+    <>
+      {/* Sidebar */}
+      <div
+        ref={sidebarRef}
+        className={`fixed top-0 left-0 h-full w-64 bg-white shadow-lg transform transition-transform duration-300 z-50 ${
+          isSidebarOpen ? "translate-x-0" : "-translate-x-full"
+        }`}
       >
-        <span className="text-black">SO</span>
-        <span className="text-blue-500">K</span>
-        <span className="text-black">KA</span>
-        <span className="text-yellow-500">I</span>
-      </h1>
-
-      <div className="flex-grow flex justify-end items-center space-x-4 relative">
-        <button
-          className={`lg:hidden text-gray-700 text-lg sm:text-xl ${showSearch ? "hidden" : ""}`}
-          onClick={() => setShowSearch(true)}
-          aria-label="Open search bar"
-        >
-          <i className="fas fa-search"></i>
-        </button>
-
-        {showSearch && (
-          <div
-            ref={searchRef}
-            className="absolute top-0 left-0 w-full h-full bg-white z-20 flex items-center justify-center"
+        {/* Sidebar Header */}
+        <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200">
+          <h2 className="text-xl font-bold text-gray-800">Menu</h2>
+          <button
+            onClick={toggleSidebar}
+            className="text-gray-800 text-2xl focus:outline-none hover:text-red-500 transition-colors"
+            aria-label="Close Sidebar"
           >
-            <input
-              type="text"
-              placeholder="Search for products..."
-              className="bg-gray-100 text-sm sm:text-base lg:text-lg px-4 py-2 rounded-full w-4/5 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              aria-label="Search input"
-            />
-          </div>
-        )}
-
-        <div className="hidden lg:flex flex-shrink-0 w-1/4 max-w-xs">
-          <input
-            type="text"
-            placeholder="Search for products..."
-            className="bg-gray-100 text-sm sm:text-base lg:text-lg px-4 py-2 rounded-full w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-            aria-label="Search input large"
-          />
+            &times;
+          </button>
         </div>
 
-        <div className="flex items-center space-x-4 text-gray-700 text-lg sm:text-xl lg:space-x-8 lg:text-2xl">
-          {/* Filter Dropdown */}
-          <div className="relative" ref={filterRef}>
-            <button
-              className="hover:text-blue-500"
-              aria-label="Filter"
-              onClick={toggleFilter}
+        {/* Sidebar Content */}
+        <ul className="mt-4">
+          <li className="group">
+            <Link
+              href="/"
+              className="flex items-center px-6 py-3 text-gray-700 hover:text-blue-500 hover:bg-gray-100 rounded transition-all"
             >
-              <i className="fas fa-filter"></i>
-            </button>
-            {isFilterOpen && (
-              <div className="absolute left-0 mt-2 w-40 bg-white border border-gray-200 rounded-md shadow-lg z-50">
-                <ul className="text-gray-700 text-base">
-                  <li className="hover:bg-gray-100">
-                    <Link
-                      href="/frontend/Products/shirts"
-                      className="block px-4 py-2"
-                    >
-                      Shirts
-                    </Link>
-                  </li>
-                  <li className="hover:bg-gray-100">
-                    <Link
-                      href="/frontend/Products/trousers"
-                      className="block px-4 py-2"
-                    >
-                      Trousers
-                    </Link>
-                  </li>
-                  <li className="hover:bg-gray-100">
-                    <Link
-                      href="/frontend/Products/pants"
-                      className="block px-4 py-2"
-                    >
-                      Pants
-                    </Link>
-                  </li>
-                </ul>
-              </div>
-            )}
-          </div>
-
-          {/* Home Button */}
-          <button className="hover:text-blue-500" aria-label="Home">
-            <Link href="/">
-              <i className="fas fa-home"></i>
+              <i className="fas fa-home mr-4 text-gray-500 group-hover:text-blue-500 mr-2"></i>
+              Home
             </Link>
-          </button>
-
-          {/* Wishlist Button */}
-          <button className="hover:text-blue-500" aria-label="Wishlist">
-            <Link href="/frontend/Products/wishlist">
-              <i className="fas fa-heart"></i>
+          </li>
+          <li className="group">
+            <Link
+              href="/frontend/Products/shirts"
+              className="flex items-center px-6 py-3 text-gray-700 hover:text-blue-500 hover:bg-gray-100 rounded transition-all"
+            >
+              <i className="fas fa-tshirt mr-4 text-gray-500 group-hover:text-blue-500 mr-2"></i>
+              Shirts
             </Link>
-          </button>
-
-          {/* Cart Button */}
-          <button className="hover:text-blue-500" aria-label="Cart">
-            <Link href="/frontend/cart">
-              <i className="fas fa-shopping-cart"></i>
+          </li>
+          <li className="group">
+            <Link
+              href="/frontend/Products/trousers"
+              className="flex items-center px-6 py-3 text-gray-700 hover:text-blue-500 hover:bg-gray-100 rounded transition-all"
+            >
+              <i className="fas fa-user-tie mr-4 text-gray-500 group-hover:text-blue-500 mr-2"></i>
+              Trousers
             </Link>
-          </button>
-          {/* <Link href="/frontend/orderhistory"> */}
-            <button className="text-gray-700 hover:text-blue-500" aria-label="History">
-              <i className="fas fa-history text-lg lg:text-2xl"></i> {/* History Icon */}
-            </button>
-          {/* </Link> */}
-
-          {/* User Profile Button */}
-          <button className="hover:text-blue-500" aria-label="User Profile">
-            <Link href="/frontend/profile">
-              <i className="fas fa-user"></i>
+          </li>
+          <li className="group">
+            <Link
+              href="/frontend/Products/pants"
+              className="flex items-center px-6 py-3 text-gray-700 hover:text-blue-500 hover:bg-gray-100 rounded transition-all"
+            >
+              <i className="fas fa-briefcase mr-4 text-gray-500 group-hover:text-blue-500 mr-2"></i>
+              Pants
             </Link>
-          </button>
+          </li>
+          <li className="group">
+            <Link
+              href="/frontend/cart"
+              className="flex items-center px-6 py-3 text-gray-700 hover:text-blue-500 hover:bg-gray-100 rounded transition-all"
+            >
+              <i className="fas fa-shopping-cart mr-4 text-gray-500 group-hover:text-blue-500 mr-2"></i>
+              Cart
+            </Link>
+          </li>
+          <li className="group">
+            <Link
+              href="/frontend/orderhistory"
+              className="flex items-center px-6 py-3 text-gray-700 hover:text-blue-500 hover:bg-gray-100 rounded transition-all"
+            >
+              <i className="fas fa-receipt mr-4 text-gray-500 group-hover:text-blue-500 mr-2"></i>
+                Order Summary
+            </Link>
+          </li>
+          <li className="group">
+            <Link
+              href="/frontend/profile"
+              className="flex items-center px-6 py-3 text-gray-700 hover:text-blue-500 hover:bg-gray-100 rounded transition-all"
+            >
+              <i className="fas fa-user-circle mr-4 text-gray-500 group-hover:text-blue-500 mr-2"></i>
+              Profile
+            </Link>
+          </li>
+        </ul>
+
+        {/* Footer Section */}
+        <div className="absolute bottom-0 w-full px-6 py-4 border-t border-gray-200">
+          <p className="text-sm text-gray-500">
+            © 2024 <span className="font-semibold text-gray-800">SOKKAI</span>. All rights reserved.
+          </p>
         </div>
       </div>
-    </header>
+
+      {/* Header */}
+      <header className="flex items-center px-4 sm:px-6 py-4 bg-white text-black top-0 left-0 w-full z-10 shadow-lg relative">
+        {/* Sidebar Toggle Icon */}
+        <button
+          onClick={toggleSidebar}
+          className="text-gray-700 text-lg sm:text-xl mr-4 focus:outline-none"
+          aria-label="Open Sidebar"
+        >
+          <i className="fas fa-bars"></i>
+        </button>
+
+        {/* Logo */}
+        <h1
+          style={{ marginLeft: "1rem" }}
+          className={`text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold flex-1`}
+        >
+          <span className="text-black">SO</span>
+          <span className="text-blue-500">K</span>
+          <span className="text-black">KA</span>
+          <span className="text-yellow-500">I</span>
+        </h1>
+
+        <div className="flex-grow flex justify-end items-center space-x-4 relative">
+  <div className="relative w-2/3">
+    {/* Search Icon inside input on Left */}
+  
+
+    {/* Search Input */}
+    <input
+      type="text"
+      placeholder="Search for products..."
+      className="bg-gray-100 text-sm sm:text-base lg:text-lg px-4 py-2 pl-16 pr-4 rounded-full w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+      aria-label="Search input"
+    />
+  </div>
+</div>
+
+
+
+      </header>
+    </>
   );
 }

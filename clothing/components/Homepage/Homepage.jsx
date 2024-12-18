@@ -26,6 +26,9 @@ const HomePage = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+    const sidebarRef = useRef(null); 
+    const pageRef = useRef(null); 
   const [currentPair, setCurrentPair] = useState(0);
   const searchRef = useRef(null);
   useEffect(() => {
@@ -80,6 +83,25 @@ const handleshopnow=()=>{
   };
   const [showSearch, setShowSearch] = useState(false);
 
+  const toggleSidebar = () => {
+    setIsSidebarOpen((prev) => !prev);
+  };
+ useEffect(() => {
+    const handleClickOutside = (event) => {
+      setIsFilterOpen(false);
+
+      if (
+        sidebarRef.current &&
+        !sidebarRef.current.contains(event.target) &&
+        !event.target.closest('button[aria-label="Open Sidebar"]')
+      ) {
+        setIsSidebarOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
   useEffect(() => {
     const interval = setInterval(nextImage, 2000);
     return () => clearInterval(interval);
@@ -88,27 +110,132 @@ const handleshopnow=()=>{
     const interval1 = setInterval(nextImage1, 2000);
     return () => clearInterval(interval1);
   }, []);
+  
   if (loading) {
     return <Loadercomponent />; // Render loader while fetching data
   }
   return (
+    
     <div className={styles.container}>
-      <Head>
+         <Head>
         <link
           rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
         />
       </Head>
+
+         <div
+        ref={sidebarRef}
+        className={`fixed top-0 left-0 h-full w-64 bg-white shadow-lg transform transition-transform duration-300 z-50 ${
+          isSidebarOpen ? "translate-x-0" : "-translate-x-full"
+        }`}
+      >
+        {/* Sidebar Header */}
+        <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200">
+          <h2 className="text-xl font-bold text-gray-800">Menu</h2>
+          <button
+            onClick={toggleSidebar}
+            className="text-gray-800 text-2xl focus:outline-none hover:text-red-500 transition-colors"
+            aria-label="Close Sidebar"
+          >
+            &times;
+          </button>
+        </div>
+
+        {/* Sidebar Content */}
+        <ul className="mt-4">
+          <li className="group">
+            <Link
+              href="/"
+              className="flex items-center px-6 py-3 text-gray-700 hover:text-blue-500 hover:bg-gray-100 rounded transition-all"
+            >
+              <i className="fas fa-home mr-4 text-gray-500 group-hover:text-blue-500 mr-2"></i>
+              Home
+            </Link>
+          </li>
+          <li className="group">
+            <Link
+              href="/frontend/Products/shirts"
+              className="flex items-center px-6 py-3 text-gray-700 hover:text-blue-500 hover:bg-gray-100 rounded transition-all"
+            >
+              <i className="fas fa-tshirt mr-4 text-gray-500 group-hover:text-blue-500 mr-2"></i>
+              Shirts
+            </Link>
+          </li>
+          <li className="group">
+            <Link
+              href="/frontend/Products/trousers"
+              className="flex items-center px-6 py-3 text-gray-700 hover:text-blue-500 hover:bg-gray-100 rounded transition-all"
+            >
+              <i className="fas fa-user-tie mr-4 text-gray-500 group-hover:text-blue-500 mr-2"></i>
+              Trousers
+            </Link>
+          </li>
+          <li className="group">
+            <Link
+              href="/frontend/Products/pants"
+              className="flex items-center px-6 py-3 text-gray-700 hover:text-blue-500 hover:bg-gray-100 rounded transition-all"
+            >
+              <i className="fas fa-briefcase mr-4 text-gray-500 group-hover:text-blue-500 mr-2"></i>
+              Pants
+            </Link>
+          </li>
+          <li className="group">
+            <Link
+              href="/frontend/cart"
+              className="flex items-center px-6 py-3 text-gray-700 hover:text-blue-500 hover:bg-gray-100 rounded transition-all"
+            >
+              <i className="fas fa-shopping-cart mr-4 text-gray-500 group-hover:text-blue-500 mr-2"></i>
+              Cart
+            </Link>
+          </li>
+          <li className="group">
+            <Link
+              href="/frontend/orderhistory"
+              className="flex items-center px-6 py-3 text-gray-700 hover:text-blue-500 hover:bg-gray-100 rounded transition-all"
+            >
+              <i className="fas fa-receipt mr-4 text-gray-500 group-hover:text-blue-500 mr-2"></i>
+                Order Summary
+            </Link>
+          </li>
+          <li className="group">
+            <Link
+              href="/frontend/profile"
+              className="flex items-center px-6 py-3 text-gray-700 hover:text-blue-500 hover:bg-gray-100 rounded transition-all"
+            >
+              <i className="fas fa-user-circle mr-4 text-gray-500 group-hover:text-blue-500 mr-2"></i>
+              Profile
+            </Link>
+          </li>
+        </ul>
+
+        {/* Footer Section */}
+        <div className="absolute bottom-0 w-full px-6 py-4 border-t border-gray-200">
+          <p className="text-sm text-gray-500">
+            © 2024 <span className="font-semibold text-gray-800">SOKKAI</span>. All rights reserved.
+          </p>
+        </div>
+      </div>
+   
       <header className="flex items-center justify-between px-4 py-4 shadow-md bg-white">
-        {/* Brand Logo */}
-        <h1 className="text-2xl font-bold tracking-wide">
-          <span className="text-black">S</span>
-          <span className="text-black">O</span>
-          <span className="text-blue-600">K</span>
-          <span className="text-black">K</span>
-          <span className="text-black">A</span>
-          <span className="text-black">I</span>
-        </h1>
+      <div className="flex items-center space-x-2"> {/* Reduced space-x */}
+    <button
+      onClick={toggleSidebar}
+      className="text-gray-700 text-lg sm:text-xl focus:outline-none mr-2"
+      aria-label="Open Sidebar"
+    >
+      <i className="fas fa-bars"></i>
+    </button>
+
+    <h1 className="text-2xl font-bold tracking-wide">
+      <span className="text-black">S</span>
+      <span className="text-black">O</span>
+      <span className="text-blue-600">K</span>
+      <span className="text-black">K</span>
+      <span className="text-black">A</span>
+      <span className="text-black">I</span>
+    </h1>
+  </div>
 
         <div className={styles.searchBar}>
           <input
@@ -122,13 +249,13 @@ const handleshopnow=()=>{
 
         <div className="flex items-center space-x-4">
           <div className="relative">
-            <button
+            {/* <button
               className="text-gray-700 hover:text-blue-500 p-2"
               aria-label="Filter"
               onClick={toggleFilter}
             >
               <i className="fas fa-filter text-lg lg:text-2xl"></i>
-            </button>
+            </button> */}
             {isFilterOpen && (
               <div className="absolute left-0 mt-2 w-40 bg-white border border-gray-200 rounded-md shadow-lg z-50">
                 <ul className="text-gray-700 text-base">
