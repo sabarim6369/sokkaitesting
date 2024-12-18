@@ -121,7 +121,7 @@ if(a==="orders"){
               </div>
 
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <button className="py-3 text-gray-800 font-semibold bg-gray-100 hover:bg-gray-200 rounded-lg text-center shadow" onClick={navigate("orders")}>
+                <button className="py-3 text-gray-800 font-semibold bg-gray-100 hover:bg-gray-200 rounded-lg text-center shadow" onClick={()=>navigate("orders")}>
                   Orders
                 </button>
                 <button className="py-3 text-gray-800 font-semibold bg-gray-100 hover:bg-gray-200 rounded-lg text-center shadow">
