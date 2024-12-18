@@ -39,7 +39,7 @@ function PaymentSection({
         };
 
         const response = await axios.post("/api/purchasehistory", purchaseHistory);
-
+        onPaymentComplete();
         if (response.status === 200) {
           if (couponDiscount > 0) {
             await axios.put("/api/coupun/validate", {
@@ -59,7 +59,7 @@ function PaymentSection({
             console.error("Error sending WhatsApp message:", error);
           }
 
-          onPaymentComplete();
+        
           console.log("Purchase history saved successfully!");
         } else if (response.status == 400) {
           toast.warning("Not enough stock");
